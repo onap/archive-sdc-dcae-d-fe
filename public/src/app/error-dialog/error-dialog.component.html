@@ -1,0 +1,17 @@
+<p-dialog [(visible)]="store.displayErrorDialog" modal="modal" width="500" [responsive]="true" data-tests-id="error-dialog">
+  <p-header>
+    <span style="font-size: 1.3em;">
+      Error
+    </span>
+  </p-header>
+
+  <div *ngFor="let error of store.ErrorContent">
+    {{ error.formattedErrorMessage }}
+  </div>
+
+  <p-footer>
+    <button mat-raised-button color="primary" (click)="closeDialog()" data-tests-id="error-cancel">
+      Cancel
+    </button>
+  </p-footer>
+</p-dialog>

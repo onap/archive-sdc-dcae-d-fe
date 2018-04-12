@@ -1,0 +1,93 @@
+[
+  {
+    "uuid": "cb06b8a9-c7e0-4451-a941-89fc338303c9",
+    "invariantUUID": "8c341465-43bb-44a9-b5f0-356e6a2a855f",
+    "name": "LiavSprint10.3",
+    "version": "0.1",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/cb06b8a9-c7e0-4451-a941-89fc338303c9/toscaModel",
+    "lastUpdaterUserId": "le056g",
+    "category": "Template",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "eef4a0c8-8a52-4d09-bdbd-f68dfd835ee3",
+    "invariantUUID": "d8003bd6-de41-4910-b38d-a357de25a61a",
+    "name": "teSt.__.monitoring---TempLATE.Rsnq",
+    "version": "0.1",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/eef4a0c8-8a52-4d09-bdbd-f68dfd835ee3/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "f34758c9-f0e8-4b18-993a-0c1b48c5885a",
+    "invariantUUID": "7a96b209-0598-4df7-9313-48234b6e731b",
+    "name": "teSt.__.monitoring---TempLATE.Yh5k",
+    "version": "2.0",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/f34758c9-f0e8-4b18-993a-0c1b48c5885a/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "CERTIFIED",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "22473d26-d0bd-4c1b-84c1-20e539fb7556",
+    "invariantUUID": "5feeebf4-d4e9-44bc-9f17-10703af44da7",
+    "name": "CI-fJc9mhvlrfdx6qeCI",
+    "version": "0.1",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/22473d26-d0bd-4c1b-84c1-20e539fb7556/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "dc588160-b1ca-4219-b790-bd8eda9332c1",
+    "invariantUUID": "e23ac861-1ba3-4acc-a1bd-ea297c51f1da",
+    "name": "teSt.__.monitoring---TempLATE.Fv2x",
+    "version": "1.0",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/dc588160-b1ca-4219-b790-bd8eda9332c1/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "CERTIFIED",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "cdb18942-e769-4361-9e89-96b06d13b138",
+    "invariantUUID": "fc8c40aa-f67c-4386-92b1-fbc652b8d3dc",
+    "name": "CIba71c93f4299",
+    "version": "0.3",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/cdb18942-e769-4361-9e89-96b06d13b138/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  },
+  {
+    "uuid": "d9a5372c-2127-4b83-9aed-17e5b041cb45",
+    "invariantUUID": "3decd698-451b-405f-93ca-dcdf1dfd525e",
+    "name": "teSt.__.monitoring---TempLATE.Sgno",
+    "version": "0.2",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/d9a5372c-2127-4b83-9aed-17e5b041cb45/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "subCategory": "Monitoring Template",
+    "resourceType": "VFCMT"
+  }
+]

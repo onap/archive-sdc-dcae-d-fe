@@ -1,0 +1,239 @@
+[
+  {
+    "name": "commonEventHeader",
+    "children": [
+      {
+        "name": "domain",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.domain"
+      },
+      {
+        "name": "eventId",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.eventId"
+      },
+      {
+        "name": "eventType",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.eventType"
+      },
+      {
+        "name": "functionalRole",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.functionalRole"
+      },
+      {
+        "name": "internalHeaderFields",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.internalHeaderFields"
+      },
+      {
+        "name": "lastEpochMicrosec",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.lastEpochMicrosec"
+      },
+      {
+        "name": "priority",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.priority"
+      },
+      {
+        "name": "reportingEntityId",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.reportingEntityId"
+      },
+      {
+        "name": "reportingEntityName",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.reportingEntityName"
+      },
+      {
+        "name": "sequence",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.sequence"
+      },
+      {
+        "name": "sourceId",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.sourceId"
+      },
+      {
+        "name": "sourceName",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.sourceName"
+      },
+      {
+        "name": "startEpochMicrosec",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.startEpochMicrosec"
+      },
+      {
+        "name": "version",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.commonEventHeader.version"
+      }
+    ],
+    "isRequired": false,
+    "requiredChildren": [
+      "domain",
+      "eventId",
+      "functionalRole",
+      "lastEpochMicrosec",
+      "priority",
+      "reportingEntityName",
+      "sequence",
+      "sourceName",
+      "startEpochMicrosec"
+    ],
+    "id": "event.commonEventHeader"
+  },
+  {
+    "name": "syslogFields",
+    "children": [
+      {
+        "name": "additionalFields",
+        "children": [
+          {
+            "name": "name",
+            "children": null,
+            "isRequired": true,
+            "requiredChildren": null,
+            "id": "event.syslogFields.additionalFields[].name"
+          },
+          {
+            "name": "value",
+            "children": null,
+            "isRequired": true,
+            "requiredChildren": null,
+            "id": "event.syslogFields.additionalFields[].value"
+          }
+        ],
+        "isRequired": false,
+        "requiredChildren": ["name", "value"],
+        "id": "event.syslogFields.additionalFields[]"
+      },
+      {
+        "name": "eventSourceHost",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.eventSourceHost"
+      },
+      {
+        "name": "eventSourceType",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.syslogFields.eventSourceType"
+      },
+      {
+        "name": "syslogFacility",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogFacility"
+      },
+      {
+        "name": "syslogFieldsVersion",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogFieldsVersion"
+      },
+      {
+        "name": "syslogMsg",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogMsg"
+      },
+      {
+        "name": "syslogPri",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogPri"
+      },
+      {
+        "name": "syslogProc",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogProc"
+      },
+      {
+        "name": "syslogProcId",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogProcId"
+      },
+      {
+        "name": "syslogSData",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogSData"
+      },
+      {
+        "name": "syslogSdId",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogSdId"
+      },
+      {
+        "name": "syslogSev",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogSev"
+      },
+      {
+        "name": "syslogTag",
+        "children": null,
+        "isRequired": true,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogTag"
+      },
+      {
+        "name": "syslogVer",
+        "children": null,
+        "isRequired": false,
+        "requiredChildren": null,
+        "id": "event.syslogFields.syslogVer"
+      }
+    ],
+    "isRequired": false,
+    "requiredChildren": ["eventSourceType", "syslogMsg", "syslogTag"],
+    "id": "event.syslogFields"
+  }
+]

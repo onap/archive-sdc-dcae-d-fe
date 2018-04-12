@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/delete-b</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/delete-b" fill="#959595">
+            <path d="M9,2 L9,3.979 L4,3.979 L4,7 L6.005,7 L6.005,22 L18.991,22 L18.991,7 L21,7 L21,3.979 L15.979,3.979 L15.979,2 L9,2 Z M10,4 L15,4 L15,3 L10,3 L10,4 Z M5,6 L20,6 L20,5 L5,5 L5,6 Z M7,21 L18,21 L18,7 L7,7 L7,21 Z M15,19 L16,19 L16,9 L15,9 L15,19 Z M12,19 L13,19 L13,9 L12,9 L12,19 Z M9,19 L10,19 L10,9 L9,9 L9,19 Z" id="Page-1"></path>
+        </g>
+    </g>
+</svg>

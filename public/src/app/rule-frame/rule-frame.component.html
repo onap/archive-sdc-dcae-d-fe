@@ -1,0 +1,19 @@
+<div style="position: relative; display: flex; justify-content: flex-end; height: 100%;">
+
+  <div *ngIf="!tabName.includes('map')" style="margin: 1em;">
+    <app-bar-icons [tabName]="tabName"></app-bar-icons>
+  </div>
+
+  <!-- rule engine -->
+  <div style="width: 100%;" *ngIf="tabName.includes('map')">
+    <app-slide-panel [activePane]="store.isLeftVisible ? 'left' : 'right'">
+      <div leftPane style="height: 100%; overflow: auto;">
+        <app-rule-list></app-rule-list>
+      </div>
+      <div rightPane style="height: 100%; overflow: auto;">
+        <app-action-list></app-action-list>
+      </div>
+    </app-slide-panel>
+  </div>
+
+</div>

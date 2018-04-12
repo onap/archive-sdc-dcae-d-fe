@@ -1,0 +1,15 @@
+[
+  {
+    "uuid": "2a67bbb6-3457-4bb6-baef-e3bc5f1fd9b7",
+    "invariantUUID": "cb594fb6-c9e7-42c1-bef9-7a1873325986",
+    "name": "AviStone1234",
+    "version": "1.0",
+    "toscaModelURL":
+      "/sdc/v1/catalog/resources/2a67bbb6-3457-4bb6-baef-e3bc5f1fd9b7/toscaModel",
+    "lastUpdaterUserId": "cs0008",
+    "category": "Template",
+    "lifecycleState": "CERTIFIED",
+    "subCategory": "Base Monitoring Template",
+    "resourceType": "VFCMT"
+  }
+]

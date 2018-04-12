@@ -1,0 +1,28 @@
+<form #targetFrm="ngForm" novalidate class="target">
+  <div class="top-select">
+    <span class="label" style="border-right: none;">Target</span>
+    <input class="text-input" style="border-right: none;" type="text" [(ngModel)]="selectedNode.id" (ngModelChange)="inputChange()"
+      ngModel required name="targetInput" data-tests-id="inputTarget">
+    <span class="label clickable" data-tests-id="openTargetTree" style="border-left: none;" (click)="showOption = !showOption">
+      <img src="{{imgBase}}/target.svg" alt="target">
+    </span>
+  </div>
+  <div class="bottom-select" *ngIf="showOption" [@toggleDropdown]>
+    <div class="filter-container" style="display: flex; border-bottom: 1px solid #F2F2F2;margin-bottom: 1rem; width:100%;">
+      <input id="filter" #filter class="filter" (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search..." />
+      <button mat-raised-button style="min-width: 18px; box-shadow: none; display: flex; justify-content: center;" (click)="tree.treeModel.clearFilter(); filter.value = ''">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+
+    <tree-root #tree [focused]="true" class="targetTree" (event)="onEvent($event)" [nodes]="nodes" [options]="options">
+      <ng-template #treeNodeTemplate let-node let-index="index">
+        <span *ngIf="node.data.isRequired" class="required"></span>
+        <span data-tests-id="targetNode">
+          {{ node.data.name }}
+        </span>
+      </ng-template>
+    </tree-root>
+
+  </div>
+</form>

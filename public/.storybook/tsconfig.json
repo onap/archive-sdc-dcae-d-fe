@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "types": ["node"]
+  },
+  "exclude": ["./node_modules/*", "../cypress/**/*.ts", "../src/**/*.spec.ts"],
+  "include": ["../src/stories/**/*.ts"]
+  // , "../node_modules/@storybook/**/*.ts"
+}

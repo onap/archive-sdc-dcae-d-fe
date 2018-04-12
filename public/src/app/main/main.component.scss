@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  // height: 100%;
+  margin: 1em;
+}
+
+// overhide
+.ui-tabview .ui-tabview-panel {
+  border: 1px solid #d9d9d9;
+  padding: 0;
+  margin-left: 0.2em;
+  height: calc(100vh - 150px);
+  overflow: auto;
+}
+
+.ui-tabview .ui-tabview-nav li {
+  margin: 0;
+}
+
+.ui-tabview .ui-tabview-nav li.ui-tabview-selected {
+  color: #009fdb;
+  border-top: 4px solid #009fdb;
+  border-bottom: none;
+}
+
+.ui-tabview-title {
+  font-size: 14px;
+}
+
+.ui-tabview .ui-tabview-nav li.ui-tabview-selected .ui-tabview-title {
+  color: #009fdb;
+}

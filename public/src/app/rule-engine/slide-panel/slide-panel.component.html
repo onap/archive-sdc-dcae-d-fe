@@ -1,0 +1,8 @@
+<div class="panes" [@slide]="activePane">
+  <div style="height: 100%">
+    <ng-content select="[leftPane]"></ng-content>
+  </div>
+  <div style="height: 100%">
+    <ng-content select="[rightPane]"></ng-content>
+  </div>
+</div>

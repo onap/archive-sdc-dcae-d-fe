@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5em;
+  margin-left: 15px;
+  margin-right: 15px;
+  .wrapper-btn-add-mc {
+    margin-top: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.table-Monitoring-Component {
+  &:hover {
+    color: #009fdb;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.table-wrapper {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  margin-bottom: 2em;
+  flex-direction: column;
+  display: block;
+}
+
+table.mcTable {
+  display: flex;
+  flex-flow: column;
+  height: calc(100vh - 150px);
+  width: 100%;
+  background-color: #ffffff;
+  color: #5a5a5a;
+}
+table.mcTable thead {
+  /* head takes the height it requires,
+  and it's not scaled when table.mcTable is resized */
+  flex: 0 0 auto;
+  // width: calc(100% - 17px);
+  width: 100%;
+}
+table.mcTable tbody {
+  /* body takes all the remaining available space */
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: scroll;
+}
+table.mcTable tbody tr {
+  width: 100%;
+}
+
+table.mcTable thead,
+table.mcTable tbody tr {
+  display: table;
+  table-layout: fixed;
+}
+
+table.mcTable {
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+table.mcTable tr.active td {
+  background-color: #e6f6fb !important;
+  color: #5a5a5a;
+}
+
+table.mcTable th {
+  background: #f4f4f4;
+  color: #191919;
+  text-align: left;
+}
+
+table.mcTable tr {
+  &:hover {
+    background-color: #f8f8f8;
+    color: #5a5a5a;
+  }
+}
+
+table.mcTable table,
+table.mcTable th,
+table.mcTable td {
+  padding: 5px 10px;
+  border: 0.5px solid #d2d2d2;
+  border-bottom: none;
+  height: 40px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+table.mcTable tr:last-child {
+  border-bottom: 0.5px solid #d2d2d2;
+}
+
+/deep/ .ui-tooltip .ui-tooltip-text {
+  font-size: 0.8em;
+  padding: 0.7em;
+}
+
+/deep/ .ui-tooltip {
+  max-width: 400px;
+}

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 !important;
+  border-top: solid 6px #ffb81c;
+  .header {
+    border-bottom: none;
+  }
+  .content {
+    margin: 1rem;
+    flex: 1;
+    font-weight: 400;
+  }
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    border-top: solid 1px #eaeaea;
+    padding: 1rem;
+  }
+}

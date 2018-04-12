@@ -1,0 +1,628 @@
+{
+  "vfcmt": {
+    "uuid": "06c7d927-4e2f-47e1-a29d-b6ed229ebc0a",
+    "name": "vosk007",
+    "description": "the name is vosk, eran vosk",
+    "vfiName": "LiavSrv",
+    "flowType": "SNMP"
+  },
+  "cdump": {
+    "cid": "47908e78-9893-4f18-b767-ea7131dd8de7",
+    "version": 0,
+    "nodes": [
+      {
+        "name": "supplement",
+        "description":
+          "/sdc/v1/catalog/resources/30d0b4f4-efc5-424a-9d26-6d7843a0971d/artifacts/2d68c4e3-a4ab-46b3-ae3b-2a593fa97ded",
+        "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d",
+        "nid": "n.1517823224030.1",
+        "capabilities": [
+          {
+            "name": "stream_subscribe_0",
+            "type": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "properties": [
+              {
+                "assignment": { "value": "VES_specification" },
+                "name": "format",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "IGNORE" },
+                "name": "route",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "5.28.4" },
+                "name": "version",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "feature",
+            "type": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            }
+          }
+        ],
+        "requirements": [
+          {
+            "capability": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "node_filter": {
+              "capabilities": [
+                {
+                  "dcae.capabilities.stream.subscribe": {
+                    "properties": [
+                      { "format": [{ "equal": "VES_specification" }] },
+                      { "version": [{ "equal": "5.28.4" }] }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "stream_publish_0",
+            "relationship": { "type": "dcae.relationships.rework_connected_to" }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.cdapHost",
+              "id": "template.yaml/dcae.capabilities.cdapHost"
+            },
+            "name": "host",
+            "relationship": {
+              "type": "dcae.relationships.component_contained_in"
+            }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.composition.host",
+              "id": "template.yaml/dcae.capabilities.composition.host"
+            },
+            "name": "composition"
+          },
+          {
+            "occurrences": [0, "UNBOUNDED"],
+            "node": "tosca.nodes.Root",
+            "capability": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            },
+            "name": "dependency",
+            "relationship": { "type": "tosca.relationships.DependsOn" }
+          }
+        ],
+        "properties": [
+          {
+            "assignment": {
+              "value":
+                "com.att.gfp.dcae.eventProcessor.Catalog,com.att.ecomp.dcae.eventproc.cdap.common.processors.Catalog"
+            },
+            "name": "defaultCatalogs",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "defaultObjects" } },
+            "name": "defaultObjects",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "Supplement Microservice" },
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "dmaapConsumerGrp" } },
+            "name": "dmaapConsumerGrp",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "" },
+            "name": "eventFactory",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"processing\":[{\"phase\":\"supplement\",\"filter\":{\"class\":\"OneOf\",\"field\":\"event.commonEventHeader.eventType\",\"values\":[\"vPCRF_Alarms\",\"vMoG_Alarms\",\"applicationVnf\",\"GuestOS_Alarms\",\"Control\"]},\"processors\":[{\"class\":\"DateFormatter\",\"value\":\"${event.commonEventHeader.startEpochMicrosec}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.firstDatetime\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"DateFormatter\",\"value\":\"${event.commonEventHeader.lastEpochMicrosec}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.lastDatetime\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"DateFormatter\",\"value\":\"%{now.ms}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.collectorTimeStamp\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.internalHeaderFields.internalHeaderFieldsVersion\":\"9.9\",\"event.commonEventHeader.internalHeaderFields.eventTag\":\"${hp.tag}\"}}]},{\"phase\":\"supplement\",\"processors\":[{\"class\":\"RunPhase\",\"phase\":\"supplement_publish\"}]},{\"phase\":\"ves_supplement\",\"filter\":{\"class\":\"OneOf\",\"field\":\"event.commonEventHeader.eventType\",\"values\":[\"vIRC_Alarms\"]},\"processors\":[{\"class\":\"RunPhase\",\"phase\":\"supplement_publish\"}]}]}"
+            },
+            "name": "json",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "monitorThreads" } },
+            "name": "monitorThreads",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "supplementMS" },
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "supplement" },
+            "name": "phases.supplement.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*supplement-in.*" },
+            "name": "phases.supplement.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "ves_supplement" },
+            "name": "phases.ves_supplement.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*sec-fault.*" },
+            "name": "phases.ves_supplement.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"phase\":\"supplement_publish\",\"processors\":[{\"class\":\"EventProcessorMetric\",\"metric\":\"out.events\"},{\"class\":\"SendEvent\",\"channel\":\"DCAE-SUPPLEMENT-EVENT-OUT\"}]}"
+            },
+            "name": "postConfig",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "vnfTypes.*" },
+            "name": "ruleKeyPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "False" },
+            "name": "startNoChannels",
+            "type": "string"
+          },
+          {
+            "default": "cdap_broker",
+            "assignment": {
+              "value": { "get_input": "connected_broker_dns_name" }
+            },
+            "name": "connected_broker_dns_name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "jar_url", "type": "string", "required": true },
+          {
+            "assignment": {
+              "value": {
+                "get_property": ["SELF", "composition", "location_id"]
+              }
+            },
+            "name": "location_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "service_component_type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "typeinfo": {
+          "itemId":
+            "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.cdapApp.Supplement",
+          "requirements": [
+            {
+              "node": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              },
+              "capability": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              },
+              "name": "stream_publish_0",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/stream_publish_0",
+              "relationship": {
+                "type": "dcae.relationships.rework_connected_to"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.cdapHost"
+              },
+              "capability": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.cdapHost"
+              },
+              "name": "host",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/host",
+              "relationship": {
+                "type": "dcae.relationships.component_contained_in"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.composition.host"
+              },
+              "capability": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.composition.host"
+              },
+              "name": "composition",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/composition"
+            },
+            {
+              "occurrences": [0, "UNBOUNDED"],
+              "node": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              },
+              "capability": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              },
+              "name": "dependency",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dependency",
+              "relationship": { "type": "tosca.relationships.DependsOn" }
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "stream_subscribe_0",
+              "type": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              }
+            },
+            {
+              "name": "feature",
+              "type": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              }
+            }
+          ],
+          "catalogId": 0,
+          "catalog": "http://135.91.225.81:8080",
+          "hierarchy": [
+            {
+              "name": "tosca.dcae.nodes.cdapApp",
+              "id":
+                "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.cdapApp"
+            },
+            {
+              "name": "tosca.dcae.nodes.Root",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.Root"
+            },
+            {
+              "name": "tosca.nodes.Root",
+              "description":
+                "The TOSCA Node Type all other TOSCA base Node Types derive from",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.nodes.Root"
+            }
+          ],
+          "name": "tosca.dcae.nodes.cdapApp.Supplement",
+          "id": 0
+        },
+        "type": { "name": "tosca.dcae.nodes.cdapApp.Supplement" }
+      },
+      {
+        "name": "enrich",
+        "description":
+          "/sdc/v1/catalog/resources/8743b27b-f01e-4b17-a306-37efd42983d0/artifacts/c96f3ffd-516c-470b-ab7c-ced64fb244f0",
+        "id": "8743b27b-f01e-4b17-a306-37efd42983d0",
+        "nid": "n.1517823228454.2",
+        "capabilities": [
+          {
+            "name": "stream_subscribe_0",
+            "type": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "properties": [
+              {
+                "assignment": { "value": "VES_specification" },
+                "name": "format",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "IGNORE" },
+                "name": "route",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "5.28.4" },
+                "name": "version",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "feature",
+            "type": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            }
+          }
+        ],
+        "requirements": [
+          {
+            "capability": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "node_filter": {
+              "capabilities": [
+                {
+                  "dcae.capabilities.stream.subscribe": {
+                    "properties": [
+                      { "format": [{ "equal": "VES_specification" }] },
+                      { "version": [{ "equal": "5.28.4" }] }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "stream_publish_0",
+            "relationship": { "type": "dcae.relationships.rework_connected_to" }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.cdapHost",
+              "id": "template.yaml/dcae.capabilities.cdapHost"
+            },
+            "name": "host",
+            "relationship": {
+              "type": "dcae.relationships.component_contained_in"
+            }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.composition.host",
+              "id": "template.yaml/dcae.capabilities.composition.host"
+            },
+            "name": "composition"
+          },
+          {
+            "occurrences": [0, "UNBOUNDED"],
+            "node": "tosca.nodes.Root",
+            "capability": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            },
+            "name": "dependency",
+            "relationship": { "type": "tosca.relationships.DependsOn" }
+          }
+        ],
+        "properties": [
+          {
+            "assignment": {
+              "value":
+                "com.att.ecomp.dcae.eventproc.cdap.common.processors.Catalog,com.att.sa.highlandPark.topoTools.HpTopoDbObjectCatalog,com.att.sa.highlandPark.topoTools.HpTopoDbProcessors,com.att.gfp.dcae.eventProcessor.Catalog"
+            },
+            "name": "defaultCatalogs",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "defaultObjects" } },
+            "name": "defaultObjects",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "Enrich Microservice" },
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "dmaapConsumerGrp" } },
+            "name": "dmaapConsumerGrp",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "" },
+            "name": "eventFactory",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"processing\":[{\"phase\":\"enrich\",\"filter\":{\"class\":\"Assigned\",\"field\":\"event.commonEventHeader.sourceName\",\"emtpyIsAssigned\":false},\"processors\":[{\"class\":\"StringTransform\",\"value\":\"${event.commonEventHeader.sourceName}\",\"toField\":\"searchString\",\"targetCase\":\"lower\"},{\"class\":\"EventProcessorMetric\",\"metric\":\"in.events\"},{\"class\":\"LogText\",\"logLevel\":\"WARN\",\"logText\":\"Alarm_EnrichmentStartingfor${hp.tag}\"},{\"class\":\"TopoSearch\",\"searchField\":\"oid\",\"searchValue\":\"${searchString}\",\"updates\":{\"event.commonEventHeader.sourceName\":\"${ptnii_name}\",\"event.commonEventHeader.sourceId\":\"${vserver_id}\",\"event.commonEventHeader.reportingEntityName\":\"${vnf_name}\",\"event.commonEventHeader.reportingEntityId\":\"${vnf_id}\",\"event.commonEventHeader.internalHeaderFields.equipmentType\":\"${equip_type}\",\"event.commonEventHeader.internalHeaderFields.provStatus\":\"${prov_status}\",\"event.commonEventHeader.internalHeaderFields.inMaint\":\"${in_maint}\",\"event.commonEventHeader.internalHeaderFields.tenantName\":\"${tenant_name}\",\"event.commonEventHeader.internalHeaderFields.eventSourceHostname\":\"${hostname}\",\"isEnriched\":true}},{\"class\":\"Set\",\"updates\":{\"event.preCorrelationAging\":\"${preCorrelationAging}\",\"event.prepublishAging\":\"${prepublishAging}\"}},{\"class\":\"Clear\",\"fields\":[\"searchString\"]},{\"class\":\"RunPhase\",\"phase\":\"enrich_publish\"}]}]}"
+            },
+            "name": "json",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "monitorThreads" } },
+            "name": "monitorThreads",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "enrichMS" },
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "enrich" },
+            "name": "phases.enrich.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*" },
+            "name": "phases.enrich.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"phase\":\"enrich_publish\",\"processors\":[{\"class\":\"EventProcessorMetric\",\"metric\":\"out.events\"},{\"class\":\"SendEvent\",\"channel\":\"DCAE-ENRICH-EVENT-OUT\"}]}"
+            },
+            "name": "postConfig",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "vnfTypes.*" },
+            "name": "ruleKeyPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "False" },
+            "name": "startNoChannels",
+            "type": "string"
+          },
+          {
+            "default": "cdap_broker",
+            "assignment": {
+              "value": { "get_input": "connected_broker_dns_name" }
+            },
+            "name": "connected_broker_dns_name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "jar_url", "type": "string", "required": true },
+          {
+            "assignment": {
+              "value": {
+                "get_property": ["SELF", "composition", "location_id"]
+              }
+            },
+            "name": "location_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "service_component_type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "typeinfo": {
+          "itemId":
+            "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.cdapApp.Enrich",
+          "requirements": [
+            {
+              "node": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              },
+              "capability": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              },
+              "name": "stream_publish_0",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/stream_publish_0",
+              "relationship": {
+                "type": "dcae.relationships.rework_connected_to"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.cdapHost"
+              },
+              "capability": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.cdapHost"
+              },
+              "name": "host",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/host",
+              "relationship": {
+                "type": "dcae.relationships.component_contained_in"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.composition.host"
+              },
+              "capability": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.composition.host"
+              },
+              "name": "composition",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/composition"
+            },
+            {
+              "occurrences": [0, "UNBOUNDED"],
+              "node": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              },
+              "capability": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              },
+              "name": "dependency",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/dependency",
+              "relationship": { "type": "tosca.relationships.DependsOn" }
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "stream_subscribe_0",
+              "type": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              }
+            },
+            {
+              "name": "feature",
+              "type": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              }
+            }
+          ],
+          "catalogId": 0,
+          "catalog": "http://135.91.225.81:8080",
+          "hierarchy": [
+            {
+              "name": "tosca.dcae.nodes.cdapApp",
+              "id":
+                "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.cdapApp"
+            },
+            {
+              "name": "tosca.dcae.nodes.Root",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.Root"
+            },
+            {
+              "name": "tosca.nodes.Root",
+              "description":
+                "The TOSCA Node Type all other TOSCA base Node Types derive from",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.nodes.Root"
+            }
+          ],
+          "name": "tosca.dcae.nodes.cdapApp.Enrich",
+          "id": 0
+        },
+        "type": { "name": "tosca.dcae.nodes.cdapApp.Enrich" }
+      }
+    ],
+    "relations": [],
+    "inputs": [],
+    "outputs": []
+  }
+}

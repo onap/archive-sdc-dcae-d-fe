@@ -1,0 +1,26 @@
+{
+  "processing": [
+    {
+      "phase": "snmp_map",
+      "processors": [
+        {
+          "array": "varbinds",
+          "datacolumn": "varbind_value",
+          "keycolumn": "varbind_oid",
+          "class": "SnmpConvertor"
+        },
+        { "phase": "sto2", "class": "RunPhase" }
+      ]
+    },
+    {
+      "phase": "sto2",
+      "processors": [
+        { "updates": { "event.commonEventHeader.domain": "a" }, "class": "Set" }
+      ]
+    },
+    {
+      "phase": "sto2",
+      "processors": [{ "phase": "map_publish", "class": "RunPhase" }]
+    }
+  ]
+}

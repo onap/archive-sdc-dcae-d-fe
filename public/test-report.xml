@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\general\general.component.spec.ts">
+    <testCase name="GeneralComponent should sort vfcmt by A to Z" duration="6"/>
+    <testCase name="GeneralComponent should group vfcmt by name" duration="1"/>
+    <testCase name="GeneralComponent should version array be sorted in group" duration="1"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.component.spec.ts">
+    <testCase name="TargetComponent should be created" duration="702">
+      <failure message="Error: The animation trigger &quot;toggleDropdown&quot; has failed to build due to the following errors:"><![CDATA[Error: The animation trigger "toggleDropdown" has failed to build due to the following errors:
+ - The provided animation property "offset" is not a supported CSS property for animations
+ - The provided animation property "offset" is not a supported CSS property for animations
+    at InjectableAnimationEngine.Object.<anonymous>.AnimationEngine.registerTrigger (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\animations\esm5\browser\src\render\animation_engine_next.js:50:14)
+    at C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\platform-browser\bundles\platform-browser-animations.umd.js:322:33
+    at Array.forEach (<anonymous>)
+    at AnimationRendererFactory.Object.<anonymous>.AnimationRendererFactory.createRenderer (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\platform-browser\bundles\platform-browser-animations.umd.js:321:27)
+    at DebugRendererFactory2.Object.<anonymous>.DebugRendererFactory2.createRenderer (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:898:42)
+    at createComponentView (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:13672:56)
+    at callWithDebugContext (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:864:6)
+    at Object.debugCreateComponentView [as createComponentView] (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:14409:12)
+    at createViewNodes (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\view.js:296:36)
+    at createRootView (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:13655:5)
+    at callWithDebugContext (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:864:6)
+    at Object.debugCreateRootView [as createRootView] (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:14363:12)
+    at ComponentFactory_.Object.<anonymous>.ComponentFactory_.create (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\refs.js:121:44)
+    at initComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\testing\src\test_bed.js:566:24)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Object.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\zone\ng_zone.js:594:10)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at NgZone.Object.<anonymous>.NgZone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:4589:69)
+    at TestBed.Object.<anonymous>.TestBed.createComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\testing\src\test_bed.js:569:6)
+    at Function.Object.<anonymous>.TestBed.createComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core-testing.umd.js:866:29)
+    at C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.component.spec.ts:35:23
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at Object.testBody.length (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-zone-patch\index.js:50:27)
+    at Object.asyncFn (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\jasmine_async.js:51:37)
+    at resolve (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:52:12)
+    at new Promise (<anonymous>)
+    at mapper (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:39:19)
+    at promise.then (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:73:82)
+    at <anonymous>]]></failure>
+      <failure message="Error: expect(received).toBeTruthy()"><![CDATA[Error: expect(received).toBeTruthy()
+
+Expected value to be truthy, instead received
+  undefined
+    at C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.component.spec.ts:42:23
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at Object.testBody.length (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-zone-patch\index.js:50:27)
+    at Object.asyncFn (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\jasmine_async.js:82:37)
+    at resolve (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:52:12)
+    at new Promise (<anonymous>)
+    at mapper (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:39:19)
+    at promise.then (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:73:82)
+    at <anonymous>]]></failure>
+    </testCase>
+    <testCase name="TargetComponent should open target tree when click on button" duration="132">
+      <failure message="Error: The animation trigger &quot;toggleDropdown&quot; has failed to build due to the following errors:"><![CDATA[Error: The animation trigger "toggleDropdown" has failed to build due to the following errors:
+ - The provided animation property "offset" is not a supported CSS property for animations
+ - The provided animation property "offset" is not a supported CSS property for animations
+    at InjectableAnimationEngine.Object.<anonymous>.AnimationEngine.registerTrigger (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\animations\esm5\browser\src\render\animation_engine_next.js:50:14)
+    at C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\platform-browser\bundles\platform-browser-animations.umd.js:322:33
+    at Array.forEach (<anonymous>)
+    at AnimationRendererFactory.Object.<anonymous>.AnimationRendererFactory.createRenderer (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\platform-browser\bundles\platform-browser-animations.umd.js:321:27)
+    at DebugRendererFactory2.Object.<anonymous>.DebugRendererFactory2.createRenderer (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:898:42)
+    at createComponentView (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:13672:56)
+    at callWithDebugContext (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:864:6)
+    at Object.debugCreateComponentView [as createComponentView] (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:14409:12)
+    at createViewNodes (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\view.js:296:36)
+    at createRootView (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:13655:5)
+    at callWithDebugContext (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\services.js:864:6)
+    at Object.debugCreateRootView [as createRootView] (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:14363:12)
+    at ComponentFactory_.Object.<anonymous>.ComponentFactory_.create (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\view\refs.js:121:44)
+    at initComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\testing\src\test_bed.js:566:24)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Object.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\src\zone\ng_zone.js:594:10)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at NgZone.Object.<anonymous>.NgZone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core.umd.js:4589:69)
+    at TestBed.Object.<anonymous>.TestBed.createComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\packages\core\esm5\testing\src\test_bed.js:569:6)
+    at Function.Object.<anonymous>.TestBed.createComponent (C:\Users\ym903w\project\dcae-fe\public\node_modules\@angular\core\bundles\core-testing.umd.js:866:29)
+    at C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.component.spec.ts:35:23
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at Object.testBody.length (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-zone-patch\index.js:50:27)
+    at Object.asyncFn (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\jasmine_async.js:51:37)
+    at resolve (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:52:12)
+    at new Promise (<anonymous>)
+    at mapper (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:39:19)
+    at promise.then (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:73:82)
+    at <anonymous>]]></failure>
+      <failure message="TypeError: Cannot read property &apos;debugElement&apos; of undefined"><![CDATA[TypeError: Cannot read property 'debugElement' of undefined
+    at C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.component.spec.ts:46:39
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:388:26)
+    at ProxyZoneSpec.Object.<anonymous>.ProxyZoneSpec.onInvoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\proxy.js:79:39)
+    at ZoneDelegate.Object.<anonymous>.ZoneDelegate.invoke (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:387:32)
+    at Zone.Object.<anonymous>.Zone.run (C:\Users\ym903w\project\dcae-fe\public\node_modules\zone.js\dist\zone.js:138:43)
+    at Object.testBody.length (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-zone-patch\index.js:50:27)
+    at Object.asyncFn (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\jasmine_async.js:82:37)
+    at resolve (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:52:12)
+    at new Promise (<anonymous>)
+    at mapper (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:39:19)
+    at promise.then (C:\Users\ym903w\project\dcae-fe\public\node_modules\jest-jasmine2\build\queue_runner.js:73:82)
+    at <anonymous>]]></failure>
+    </testCase>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\api\rule-engine-api.service.spec.ts">
+    <testCase name="RuleEngineApiService should be created" duration="57"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\condition\condition.component.spec.ts">
+    <testCase name="Condition Component should be created" duration="225"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\target\target.validation.spec.ts">
+    <testCase name="treeTest should return node branch requireds" duration="3"/>
+    <testCase name="treeTest should return empty array - success state" duration="1"/>
+    <testCase name="treeTest should return validation array - missing required filed" duration="0"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\loader\loader.component.spec.ts">
+    <testCase name="LoaderComponent should create" duration="94"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\api\rest-api.service.spec.ts">
+    <testCase name="RestApiService should be created" duration="19"/>
+    <testCase name="RestApiService should genrate deffrent uuid each time for request id" duration="1"/>
+  </file>
+  <file path="C:\Users\ym903w\project\dcae-fe\public\src\app\rule-engine\host\host.service.spec.ts">
+    <testCase name="HostService should be created" duration="14"/>
+  </file>
+</testExecutions>

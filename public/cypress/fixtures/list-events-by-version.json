@@ -1,0 +1,29 @@
+[
+  {
+    "version": "4.1",
+    "eventTypes": [
+      "syslogFields",
+      "thresholdCrossingAlertFields",
+      "measurementsForVfScalingFields",
+      "mobileFlowFields",
+      "otherFields",
+      "stateChangeFields",
+      "faultFields"
+    ]
+  },
+  {
+    "version": "5.3",
+    "eventTypes": [
+      "syslogFields",
+      "thresholdCrossingAlertFields",
+      "voiceQualityFields",
+      "heartbeatFields",
+      "measurementsForVfScalingFields",
+      "sipSignalingFields",
+      "mobileFlowFields",
+      "otherFields",
+      "stateChangeFields",
+      "faultFields"
+    ]
+  }
+]

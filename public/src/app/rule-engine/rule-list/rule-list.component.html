@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="header">
+    <span style="font-size: 18px;">Rule Engine</span>
+    <div style="display:flex">
+      <button mat-raised-button (click)="translateRules()" color="primary" [disabled]="store.ruleList.length === 0" style="margin-left: 20px;"
+        data-tests-id="btnTranslate">
+        Translate
+      </button>
+      <app-bar-icons [tabName]="this.store.tabParmasForRule[0].name"></app-bar-icons>
+    </div>
+  </div>
+
+  <div style="margin: 0rem 1rem; flex-grow: 1; overflow-y: auto;">
+
+    <!-- error container -->
+    <div *ngIf="error" style="color: white; background: red; padding: 1rem; border-radius: 5px; font-weight: bold;">
+      {{ error }}
+    </div>
+
+    <app-version-type-select #versionEventType [versions]="versions" [metaData]="metaData" (nodesUpdated)="handleUpdateNode($event)"
+      (refrashRuleList)="handlePropertyChange()"></app-version-type-select>
+
+    <div *ngIf="targetSource && store.ruleList.length === 0" style="margin: 30px 0; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+
+      <div style="margin: 3em 0 2em 0;">
+        <div style="font-size: 1.5em;">
+          Rules were not yet created
+        </div>
+        <div style="padding: 0.5em; padding-top: 1em;">
+          Please create a new normalization rule
+        </div>
+      </div>
+
+      <button mat-fab (click)="openAction()" style="background-color:#009FDB" data-tests-id="btnAddFirstRule">
+        <span [innerHTML]="'plus' | feather:24"></span>
+      </button>
+      <span style="margin-top: 1rem; font-size: 14px; color: #009FDB;">
+        Add First Rule
+      </span>
+    </div>
+
+    <div *ngIf="store.ruleList.length > 0">
+      <div style="padding: 10px 0;">
+        Rules
+      </div>
+      <div style="display: flex; align-items: center;">
+        <button mat-mini-fab color="primary" id="addMoreRule" data-tests-id="addMoreRule" style="height: 24px; width: 24px; display:flex"
+          (click)="openAction()">
+          <mat-icon class="material-icons md-18">add</mat-icon>
+        </button>
+        <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 10px">Add Rule</span>
+      </div>
+    </div>
+
+    <div style="margin: 30px 0 10px 0;">
+
+      <div *ngFor="let item of store.ruleList; let index = index" data-tests-id="ruleElement" (mouseleave)="hoveredIndex=-1" (mouseover)="hoveredIndex=index"
+        class="item" style="display: flex;" [ngStyle]="hoveredIndex === index ? {'background-color': '#E6F6FB', 'color': '#009FDB'} : {'background-color': '#FFFFFF', 'color':'gray'}">
+        <span style="width:100%; display: flex; align-items: center;">
+          {{item.description}} - [{{item.uid}}]
+        </span>
+        <div style="display: flex; justify-content: flex-end;" *ngIf="index==hoveredIndex">
+          <button (click)="openAction(item)" data-tests-id="editRule" class="btn-list" mat-icon-button>
+            <mat-icon class="md-24">mode_edit</mat-icon>
+          </button>
+          <button (click)="removeItem(item.uid)" data-tests-id="deleteRule" class="btn-list" mat-icon-button>
+            <mat-icon class="md-24">delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

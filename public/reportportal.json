@@ -1,0 +1,9 @@
+// "reporter": "mocha-rp-reporter",
+// "reporterOptions": {
+//   "configOptions": {
+//     "token": "fd8d16ea-b413-4ee0-9e39-2bf486a3ae64",
+//     "endpoint": "http://reportportal.intl.att.com:8080/api/v1",
+//     "launch": "ym903w_TEST_EXAMPLE",
+//     "project": "dcea-d"
+//   }
+// }

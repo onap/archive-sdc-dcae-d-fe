@@ -1,0 +1,28 @@
+svg {
+  height: 400px;
+  width: 100%;
+  margin: auto;
+  display: block;
+  .line {
+    stroke-dasharray: 1400;
+    animation: draw 5s ease-in;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: -1400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dude {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}

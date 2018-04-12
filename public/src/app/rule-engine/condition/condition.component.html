@@ -1,0 +1,89 @@
+<tree-root #tree class="condition-tree" (initialized)="onInitialized(tree)" [nodes]="conditionTree" [options]="customTemplateStringOptions">
+  <ng-template #treeNodeTemplate let-node let-index="index">
+
+    <div>
+      <div *ngIf="node.data.name === 'operator'" style="background: #F2F2F2;">
+        <div style="display: flex; margin-left: 5px; align-items: center; min-height: 35px;">
+          <div style="display: flex; align-items: center;" *ngIf="showType">
+            <select style="padding: 5px;" [(ngModel)]="node.data.type">
+              <option value="ANY">ANY</option>
+              <option value="ALL">ALL</option>
+            </select>
+
+            <div style="display: flex; align-items: center; margin-left: 10px;">
+              of the following are true:
+            </div>
+          </div>
+
+          <div style="display: flex; margin-left: auto;">
+
+            <div style="display: flex; align-items: center; padding: 0 25px;">
+              <button mat-mini-fab color="primary" (click)="addConditional(tree, node)" style="height: 24px; width: 24px; display:flex; box-shadow: none;">
+                <mat-icon class="material-icons md-18">add</mat-icon>
+              </button>
+              <span class="btn-label">Add Condition
+              </span>
+            </div>
+
+            <div style="display: flex; align-items: center; padding: 0 25px;">
+              <button mat-mini-fab color="primary" data-tests-id="addConditionGroup" [disabled]="node.data.level === 2" (click)="addConditionalGroup(tree, node)"
+                style="height: 24px; width: 24px; display:flex; box-shadow: none;">
+                <mat-icon class="material-icons md-18">add</mat-icon>
+              </button>
+              <span [style.color]="node.data.level === 2 ? '#a7a7a7' : '#009fdb' " [style.cursor]="node.data.level === 2 ? 'default' : 'pointer' "
+                class="btn-label">Add Condition Group
+              </span>
+            </div>
+
+            <div style="display: flex; align-items: center; padding: 0 5px; background: #FFFFFF;">
+              <button mat-icon-button (click)="removeConditional(tree, node)" class="button-remove">
+                <mat-icon class="md-24">delete</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div *ngIf="node.data.name === 'condition'">
+        <div class="from-conatiner" style="height:35px; ">
+          <div style="display: flex; width:90%;">
+            <div class="label" style="width:100%">
+              <span class="label" style="padding: 0 10px; border-left: none;">
+                Input
+              </span>
+              <input class="input-text" data-tests-id="left" [(ngModel)]="node.data.left" (ngModelChange)="modelChange($event)" ngDefaultControl
+                type="text">
+            </div>
+
+            <div style="margin: 0 1rem;">
+              <select style="height: 30px;" data-tests-id="selectOperator" [(ngModel)]="node.data.operator" (ngModelChange)="modelChange($event)"
+                ngDefaultControl>
+                <option [ngValue]="null" disabled>Select operator</option>
+                <option value="contains">Contains</option>
+                <option value="endsWith">Ends with</option>
+                <option value="startsWith">Starts with</option>
+                <option value="equals">Equals</option>
+                <option value="notEqual">Not equal</option>
+              </select>
+            </div>
+
+            <div class="label" style="width:100%">
+              <span class="label" style="padding: 0 10px; border-left: none;">
+                Value
+              </span>
+              <input class="input-text" data-tests-id="right" (ngModelChange)="modelChange($event)" [(ngModel)]="node.data.right" ngDefaultControl
+                type="text">
+            </div>
+          </div>
+          <!-- remove button -->
+          <div class="show-delete">
+            <button mat-icon-button (click)="removeConditional(tree, node)" class="button-remove">
+              <mat-icon class="md-24">delete</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</tree-root>

@@ -1,0 +1,7 @@
+<!-- <div class="container"> -->
+<main [@slideAnimation]="getRouterOutletState(o)">
+  <app-error-dialog></app-error-dialog>
+  <app-loader [hidden]="!this.store.loader"></app-loader>
+  <router-outlet #o="outlet"></router-outlet>
+</main>
+<!-- </div> -->

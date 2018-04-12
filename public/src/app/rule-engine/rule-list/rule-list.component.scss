@@ -1,0 +1,109 @@
+.container {
+  // margin: 1rem;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #191919;
+    border-bottom: 2px solid #d2d2d2;
+    padding-bottom: 0.5rem;
+    margin: 1rem;
+  }
+
+  .item {
+    border: 1px solid #d2d2d2;
+    padding: 0 10px;
+    height: 40px;
+  }
+
+  .mat-fab,
+  .mat-mini-fab,
+  .mat-raised-button {
+    box-shadow: none;
+  }
+}
+.my-full-screen-dialog .mat-dialog-container {
+  max-width: none;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+}
+
+.my-confrim-dialog .mat-dialog-container {
+  max-width: 600px;
+  width: 500px;
+  height: 200px;
+  padding: 0;
+}
+
+.btn-list {
+  display: flex !important;
+  justify-content: center !important;
+  color: #d2d2d2 !important;
+
+  &:hover {
+    color: #009fdb !important;
+  }
+}
+
+.hr {
+  display: block;
+  margin: 10px 0 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  width: 100%;
+}
+
+.mat-fab,
+.mat-mini-fab,
+.mat-raised-button {
+  box-shadow: none;
+}
+
+.mat-mini-fab .mat-button-wrapper {
+  padding: 0 !important;
+}
+.mat-icon {
+  // width: 18px;
+  // height: 18px;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+/* Rules for sizing the icon. */
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-30 {
+  font-size: 30px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark {
+  color: rgba(0, 0, 0, 0.54);
+}
+.material-icons.md-dark.md-inactive {
+  color: rgba(0, 0, 0, 0.26);
+}
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light {
+  color: rgba(255, 255, 255, 1);
+}
+.material-icons.md-light.md-inactive {
+  color: rgba(255, 255, 255, 0.3);
+}

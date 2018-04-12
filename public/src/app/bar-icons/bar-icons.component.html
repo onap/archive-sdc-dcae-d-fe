@@ -1,0 +1,59 @@
+<div style="display: flex; position: relative; justify-content: flex-end;">
+  <div style="display: flex; justify-content: flex-end;" [class]="genrateBarTestId()">
+    <button mat-icon-button>
+      <span style="width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;" [innerHTML]="'help-circle' | feather:18"></span>
+    </button>
+    <hr>
+
+    <div *ngIf="tabName.includes('map')" style="display: flex;">
+      <button mat-icon-button>
+        <span style="width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'upload' | feather:18"></span>
+      </button>
+      <hr>
+
+      <button mat-icon-button>
+        <span style="width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'download' | feather:18"></span>
+      </button>
+      <hr>
+    </div>
+
+    <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear" [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : 'black'">
+      <span style="width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;" [innerHTML]="'settings' | feather:18"></span>
+    </button>
+  </div>
+
+  <!-- advanced setting -->
+  <div class="setting" *ngIf="store.expandAdvancedSetting[store.tabIndex]">
+    <div *mobxAutorun style="width: 100%;" [class]="tabName+'-setting-list'">
+      <div style="font-size: 1.5em; padding: 0 12px;">{{tabName}} Advanced Setting</div>
+      <form #cdumpConfForm="ngForm">
+        <div *ngFor="let prop of store.configurationForm" class="field" [id]="prop.name">
+          <p class="field-label">{{prop.name}}</p>
+          <input *ngIf="!isPropertyDdl(prop)" type="text" name="{{prop.name}}" class="field-text" [(ngModel)]="prop.assignment.value"
+            (ngModelChange)="onChange($event)">
+          <select *ngIf="isPropertyDdl(prop)" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.assignment.value" (ngModelChange)="onChange($event)">
+          <option *ngFor="let value of prop.constraints[0].valid_values" [value]="value">
+            {{value}}
+          </option>
+        </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

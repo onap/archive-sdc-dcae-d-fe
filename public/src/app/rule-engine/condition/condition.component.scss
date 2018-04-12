@@ -1,0 +1,114 @@
+.condition-tree {
+  tree-viewport {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+  .angular-tree-component,
+  .tree-node-leaf {
+    margin: 0;
+    padding: 0;
+  }
+  .angular-tree-component {
+    padding-left: 1em;
+    overflow-y: hidden;
+  }
+  .tree-node-leaf.container {
+    border-bottom: 0px;
+  }
+  .tree-node-leaf.empty {
+    font-style: italic;
+    color: #fafafa;
+    border-color: #fafafa;
+  }
+  .tree-node-leaf div {
+    margin: 0;
+    top: 0.5em;
+  }
+  .node-wrapper {
+    background: white;
+  }
+  .tree-children {
+    border-left: 2px solid #f2f2f2;
+    // border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  tree-node-expander {
+    display: none;
+  }
+  .node-content-wrapper {
+    padding-left: 0;
+    width: 100%;
+    .show-delete {
+      opacity: 0;
+    }
+  }
+  .tree-node-content {
+    width: 100%;
+  }
+  .node-content-wrapper-active,
+  .node-content-wrapper.node-content-wrapper-active:hover,
+  .node-content-wrapper-active.node-content-wrapper-focused {
+    background: white;
+  }
+  *:focus {
+    outline: none;
+  }
+
+  .node-content-wrapper-active,
+  .node-content-wrapper-focused,
+  .node-content-wrapper:hover {
+    box-shadow: none;
+    .show-delete {
+      opacity: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+    }
+  }
+}
+
+.from-conatiner {
+  display: flex;
+  align-items: center;
+  .input-text {
+    border: none;
+    flex: 1;
+    // width: 250px;
+    padding: 5px 0 5px 5px;
+    margin: 0;
+  }
+  .label {
+    border: 1px solid #d2d2d2;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: default;
+  }
+}
+
+.btn-label {
+  display: flex;
+  justify-content: center;
+  padding-left: 5px;
+  color: #009fdb;
+}
+
+.button-label {
+  color: #a7a7a7;
+  display: flex;
+  justify-content: center;
+  padding-left: 5px;
+  &:hover {
+    color: #009fdb;
+  }
+}
+
+.button-remove {
+  display: flex;
+  justify-content: center;
+  color: #a7a7a7;
+  &:hover {
+    color: #009fdb;
+  }
+}

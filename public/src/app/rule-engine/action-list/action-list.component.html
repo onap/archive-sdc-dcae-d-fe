@@ -1,0 +1,100 @@
+<form #actionListFrm="ngForm" class="wrapper" data-tests-id="popupRuleEditor">
+  <div class="header">
+    <div style="display: flex; justify-content: flex-end; align-items: center;">
+      <a (click)="closeDialog()" data-tests-id="btnBackRule" style="cursor: pointer;text-decoration: none; color: #009fdb;">
+        <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 22px; width: 22px; font-size: 22px; padding-right: 20px;"></mat-icon>
+      </a>
+      <span style="font-size: 18px;">New Rule Editor</span>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding: 10px;">
+
+      <button mat-icon-button [disabled]="actions.length === 0" (click)="saveRole()" data-tests-id="btnSave">
+        <span style="width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;" [innerHTML]="'save' | feather:22"></span>
+      </button>
+
+      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 20px;" color="primary" data-tests-id="btnDone"
+        (click)="saveAndDone()">
+        Done
+      </button>
+    </div>
+  </div>
+  <!-- error container -->
+  <div *ngIf="error" data-tests-id="errorList" class="error-list">
+    <div *ngFor="let item of error">
+      {{ item }}
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div>
+      <div class="required" style="padding-right: 1rem; width: 100%; padding-bottom: 0.5rem;">Description</div>
+      <input type="text" [(ngModel)]="description" ngModel required name="descInput" style="padding: 5px; width: 100%;" data-tests-id="inputDescription">
+    </div>
+
+    <div style="margin: 1.5rem 0;">
+      <div class="pretty p-svg" style="margin: 1rem 0rem;">
+        <input type="checkbox" name="isCondition" data-tests-id="isCondition" [checked]="ifStatement" (change)="ifStatement = !ifStatement"
+        />
+        <div class="state">
+          <!-- svg path -->
+          <svg class="svg svg-icon" viewBox="0 0 20 20">
+            <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+              style="stroke: #009fdb; fill:#009fdb;"></path>
+          </svg>
+          <label>Conditional Action</label>
+        </div>
+      </div>
+
+      <div *ngIf="ifStatement">
+        <app-condition #condition (removeConditionCheck)="removeConditionCheck($event)" (onConditionChange)="updateCondition($event)"></app-condition>
+      </div>
+    </div>
+
+    <div>
+      <div class="required" style="padding-bottom: 0.5rem">
+        Action
+      </div>
+      <div style="display: flex;">
+        <select [(ngModel)]="selectedAction" name="selectedAction" style="height: 2rem; width: 150px; margin-right: 1rem;" data-tests-id="selectAction">
+          <option [ngValue]="null" disabled>Select Action</option>
+          <option value="copy">Copy</option>
+          <option value="concat">Concat</option>
+          <option value="map">Map</option>
+          <option value="date formatter">Date Formatter</option>
+        </select>
+
+        <div style="display: flex; align-items: center;">
+          <button mat-mini-fab color="primary" style="height: 24px; width: 24px; display:flex; justify-content: center;" (click)="addAction2list(selectedAction)"
+            data-tests-id="btnAddAction">
+            <span style="display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:16"></span>
+          </button>
+          <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 10px">Add Action</span>
+        </div>
+
+      </div>
+
+      <div>
+        <ul>
+          <li *ngFor="let action of actions; let index = index" style="list-style: none; margin: 1rem 0;" (mouseleave)="hoveredIndex=-1"
+            (mouseover)="hoveredIndex=index" data-tests-id="action">
+            <div style="display:flex;">
+              <app-action #actions style="width: 100%;" [action]="action"></app-action>
+
+              <div style="height: 45px; display: flex; align-items: center;">
+                <button mat-icon-button class='button-remove' (click)="removeAction(action)" data-tests-id="deleteAction">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</form>

@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "integration/**/*.ts",
+    "support/**/*.ts",
+    "../node_modules/cypress",
+    "../node_modules/@types/mocha"
+  ],
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "sourceMap": true,
+    "pretty": true,
+    "noLib": false,
+    "typeRoots": ["../../node_modules/@types", "../../node_modules"],
+    "types": ["cypress", "mocha", "jasmine", "node"]
+  }
+}

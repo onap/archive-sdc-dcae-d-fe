@@ -1,0 +1,12 @@
+<div class="container" data-tests-id="delete-popup">
+  <div class="header">
+    Delete
+  </div>
+  <div class="content">
+    Are you sure you want to delete?
+  </div>
+  <div class="buttons">
+    <button mat-raised-button (click)="close(true)" data-tests-id="btnDelete" style="margin-right: 1rem;" color="primary">Delete</button>
+    <button mat-raised-button (click)="close(false)" data-tests-id="btnCancel" style="border: 1px solid #009FDB; color: #009FDB; background: #ffffff;">Cancel</button>
+  </div>
+</div>

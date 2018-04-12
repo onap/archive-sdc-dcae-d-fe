@@ -1,0 +1,12 @@
+[
+  {
+    "uuid": "d31bc895-d908-4e62-9e81-77fd52e13632",
+    "invariantUUID": "4b8e8dde-8f18-42f4-86c7-3e2f9bc163b4",
+    "name": "LiavSrv",
+    "version": "0.3",
+    "lastUpdaterUserId": "af3193",
+    "category": "Mobility",
+    "lifecycleState": "NOT_CERTIFIED_CHECKIN",
+    "distributionStatus": "DISTRIBUTION_NOT_APPROVED"
+  }
+]

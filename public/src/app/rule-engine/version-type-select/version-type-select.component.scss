@@ -1,0 +1,46 @@
+.selected-event {
+  display: flex;
+  margin: 10px 0;
+  // align-items: center;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.small-padding {
+  padding-right: 1rem;
+}
+
+.btn {
+  padding: 6px;
+  margin: 6px 8px 6px 8px;
+  min-width: 88px;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  outline: none;
+}
+
+.target-field {
+  width: 370px;
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  .field-label {
+    padding-right: 10px;
+  }
+  .required::before {
+    content: '*';
+    color: red;
+    padding-right: 5px;
+  }
+  .field-select {
+    flex: 1;
+    width: 100%;
+    min-width: 250px;
+    padding: 5px 0 5px 5px;
+    margin: 0;
+  }
+}

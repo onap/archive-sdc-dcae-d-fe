@@ -1,0 +1,62 @@
+<div class="container">
+
+  <div style="padding: .25em; display: flex;
+  justify-content: space-between;
+  align-items: flex-end;">
+    <div>
+      <a (click)="goBack()" data-tests-id="btn-back-home" style="display: flex; cursor: pointer;text-decoration: none; color: #009fdb;">
+        <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 17px; width: 12px; font-size: 17px;"></mat-icon>
+        <span style="display: flex; align-items: center;">Back to Monitoring</span>
+      </a>
+      <div style="margin:10px 0;" data-tests-id="new-monitorying-titie">
+        <span style="font-size: 2em;" *ngIf='store.generalflow === "new"'>
+          New
+        </span>
+        <span style="font-size: 2em;" *ngIf='store.generalflow === "import"'>
+          Import
+        </span>
+        <span style="font-size: 2em;">
+          Monitoring Configuration
+        </span>
+      </div>
+    </div>
+
+    <div>
+      <div *ngIf='store.generalflow === "new" || store.generalflow === "edit"'>
+        <button *ngIf="!this.store.isEditMode" mat-raised-button color="primary" [disabled]="this.generalComponent.generalForm.invalid"
+          data-tests-id="createMonitoring" (click)="createMC(this.generalComponent.generalForm.value)">Create</button>
+
+        <div *ngIf="this.store.isEditMode" style="display: flex;">
+          <button mat-icon-button (click)="saveCDUMP()" [disabled]="!store.cdumpIsDirty">
+            <span style="width: 100%;
+            height: 100%;
+            padding-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;" [innerHTML]="'save' | feather:22"></span>
+          </button>
+          <button mat-raised-button color="primary" (click)="saveAndCreateBlueprint()">Submit</button>
+        </div>
+      </div>
+      <div *ngIf='store.generalflow === "import"'>
+        <button mat-raised-button color="primary" (click)="importMC(this.generalComponent.newVfcmt)" [disabled]="this.generalComponent.generalForm.invalid"
+          data-tests-id="importMonitoring">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: relative; flex:1;">
+
+    <p-tabView (onChange)="handleChange($event)" data-tests-id="tabs">
+      <p-tabPanel header="General">
+        <div>
+          <app-general (updateCdumpEv)="updateCdump($event)"></app-general>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel *ngFor="let item of nodes" [header]="item.name">
+        <app-rule-frame [tabName]="item.name"></app-rule-frame>
+      </p-tabPanel>
+    </p-tabView>
+
+  </div>
+</div>

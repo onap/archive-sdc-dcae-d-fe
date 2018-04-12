@@ -1,0 +1,99 @@
+.targetTree {
+  tree-viewport {
+    overflow: hidden;
+  }
+}
+
+.conatiner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+
+  .center-content {
+    display: flex;
+    width: 100%;
+
+    .action-info {
+      background: #93cdff;
+      padding: 6px;
+      border-radius: 5px;
+      height: 20px;
+      margin: 0 10px;
+    }
+
+    .regex {
+      max-width: 250px;
+      float: right;
+      display: flex;
+      align-items: center;
+      padding: 20px 10px;
+
+      .label {
+        border: 1px solid #d2d2d2;
+        padding: 0 5px;
+        height: 30px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+      }
+    }
+  }
+}
+.target {
+  width: 100%;
+  .top-select {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .label {
+    border: 1px solid #d2d2d2;
+    padding: 0 5px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .bottom-select {
+    border: 1px solid #ccc;
+    padding: 7px;
+    .filter-container {
+      padding: 5px;
+      .filter {
+        background: #fff;
+        color: black;
+        font: inherit;
+        border: 0;
+        outline: 0;
+        padding: 10px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.small-padding {
+  padding-right: 10px;
+}
+
+.text-input {
+  width: 100%;
+  height: 30px;
+  margin: 0;
+  padding: 0 5px;
+  border: 1px solid #d2d2d2;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.required::before {
+  content: '*';
+  color: red;
+}

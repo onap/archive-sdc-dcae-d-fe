@@ -1,0 +1,24 @@
+{
+  "uuid": "06c7d927-4e2f-47e1-a29d-b6ed229ebc0a",
+  "invariantUUID": "424b2457-d0fc-4b73-aaf6-d809f402aff5",
+  "name": "ciService669277f472b0",
+  "version": "0.1",
+  "toscaModelURL":
+    "/sdc/v1/catalog/services/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/toscaModel",
+  "lastUpdaterUserId": "cs0008",
+  "category": "Mobility",
+  "lifecycleState": "NOT_CERTIFIED_CHECKOUT",
+  "distributionStatus": "DISTRIBUTION_NOT_APPROVED",
+  "lastUpdaterFullName": "Idan Agam",
+  "resources": [
+    {
+      "resourceInstanceName": "LiavSrv",
+      "resourceName": "ciResVF4e28237d8f08",
+      "resourceInvariantUUID": "c36512c2-7938-4dce-ab9e-8884c9cb1fb0",
+      "resourceVersion": "0.1",
+      "resoucreType": "VF",
+      "resourceUUID": "bce6b896-c086-450c-a023-86c1129de7e8",
+      "artifacts": null
+    }
+  ]
+}

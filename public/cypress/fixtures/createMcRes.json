@@ -1,0 +1,972 @@
+{
+  "vfcmt":{
+    "uuid": "6d436c07-8006-4335-8c84-d65b4740f8d6"
+  },
+  "cdump": {
+    "cid": "47908e78-9893-4f18-b767-ea7131dd8de7",
+    "version": 0,
+    "nodes": [
+      {
+        "name": "map",
+        "description":
+          "/sdc/v1/catalog/resources/e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/artifacts/6134d7c8-f9af-4562-bf8d-e60039ec58bb",
+        "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b",
+        "nid": "n.1517823219961.0",
+        "capabilities": [
+          {
+            "name": "stream_subscribe_0",
+            "type": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "properties": [
+              {
+                "assignment": { "value": "Map_input" },
+                "name": "format",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "IGNORE" },
+                "name": "route",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "1.0.0" },
+                "name": "version",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "feature",
+            "type": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            }
+          }
+        ],
+        "requirements": [
+          {
+            "capability": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "node_filter": {
+              "capabilities": [
+                {
+                  "dcae.capabilities.stream.subscribe": {
+                    "properties": [
+                      { "format": [{ "equal": "VES_specification" }] },
+                      { "version": [{ "equal": "5.28.4" }] }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "stream_publish_0",
+            "relationship": { "type": "dcae.relationships.rework_connected_to" }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.cdapHost",
+              "id": "template.yaml/dcae.capabilities.cdapHost"
+            },
+            "name": "host",
+            "relationship": {
+              "type": "dcae.relationships.component_contained_in"
+            }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.composition.host",
+              "id": "template.yaml/dcae.capabilities.composition.host"
+            },
+            "name": "composition"
+          },
+          {
+            "occurrences": [0, "UNBOUNDED"],
+            "node": "tosca.nodes.Root",
+            "capability": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            },
+            "name": "dependency",
+            "relationship": { "type": "tosca.relationships.DependsOn" }
+          }
+        ],
+        "properties": [
+          {
+            "assignment": {
+              "value": {
+                "get_input": "mappingType"
+              }
+            },
+            "name": "Type1",
+            "description":
+              "CSV to VES mapping, from the file to generate multiple events or single event",
+            "type": "string",
+            "constraints": [
+              {
+                "valid_values": ["single", "multiple"]
+              }
+            ]
+          },
+          {
+            "assignment": {
+              "value": "multiple"
+            },
+            "name": "mappingType",
+            "description":
+              "CSV to VES mapping, from the file to generate multiple events or single event",
+            "type": "string",
+            "constraints": [
+              {
+                "valid_values": ["single", "multiple"]
+              }
+            ]
+          },
+          {
+            "assignment": {
+              "value":
+                "com.att.gfp.dcae.eventProcessor.Catalog,com.att.ecomp.dcae.eventproc.cdap.common.processors.Catalog"
+            },
+            "name": "defaultCatalogs",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "defaultObjects" } },
+            "name": "defaultObjects",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "Map Microservice" },
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "dmaapConsumerGrp" } },
+            "name": "dmaapConsumerGrp",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "" },
+            "name": "eventFactory",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"processing\":[{\"phase\":\"snmp_map\",\"filter\":{\"class\":\"StartsWith\",\"string\":\"${notify OID}\",\"value\":\".1.3.6.1.4.1.26878.200.2\"},\"processors\":[{\"class\":\"SnmpConvertor\",\"array\":\"varbinds\",\"keycolumn\":\"varbind_oid\",\"datacolumn\":\"varbind_value\"},{\"class\":\"RunPhase\",\"phase\":\"vPCRF_MOGParsingPhase\"}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"processors\":[{\"class\":\"MapAlarmValues\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"toField\":\"eventGroup\",\"map\":{\"LinkDown\":\"LinkUp_Down\",\"LinkUp\":\"LinkUp_Down\",\"HIGH CPU USAGE Alert\":\"HighCpuUsageAlert-Clear\",\"HIGH CPU USAGE Clear\":\"HighCpuUsageAlert-Clear\",\"ProcessDown\":\"ProcessUp-Down\",\"ProcessUp\":\"ProcessUp-Down\",\"HighLoadAlert\":\"HighLoadAlert-Clear\",\"HighLoadClear\":\"HighLoadAlert-Clear\",\"DiskFullAlert\":\"DiskFullAlert-Clear\",\"DiskFullClear\":\"DiskFullAlert-Clear\",\"LowSwapAlert\":\"LowMemoryAlert-Clear\",\"LowSwapClear\":\"LowMemoryAlert-Clear\",\"LowMemoryAlert\":\"LowMemoryAlert-Clear\",\"LowMemoryClear\":\"LowMemoryAlert-Clear\",\"ApplicationStartError\":\"ApplicationStartError\",\"LicenseUsageThresholdExceeded \":\"LicenseUsageThresholdExceeded \",\"LicensedSessionCreation\":\"LicensedSessionCreation\",\"InvalidLicense\":\"InvalidLicense\",\"PoliciesNotConfigured\":\"PoliciesNotConfigured\",\"DiameterAllPeersDown\":\"DiameterAllPeersUp-Down\",\"DiameterAllPeersUp\":\"DiameterAllPeersUp-Down\",\"HA Failover\":\"HAFailover\",\"GR Failover\":\"GRFailover\",\"All DB Member of replica set Down\":\"AllDBMemberReplicaSetUp-Down\",\"All DB Member of replica set Up\":\"AllDBMemberReplicaSetUp-Down\",\"No Primary DB Member Found\":\"PrimaryDBMemberFound-NotFound\",\"Primary DB Member Found\":\"PrimaryDBMemberFound-NotFound\",\"Secondary DB Member Down\":\"SecondaryDBMemberUp-Down\",\"Secondary DB Member Up\":\"SecondaryDBMemberUp-Down\",\"Arbiter Down\":\"ArbiterUp-Down\",\"Arbiter Up\":\"ArbiterUp-Down\",\"DB resync is needed\":\"DBResyncNeeded-NotNeeded\",\"DB resync is not needed\":\"DBResyncNeeded-NotNeeded\",\"Config Server Down\":\"ConfigServerUp-Down\",\"Config Server Up\":\"ConfigServerUp-Down\",\"VM Down\":\"VMUp-Down\",\"VM Up\":\"VMUp-Down\",\"QNS Process Down\":\"QNSProcessUp-Down\",\"QNS Process Up\":\"QNSProcessUp-Down\",\"VirtualInterface Down\":\"VirtualInterfaceUp-Down\",\"VirtualInterface Up\":\"VirtualInterfaceUp-Down\",\"MemcachedConnectError\":\"MemcachedConnectError\",\"PolicyConfiguration\":\"PolicyConfiguration\",\"DiameterPeerDown\":\"DiameterPeerDown\",\"DeveloperMode\":\"DeveloperMode\",\"ZeroMQConnectionError\":\"ZeroMQConnectionError\",\"Admin User Logged In\":\"AdminUserLoggedIn\"}},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.domain\":\"fault\",\"event.commonEventHeader.version\":3,\"event.faultFields.faultFieldsVersion\":2.0,\"event.faultFields.vfStatus\":\"Active\",\"event.commonEventHeader.priority\":\"Normal\",\"event.commonEventHeader.sequence\":0,\"event.faultFields.alarmCondition\":\"${_1_3_6_1_4_1_26878_100_1_1_9}\",\"event.faultFields.alarmAdditionalInformation[0].name\":\"EventGroup\",\"event.faultFields.alarmAdditionalInformation[0].value\":\"${eventGroup}\",\"event.faultFields.alarmAdditionalInformation[1].name\":\"OID1\",\"event.faultFields.alarmAdditionalInformation[1].value\":\"${varbinds[0].varbind_value}\"}},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.startEpochMicrosec\":\"%{now.ms}\"}},{\"class\":\"MapAlarmValues\",\"field\":\"_1_3_6_1_4_1_26878_100_1_4\",\"default\":\"WARNING\",\"toField\":\"event.faultFields.eventSeverity\",\"map\":{\"0\":\"CRITICAL\",\"1\":\"CRITICAL\",\"2\":\"MAJOR\",\"3\":\"MAJOR\",\"4\":\"MINOR\",\"5\":\"WARNING\",\"6\":\"WARNING\",\"7\":\"WARNING\",\"8\":\"WARNING\",\"9\":\"NORMAL\"}},{\"class\":\"MapAlarmValues\",\"field\":\"_1_3_6_1_4_1_26878_100_1_3\",\"default\":\"\",\"toField\":\"event.faultFields.specificProblem\",\"map\":{\"0\":\"Hardware\",\"1\":\"Networking\",\"2\":\"Virtualization\",\"3\":\"Operating System\",\"4\":\"Application\",\"5\":\"Process\"}},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.lastEpochMicrosec\":\"${event.commonEventHeader.startEpochMicrosec}\"}},{\"class\":\"ConvertFieldTypes\",\"updates\":{\"event.commonEventHeader.startEpochMicrosec\":\"long\",\"event.commonEventHeader.lastEpochMicrosec\":\"long\"}}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DiskFullAlert\",\"LowSwapAlert\",\"LowMemoryAlert\"]},\"processors\":[{\"class\":\"Set\",\"updates\":{\"event.faultFields.eventSeverity\":\"MAJOR\"}}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"filter\":{\"class\":\"Contains\",\"string\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"value\":\"mog\"},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"event.commonEventHeader.sourceName\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\"([^:]*):.*\"},{\"class\":\"Set\",\"updates\":{\"event.faultFields.eventSourceType\":\"vMOG\",\"event.commonEventHeader.functionalRole\":\"vMoG\",\"event.commonEventHeader.eventType\":\"vMoG_Alarms\",\"event.commonEventHeader.eventId\":\"${event.commonEventHeader.sourceName}_${eventGroup}\",\"event.commonEventHeader.eventName\":\"NA\"}}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"filter\":{\"class\":\"Not\",\"filter\":{\"class\":\"Contains\",\"string\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"value\":\"mog\"}},\"processors\":[{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.sourceName\":\"${agent address}\",\"event.faultFields.eventSourceType\":\"vPCRF\",\"event.commonEventHeader.functionalRole\":\"vPCRF\",\"event.commonEventHeader.eventType\":\"PCRF_Alarms\",\"event.commonEventHeader.eventId\":\"${agent address}_${eventGroup}\",\"event.commonEventHeader.reportingEntityName\":\"${event.commonEventHeader.sourceName}\"}}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"filter\":{\"class\":\"Contains\",\"string\":\"${_1_3_6_1_4_1_26878_100_1_1_7}\",\"value\":\"mogx\"},\"processors\":[{\"class\":\"Set\",\"updates\":{\"event.faultFields.alarmCondition\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"event.faultFields.specificProblem\":\"${_1_3_6_1_4_1_26878_100_1_1_9}\",\"event.commonEventHeader.reportingEntityName\":\"${event.commonEventHeader.sourceName}\"}},{\"class\":\"RunPhase\",\"phase\":\"vPCRF_MOGX_ParsingPhase\"},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.eventId\":\"${event.commonEventHeader.sourceName}_${eventGroup}_${eventKey}\"}}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"LinkDown\",\"LinkUp\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* (.*)\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"ProcessDown\",\"ProcessUp\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*:(.*) process.*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DiskFullAlert\",\"DiskFullClear\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*:(.*):.*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"QNS Process Down\",\"QNS Process Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*:(.*) server on .*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DiameterPeerDown\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* (.*) [R/r]ealm.*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DiameterAllPeersDown\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*Realm: (.*):[^:]*peers.*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"VirtualInterface Down\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*onnect (.*). Not reachable\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"VirtualInterface Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*: (.*) is up\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"GR Failover\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*: (Geo Failover done from .*) of .*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"Arbiter Down\",\"Arbiter Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* Arbiter (.*) is .*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"All DB Member of replica set Down\",\"All DB Member of replica set Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* All DB members of replica set (.*) are .*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"No Primary DB Member Found\",\"Primary DB Member Found\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* Replica-set (.*)\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DB Member Down\",\"DB Member Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* (DB.Member .*) of SET .*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"Secondary DB Member Down\",\"Secondary DB Member Up\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".*Secondary (DB.*) is.*\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"DB Resync is needed\",\"DB Resync is not needed\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* member (.*:[0-9]+).*$\"}]},{\"phase\":\"vPCRF_MOGX_ParsingPhase\",\"filter\":{\"class\":\"OneOf\",\"field\":\"_1_3_6_1_4_1_26878_100_1_1_9\",\"values\":[\"ZeroMQConnectionError\"]},\"processors\":[{\"class\":\"ExtractText\",\"field\":\"eventKey\",\"value\":\"${_1_3_6_1_4_1_26878_100_1_1_10}\",\"regex\":\".* for (tcp.*)\"}]},{\"phase\":\"vPCRF_MOGParsingPhase\",\"processors\":[{\"class\":\"Clear\",\"fields\":[\"community len\",\"cambria.partition\",\"notify OID\",\"notify OID len\",\"epoch_serno\",\"protocol version\",\"agent name\",\"trap category\",\"community\",\"time received\",\"agent address\",\"varbinds\"]},{\"class\":\"ClearNoneStandardFields\",\"reservedFields\":[\"event\",\"parserType\"]},{\"class\":\"LogEvent\",\"title\":\"UCSNMPEvent-vPCRF_MOG_Parser_Output\",\"logName\":\"com.att.gfp.dcae.eventProcessor.output\",\"logLevel\":\"DEBUG\"},{\"class\":\"LogText\",\"logLevel\":\"INFO\",\"logText\":\"Finished_vPCRF_MOGParsingPhase Mapping Phase\"},{\"class\":\"RunPhase\",\"phase\":\"map_publish\"}]}]}"
+            },
+            "name": "json",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "monitorThreads" } },
+            "name": "monitorThreads",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "mapMS" },
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "snmp_map" },
+            "name": "phases.snmp_map.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*snmp.*" },
+            "name": "phases.snmp_map.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "syslog_map" },
+            "name": "phases.syslog_map.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*syslog.*" },
+            "name": "phases.syslog_map.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"phase\":\"map_publish\",\"processors\":[{\"class\":\"EventProcessorMetric\",\"metric\":\"out.events\"},{\"class\":\"SendEvent\",\"channel\":\"DCAE-MAP-EVENT-OUT\"}]}"
+            },
+            "name": "postConfig",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "vnfTypes.*" },
+            "name": "ruleKeyPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "[{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"MOD\",\"INT\":\"INT\",\"HSEV\":\"header-SEV \",\"SEVDES\":\"Syslog-Severity\"},\"filter\":{\"${Priority}\":\"$Priority\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"0\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"1\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"0\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"2\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"0\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"3\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"0\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"4\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"0\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"5\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"0\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"6\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"0\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"7\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"1\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"8\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"1\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"9\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"1\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"10\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"1\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"11\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"1\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"12\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"1\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"13\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"1\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"14\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"1\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"15\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"2\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"16\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"2\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"17\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"2\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"18\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"2\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"19\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"2\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"20\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"2\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"21\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"2\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"22\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"2\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"23\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"3\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"24\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"3\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"25\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"3\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"26\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"3\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"27\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"3\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"28\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"3\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"29\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"3\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"30\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"3\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"31\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"4\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"32\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"4\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"33\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"4\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"34\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"4\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"35\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"4\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"36\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"4\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"37\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"4\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"38\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"4\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"39\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"5\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"40\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"5\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"41\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"5\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"42\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"5\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"43\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"5\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"44\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"5\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"45\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"5\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"46\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"5\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"47\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"6\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"48\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"6\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"49\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"6\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"50\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"6\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"51\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"6\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"52\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"6\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"53\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"6\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"54\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"6\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"55\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"7\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"56\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"7\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"57\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"7\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"58\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"7\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"59\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"7\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"60\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"7\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"61\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"7\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"62\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"7\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"63\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"8\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"64\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"8\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"65\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"8\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"66\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"8\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"67\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"8\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"68\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"8\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"69\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"8\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"70\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"8\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"71\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"9\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"72\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"9\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"73\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"9\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"74\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"9\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"75\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"9\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"76\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"9\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"77\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"9\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"78\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"9\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"79\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"10\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"80\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"10\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"81\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"10\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"82\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"10\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"83\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"10\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"84\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"10\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"85\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"10\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"86\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"10\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"87\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"11\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"88\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"11\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"89\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"11\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"90\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"11\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"91\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"11\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"92\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"11\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"93\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"11\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"94\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"11\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"95\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"12\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"96\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"12\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"97\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"12\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"98\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"12\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"99\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"12\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"100\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"12\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"101\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"12\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"102\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"12\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"103\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"13\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"104\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"13\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"105\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"13\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"106\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"13\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"107\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"13\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"108\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"13\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"109\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"13\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"110\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"13\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"111\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"14\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"112\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"14\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"113\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"14\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"114\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"14\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"115\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"14\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"116\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"14\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"117\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"14\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"118\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"14\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"119\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"15\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"120\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"15\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"121\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"15\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"122\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"15\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"123\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"15\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"124\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"15\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"125\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"15\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"126\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"15\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"127\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"16\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"128\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"16\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"129\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"16\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"130\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"16\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"131\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"16\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"132\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"16\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"133\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"16\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"134\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"16\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"135\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"17\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"136\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"17\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"137\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"17\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"138\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"17\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"139\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"17\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"140\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"17\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"141\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"17\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"142\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"17\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"143\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"18\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"144\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"18\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"145\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"18\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"146\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"18\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"147\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"18\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"148\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"18\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"149\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"18\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"150\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"18\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"151\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"19\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"152\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"19\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"153\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"19\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"154\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"19\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"155\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"19\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"156\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"19\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"157\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"19\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"158\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"19\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"159\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"20\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"160\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"20\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"161\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"20\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"162\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"20\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"163\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"20\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"164\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"20\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"165\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"20\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"166\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"20\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"167\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"21\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"168\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"21\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"169\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"21\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"170\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"21\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"171\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"21\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"172\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"21\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"173\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"21\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"174\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"21\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"175\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"22\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"176\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"22\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"177\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"22\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"178\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"22\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"179\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"22\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"180\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"22\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"181\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"22\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"182\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"22\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"183\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"23\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"184\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"23\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"185\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"23\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"186\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"23\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"187\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"23\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"188\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"23\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"189\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"23\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"190\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"23\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"191\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"0\",\"INT\":\"24\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Emergency: system is unusable\"},\"filter\":{\"${Priority}\":\"192\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"1\",\"INT\":\"24\",\"HSEV\":\"CRITICAL\",\"SEVDES\":\"Alert: action must be taken immediately\"},\"filter\":{\"${Priority}\":\"193\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"2\",\"INT\":\"24\",\"HSEV\":\"MAJOR\",\"SEVDES\":\"Critical: critical conditions\"},\"filter\":{\"${Priority}\":\"194\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"3\",\"INT\":\"24\",\"HSEV\":\"MINOR\",\"SEVDES\":\"Error: error conditions\"},\"filter\":{\"${Priority}\":\"195\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"4\",\"INT\":\"24\",\"HSEV\":\"WARNING\",\"SEVDES\":\"Warning: warning conditions\"},\"filter\":{\"${Priority}\":\"196\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"5\",\"INT\":\"24\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Notice: normal but significant condition\"},\"filter\":{\"${Priority}\":\"197\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"6\",\"INT\":\"24\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Informational: informational messages\"},\"filter\":{\"${Priority}\":\"198\"}},{\"key\":\"syslogLookup\",\"value\":{\"MOD\":\"7\",\"INT\":\"23\",\"HSEV\":\"NORMAL\",\"SEVDES\":\"Debug: debug-level messages\"},\"filter\":{\"${Priority}\":\"199\"}}]"
+            },
+            "name": "settings",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "False" },
+            "name": "startNoChannels",
+            "type": "string"
+          },
+          {
+            "default": "cdap_broker",
+            "assignment": {
+              "value": { "get_input": "connected_broker_dns_name" }
+            },
+            "name": "connected_broker_dns_name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "jar_url", "type": "string", "required": true },
+          {
+            "assignment": {
+              "value": {
+                "get_property": ["SELF", "composition", "location_id"]
+              }
+            },
+            "name": "location_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "service_component_type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "typeinfo": {
+          "itemId":
+            "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.dcae.nodes.cdapApp.Map",
+          "requirements": [
+            {
+              "node": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.stream.subscribe"
+              },
+              "capability": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.stream.subscribe"
+              },
+              "name": "stream_publish_0",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/stream_publish_0",
+              "relationship": {
+                "type": "dcae.relationships.rework_connected_to"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.cdapHost"
+              },
+              "capability": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.cdapHost"
+              },
+              "name": "host",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/host",
+              "relationship": {
+                "type": "dcae.relationships.component_contained_in"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.composition.host"
+              },
+              "capability": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.composition.host"
+              },
+              "name": "composition",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/composition"
+            },
+            {
+              "occurrences": [0, "UNBOUNDED"],
+              "node": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.capabilities.Node"
+              },
+              "capability": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.capabilities.Node"
+              },
+              "name": "dependency",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dependency",
+              "relationship": { "type": "tosca.relationships.DependsOn" }
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "stream_subscribe_0",
+              "type": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/dcae.capabilities.stream.subscribe"
+              }
+            },
+            {
+              "name": "feature",
+              "type": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.capabilities.Node"
+              }
+            }
+          ],
+          "catalogId": 0,
+          "catalog": "http://135.91.225.81:8080",
+          "hierarchy": [
+            {
+              "name": "tosca.dcae.nodes.cdapApp",
+              "id":
+                "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.dcae.nodes.cdapApp"
+            },
+            {
+              "name": "tosca.dcae.nodes.Root",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.dcae.nodes.Root"
+            },
+            {
+              "name": "tosca.nodes.Root",
+              "description":
+                "The TOSCA Node Type all other TOSCA base Node Types derive from",
+              "id": "e45ec9d7-01df-4cb1-896f-aff2a6ca5a8b/tosca.nodes.Root"
+            }
+          ],
+          "name": "tosca.dcae.nodes.cdapApp.Map",
+          "id": 0
+        },
+        "type": { "name": "tosca.dcae.nodes.cdapApp.Map" }
+      },
+      {
+        "name": "supplement",
+        "description":
+          "/sdc/v1/catalog/resources/30d0b4f4-efc5-424a-9d26-6d7843a0971d/artifacts/2d68c4e3-a4ab-46b3-ae3b-2a593fa97ded",
+        "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d",
+        "nid": "n.1517823224030.1",
+        "capabilities": [
+          {
+            "name": "stream_subscribe_0",
+            "type": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "properties": [
+              {
+                "assignment": { "value": "VES_specification" },
+                "name": "format",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "IGNORE" },
+                "name": "route",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "5.28.4" },
+                "name": "version",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "feature",
+            "type": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            }
+          }
+        ],
+        "requirements": [
+          {
+            "capability": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "node_filter": {
+              "capabilities": [
+                {
+                  "dcae.capabilities.stream.subscribe": {
+                    "properties": [
+                      { "format": [{ "equal": "VES_specification" }] },
+                      { "version": [{ "equal": "5.28.4" }] }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "stream_publish_0",
+            "relationship": { "type": "dcae.relationships.rework_connected_to" }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.cdapHost",
+              "id": "template.yaml/dcae.capabilities.cdapHost"
+            },
+            "name": "host",
+            "relationship": {
+              "type": "dcae.relationships.component_contained_in"
+            }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.composition.host",
+              "id": "template.yaml/dcae.capabilities.composition.host"
+            },
+            "name": "composition"
+          },
+          {
+            "occurrences": [0, "UNBOUNDED"],
+            "node": "tosca.nodes.Root",
+            "capability": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            },
+            "name": "dependency",
+            "relationship": { "type": "tosca.relationships.DependsOn" }
+          }
+        ],
+        "properties": [
+          {
+            "assignment": {
+              "value":
+                "com.att.gfp.dcae.eventProcessor.Catalog,com.att.ecomp.dcae.eventproc.cdap.common.processors.Catalog"
+            },
+            "name": "defaultCatalogs",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "defaultObjects" } },
+            "name": "defaultObjects",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "Supplement Microservice" },
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "dmaapConsumerGrp" } },
+            "name": "dmaapConsumerGrp",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "" },
+            "name": "eventFactory",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"processing\":[{\"phase\":\"supplement\",\"filter\":{\"class\":\"OneOf\",\"field\":\"event.commonEventHeader.eventType\",\"values\":[\"vPCRF_Alarms\",\"vMoG_Alarms\",\"applicationVnf\",\"GuestOS_Alarms\",\"Control\"]},\"processors\":[{\"class\":\"DateFormatter\",\"value\":\"${event.commonEventHeader.startEpochMicrosec}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.firstDatetime\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"DateFormatter\",\"value\":\"${event.commonEventHeader.lastEpochMicrosec}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.lastDatetime\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"DateFormatter\",\"value\":\"%{now.ms}\",\"fromFormat\":\"#ms\",\"fromTz\":\"GMT\",\"toField\":\"event.commonEventHeader.internalHeaderFields.collectorTimeStamp\",\"toFormat\":\"EEE,ddMMMyyyyHH:mm:ssZ\",\"toTz\":\"GMT\"},{\"class\":\"Set\",\"updates\":{\"event.commonEventHeader.internalHeaderFields.internalHeaderFieldsVersion\":\"9.9\",\"event.commonEventHeader.internalHeaderFields.eventTag\":\"${hp.tag}\"}}]},{\"phase\":\"supplement\",\"processors\":[{\"class\":\"RunPhase\",\"phase\":\"supplement_publish\"}]},{\"phase\":\"ves_supplement\",\"filter\":{\"class\":\"OneOf\",\"field\":\"event.commonEventHeader.eventType\",\"values\":[\"vIRC_Alarms\"]},\"processors\":[{\"class\":\"RunPhase\",\"phase\":\"supplement_publish\"}]}]}"
+            },
+            "name": "json",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "monitorThreads" } },
+            "name": "monitorThreads",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "supplementMS" },
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "supplement" },
+            "name": "phases.supplement.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*supplement-in.*" },
+            "name": "phases.supplement.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "ves_supplement" },
+            "name": "phases.ves_supplement.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*sec-fault.*" },
+            "name": "phases.ves_supplement.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"phase\":\"supplement_publish\",\"processors\":[{\"class\":\"EventProcessorMetric\",\"metric\":\"out.events\"},{\"class\":\"SendEvent\",\"channel\":\"DCAE-SUPPLEMENT-EVENT-OUT\"}]}"
+            },
+            "name": "postConfig",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "vnfTypes.*" },
+            "name": "ruleKeyPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "False" },
+            "name": "startNoChannels",
+            "type": "string"
+          },
+          {
+            "default": "cdap_broker",
+            "assignment": {
+              "value": { "get_input": "connected_broker_dns_name" }
+            },
+            "name": "connected_broker_dns_name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "jar_url", "type": "string", "required": true },
+          {
+            "assignment": {
+              "value": {
+                "get_property": ["SELF", "composition", "location_id"]
+              }
+            },
+            "name": "location_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "service_component_type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "typeinfo": {
+          "itemId":
+            "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.cdapApp.Supplement",
+          "requirements": [
+            {
+              "node": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              },
+              "capability": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              },
+              "name": "stream_publish_0",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/stream_publish_0",
+              "relationship": {
+                "type": "dcae.relationships.rework_connected_to"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.cdapHost"
+              },
+              "capability": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.cdapHost"
+              },
+              "name": "host",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/host",
+              "relationship": {
+                "type": "dcae.relationships.component_contained_in"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.composition.host"
+              },
+              "capability": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.composition.host"
+              },
+              "name": "composition",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/composition"
+            },
+            {
+              "occurrences": [0, "UNBOUNDED"],
+              "node": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              },
+              "capability": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              },
+              "name": "dependency",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dependency",
+              "relationship": { "type": "tosca.relationships.DependsOn" }
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "stream_subscribe_0",
+              "type": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/dcae.capabilities.stream.subscribe"
+              }
+            },
+            {
+              "name": "feature",
+              "type": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.capabilities.Node"
+              }
+            }
+          ],
+          "catalogId": 0,
+          "catalog": "http://135.91.225.81:8080",
+          "hierarchy": [
+            {
+              "name": "tosca.dcae.nodes.cdapApp",
+              "id":
+                "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.cdapApp"
+            },
+            {
+              "name": "tosca.dcae.nodes.Root",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.dcae.nodes.Root"
+            },
+            {
+              "name": "tosca.nodes.Root",
+              "description":
+                "The TOSCA Node Type all other TOSCA base Node Types derive from",
+              "id": "30d0b4f4-efc5-424a-9d26-6d7843a0971d/tosca.nodes.Root"
+            }
+          ],
+          "name": "tosca.dcae.nodes.cdapApp.Supplement",
+          "id": 0
+        },
+        "type": { "name": "tosca.dcae.nodes.cdapApp.Supplement" }
+      },
+      {
+        "name": "enrich",
+        "description":
+          "/sdc/v1/catalog/resources/8743b27b-f01e-4b17-a306-37efd42983d0/artifacts/c96f3ffd-516c-470b-ab7c-ced64fb244f0",
+        "id": "8743b27b-f01e-4b17-a306-37efd42983d0",
+        "nid": "n.1517823228454.2",
+        "capabilities": [
+          {
+            "name": "stream_subscribe_0",
+            "type": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "properties": [
+              {
+                "assignment": { "value": "VES_specification" },
+                "name": "format",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "IGNORE" },
+                "name": "route",
+                "type": "string"
+              },
+              {
+                "assignment": { "value": "5.28.4" },
+                "name": "version",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "feature",
+            "type": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            }
+          }
+        ],
+        "requirements": [
+          {
+            "capability": {
+              "name": "dcae.capabilities.stream.subscribe",
+              "id": "template.yaml/dcae.capabilities.stream.subscribe"
+            },
+            "node_filter": {
+              "capabilities": [
+                {
+                  "dcae.capabilities.stream.subscribe": {
+                    "properties": [
+                      { "format": [{ "equal": "VES_specification" }] },
+                      { "version": [{ "equal": "5.28.4" }] }
+                    ]
+                  }
+                }
+              ]
+            },
+            "name": "stream_publish_0",
+            "relationship": { "type": "dcae.relationships.rework_connected_to" }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.cdapHost",
+              "id": "template.yaml/dcae.capabilities.cdapHost"
+            },
+            "name": "host",
+            "relationship": {
+              "type": "dcae.relationships.component_contained_in"
+            }
+          },
+          {
+            "capability": {
+              "name": "dcae.capabilities.composition.host",
+              "id": "template.yaml/dcae.capabilities.composition.host"
+            },
+            "name": "composition"
+          },
+          {
+            "occurrences": [0, "UNBOUNDED"],
+            "node": "tosca.nodes.Root",
+            "capability": {
+              "name": "tosca.capabilities.Node",
+              "id": "template.yaml/tosca.capabilities.Node"
+            },
+            "name": "dependency",
+            "relationship": { "type": "tosca.relationships.DependsOn" }
+          }
+        ],
+        "properties": [
+          {
+            "assignment": {
+              "value":
+                "com.att.ecomp.dcae.eventproc.cdap.common.processors.Catalog,com.att.sa.highlandPark.topoTools.HpTopoDbObjectCatalog,com.att.sa.highlandPark.topoTools.HpTopoDbProcessors,com.att.gfp.dcae.eventProcessor.Catalog"
+            },
+            "name": "defaultCatalogs",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "defaultObjects" } },
+            "name": "defaultObjects",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "Enrich Microservice" },
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "dmaapConsumerGrp" } },
+            "name": "dmaapConsumerGrp",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "" },
+            "name": "eventFactory",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"processing\":[{\"phase\":\"enrich\",\"filter\":{\"class\":\"Assigned\",\"field\":\"event.commonEventHeader.sourceName\",\"emtpyIsAssigned\":false},\"processors\":[{\"class\":\"StringTransform\",\"value\":\"${event.commonEventHeader.sourceName}\",\"toField\":\"searchString\",\"targetCase\":\"lower\"},{\"class\":\"EventProcessorMetric\",\"metric\":\"in.events\"},{\"class\":\"LogText\",\"logLevel\":\"WARN\",\"logText\":\"Alarm_EnrichmentStartingfor${hp.tag}\"},{\"class\":\"TopoSearch\",\"searchField\":\"oid\",\"searchValue\":\"${searchString}\",\"updates\":{\"event.commonEventHeader.sourceName\":\"${ptnii_name}\",\"event.commonEventHeader.sourceId\":\"${vserver_id}\",\"event.commonEventHeader.reportingEntityName\":\"${vnf_name}\",\"event.commonEventHeader.reportingEntityId\":\"${vnf_id}\",\"event.commonEventHeader.internalHeaderFields.equipmentType\":\"${equip_type}\",\"event.commonEventHeader.internalHeaderFields.provStatus\":\"${prov_status}\",\"event.commonEventHeader.internalHeaderFields.inMaint\":\"${in_maint}\",\"event.commonEventHeader.internalHeaderFields.tenantName\":\"${tenant_name}\",\"event.commonEventHeader.internalHeaderFields.eventSourceHostname\":\"${hostname}\",\"isEnriched\":true}},{\"class\":\"Set\",\"updates\":{\"event.preCorrelationAging\":\"${preCorrelationAging}\",\"event.prepublishAging\":\"${prepublishAging}\"}},{\"class\":\"Clear\",\"fields\":[\"searchString\"]},{\"class\":\"RunPhase\",\"phase\":\"enrich_publish\"}]}]}"
+            },
+            "name": "json",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": { "get_input": "monitorThreads" } },
+            "name": "monitorThreads",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "enrichMS" },
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "enrich" },
+            "name": "phases.enrich.phaseName",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": ".*" },
+            "name": "phases.enrich.streamPattern",
+            "type": "string"
+          },
+          {
+            "assignment": {
+              "value":
+                "{\"phase\":\"enrich_publish\",\"processors\":[{\"class\":\"EventProcessorMetric\",\"metric\":\"out.events\"},{\"class\":\"SendEvent\",\"channel\":\"DCAE-ENRICH-EVENT-OUT\"}]}"
+            },
+            "name": "postConfig",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "vnfTypes.*" },
+            "name": "ruleKeyPattern",
+            "type": "string"
+          },
+          {
+            "assignment": { "value": "False" },
+            "name": "startNoChannels",
+            "type": "string"
+          },
+          {
+            "default": "cdap_broker",
+            "assignment": {
+              "value": { "get_input": "connected_broker_dns_name" }
+            },
+            "name": "connected_broker_dns_name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "jar_url", "type": "string", "required": true },
+          {
+            "assignment": {
+              "value": {
+                "get_property": ["SELF", "composition", "location_id"]
+              }
+            },
+            "name": "location_id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "service_component_type",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "typeinfo": {
+          "itemId":
+            "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.cdapApp.Enrich",
+          "requirements": [
+            {
+              "node": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              },
+              "capability": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              },
+              "name": "stream_publish_0",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/stream_publish_0",
+              "relationship": {
+                "type": "dcae.relationships.rework_connected_to"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.cdapHost"
+              },
+              "capability": {
+                "name": "dcae.capabilities.cdapHost",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.cdapHost"
+              },
+              "name": "host",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/host",
+              "relationship": {
+                "type": "dcae.relationships.component_contained_in"
+              }
+            },
+            {
+              "node": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.composition.host"
+              },
+              "capability": {
+                "name": "dcae.capabilities.composition.host",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.composition.host"
+              },
+              "name": "composition",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/composition"
+            },
+            {
+              "occurrences": [0, "UNBOUNDED"],
+              "node": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              },
+              "capability": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              },
+              "name": "dependency",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/dependency",
+              "relationship": { "type": "tosca.relationships.DependsOn" }
+            }
+          ],
+          "capabilities": [
+            {
+              "name": "stream_subscribe_0",
+              "type": {
+                "name": "dcae.capabilities.stream.subscribe",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/dcae.capabilities.stream.subscribe"
+              }
+            },
+            {
+              "name": "feature",
+              "type": {
+                "name": "tosca.capabilities.Node",
+                "id":
+                  "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.capabilities.Node"
+              }
+            }
+          ],
+          "catalogId": 0,
+          "catalog": "http://135.91.225.81:8080",
+          "hierarchy": [
+            {
+              "name": "tosca.dcae.nodes.cdapApp",
+              "id":
+                "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.cdapApp"
+            },
+            {
+              "name": "tosca.dcae.nodes.Root",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.dcae.nodes.Root"
+            },
+            {
+              "name": "tosca.nodes.Root",
+              "description":
+                "The TOSCA Node Type all other TOSCA base Node Types derive from",
+              "id": "8743b27b-f01e-4b17-a306-37efd42983d0/tosca.nodes.Root"
+            }
+          ],
+          "name": "tosca.dcae.nodes.cdapApp.Enrich",
+          "id": 0
+        },
+        "type": { "name": "tosca.dcae.nodes.cdapApp.Enrich" }
+      }
+    ],
+    "relations": [],
+    "inputs": [],
+    "outputs": []
+  }
+}

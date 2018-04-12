@@ -1,0 +1,34 @@
+<div class="selected-event">
+
+  <div style="flex:1; display: flex; align-items: center;">
+
+    <span class="field-label required" style="margin-right: 10px;">Mapping Target</span>
+    <select name="mappingTarget" [(ngModel)]="mappingTarget" (ngModelChange)="onChangeMapping($event)" data-tests-id="mappingDdl"
+      style="height: 27px; padding: 0.3rem; margin-right: 18px;" class="field-select">
+      <option [ngValue]="null" disabled>Select Mapping</option>
+      <option *ngFor="let target of advancedSetting" [value]="target.name" data-tests-id="templateOptions">{{target.name}}</option>
+    </select>
+
+    <span class="field-label required" style="font-size: 13px; margin-right: 10px; display: flex;
+    align-items: center;" [ngClass]="{'required' : !readOnly}">
+      Version
+    </span>
+    <select *ngIf="!readOnly" style="height: 27px; padding: 0.3rem; margin-right: 18px;" [(ngModel)]="selectedVersion" (ngModelChange)="onSelectVersion($event)"
+      data-tests-id="selectVersion">
+      <option [ngValue]="null" disabled>Select Version</option>
+      <option *ngFor="let version of versions" [value]="version" data-tests-id="option">{{version}}</option>
+    </select>
+    <span *ngIf="readOnly" style="height: 27px; padding: 0.3rem; width:100px; margin-right: 18px; border: 1px solid #D2D2D2; display: flex; align-items: center; background: #F2F2F2">{{selectedVersion}}</span>
+
+    <span class="field-label required" style="font-size: 13px; display: flex; align-items: center; width: 100px;" [ngClass]="{'required' : !readOnly}">
+      Event Domain
+    </span>
+    <select *ngIf="!readOnly" style="height: 27px; padding: 0.3rem;" [(ngModel)]="selectedEvent" (ngModelChange)="onSelectEventType($event)"
+      data-tests-id="selectEventType">
+      <option [ngValue]="null" disabled>Select Type</option>
+      <option *ngFor="let event of events" [value]="event" data-tests-id="option">{{event | slice:0:event.length-6}}</option>
+    </select>
+    <span *ngIf="readOnly" style="height: 27px; padding: 0.3rem; width:200px; border: 1px solid #D2D2D2; display: flex; align-items: center; background: #F2F2F2">{{selectedEvent | slice:0:selectedEvent.length-6}}</span>
+  </div>
+
+</div>

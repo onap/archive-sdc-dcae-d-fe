@@ -1,0 +1,106 @@
+<div class="container">
+  <div style="display: flex;
+    justify-content: space-between;">
+    <div style="font-size: 1.7em; display: flex; align-items: center;">Monitoring</div>
+
+    <div style="display: flex;">
+      <button mat-icon-button [disabled]="checkCanCreate()" (click)="importScreen()">
+        <span style="width: 100%;
+                  height: 100%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;" [innerHTML]="'download' | feather:22"></span>
+      </button>
+
+      <button mat-raised-button color="primary" (click)="createScreen()" data-tests-id="btn-create-mc" [disabled]="checkCanCreate()">
+        Create New MC
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showTable===true; then thenBlock else elseBlock"></div>
+
+  <ng-template #thenBlock>
+    <!-- Table -->
+    <div class="table-wrapper">
+      <div *ngIf="unavailableMonitoringComponents.length > 0" data-tests-id="unavailableArea" style="color: white; background: red; padding: 1rem; border-radius: 5px; font-weight: bold; margin: 1em 0;">
+        <div *ngFor="let item of unavailableMonitoringComponents">
+          {{item.uuid}}
+        </div>
+      </div>
+      <table class="mcTable">
+        <thead>
+          <tr data-tests-id="monitoringComponentTableHeaders">
+            <th>Monitoring Configuration</th>
+            <th>VNFI Name</th>
+            <th style="width:90px;">Version</th>
+            <th style="width:140px;">Status</th>
+            <th style="width:140px;">Last Updated by</th>
+            <th style="width:96px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of monitoringComponents; let i = index" on-mouseleave="hoveredIndex=null" (click)="onSelect(i)" [class.active]="i == selectedLine"
+            data-tests-id="monitoringComponentTableItems" on-mouseover="hoveredIndex=i">
+            <td color="blue">
+              <div [hidden]="checkHoverCondition(item)" data-tests-id="tableItemsMonitoringConfiguration" class="table-Monitoring-Component" (click)="editItem(item)">
+                {{item.name}}
+              </div>
+            </td>
+            <td>
+              <span pTooltip="{{item.vfiName}}" tooltipPosition="bottom" style="padding:5px;">{{item.vfiName}}</span>
+            </td>
+            <td style="width:90px;">{{item.version}}</td>
+            <td style="width:140px;">{{item.status}}</td>
+            <td style="width:140px;">{{item.lastUpdaterUserId}}</td>
+            <td style="width:80px;">
+              <div *ngIf="i==hoveredIndex" [hidden]="checkHoverCondition(item)">
+                <button mat-icon-button data-tests-id="tableItemsButtonDelete" (click)="deleteItem(item)" style="width:30px; height: 30px;">
+                  <span style="width: 100%;
+                              height: 100%;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;" [innerHTML]="'trash-2' | feather:18"></span>
+                </button>
+              </div>
+              <div *ngIf="i==hoveredIndex" [hidden]="!checkHoverCondition(item)">
+                <button mat-icon-button data-tests-id="tableItemsButtonInfo" style="width:30px; height: 30px;">
+                  <span style="width: 100%;
+                              height: 100%;
+                              display: flex;
+                              justify-content: center;
+                              align-items: center;" [innerHTML]="'info' | feather:18"></span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-template>
+
+  <ng-template #elseBlock>
+    <div style="display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex:1;">
+      <div style="font-size: 1.5em;">
+        Monitoring Configuration does not Exist
+      </div>
+      <div style="padding: 0.5em; padding-top: 1em;" data-tests-id="new-monitoring-title">
+        A Monitoring Configuration (MC) was not yet created
+      </div>
+      <div>
+        Please create a new MC to monitor the service
+      </div>
+      <div class="wrapper-btn-add-mc">
+        <button mat-mini-fab color="primary" (click)="createScreen()" data-tests-id="btn-fab-create-mc" [disabled]="checkCanCreate()">
+          <span [innerHTML]="'plus' | feather:24"></span>
+        </button>
+        <span data-tests-id="btn-span-create-mc" style="margin-top: 1rem; font-size: 1.2em; font-weight: 400;" [style.color]="checkCanCreate() ? '#ebebe4' : '#009FDB'">Add First MC</span>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
