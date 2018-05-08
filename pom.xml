@@ -18,6 +18,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <nexus.proxy>https://nexus.onap.org</nexus.proxy>
   </properties>
   <dependencies>
     <dependency>
@@ -263,17 +264,7 @@
                 </plugin>
             </plugins>
         </build>
-        <distributionManagement>
-            <site>
-                <id>nexus</id>
-                <url>dav:${nexus.url}${sitePath}</url>
-            </site>
-        </distributionManagement>
-    </profile>
-    
-    
-    
-    
+       </profile>  
   </profiles>
   <build>
     <finalName>dcae_fe</finalName>
@@ -360,4 +351,40 @@
       </plugin>
     </plugins>
   </build>
+    <repositories>
+        <!-- LF repositories -->
+        <repository>
+            <id>ecomp-releases</id>
+            <name>Release Repository</name>
+            <url>${nexus.proxy}/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>ecomp-snapshots</id>
+            <name>Snapshots Repository</name>
+            <url>${nexus.proxy}/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>ecomp-public</id>
+            <name>Public Repository</name>
+            <url>${nexus.proxy}/content/repositories/public/</url>
+        </repository>
+        <!-- LF repositories END-->
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>ecomp-releases</id>
+            <name>Release Repository</name>
+            <url>${nexus.proxy}/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ecomp-snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>${nexus.proxy}/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <site>
+            <id>ecomp-site</id>
+            <url>dav:${nexus.proxy}${sitePath}</url>
+        </site>
+    </distributionManagement>
 </project>
