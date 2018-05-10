@@ -1,10 +1,10 @@
-<project 
-  xmlns="http://maven.apache.org/POM/4.0.0" 
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.onap.sdc</groupId>
+  <groupId>org.onap.sdc.dcae-d.fe</groupId>
   <artifactId>dcae_fe</artifactId>
-  <version>1806.0.1-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>DCAE FE application</name>
   <description>DCAE FE</description>
@@ -19,6 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <nexus.proxy>https://nexus.onap.org</nexus.proxy>
+    <staging.profile.id>176c31dfe190a</staging.profile.id>
   </properties>
   <dependencies>
     <dependency>
@@ -90,7 +91,7 @@
           <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>org.onap.sdc.dcae.property</groupId>
+          <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
           <artifactId>DCAE-DT-PROPERTY</artifactId>
           <version>${project.version}</version>
         </dependency>
@@ -146,14 +147,14 @@
           <scope>provided</scope>
         </dependency>
         <dependency>
-          <groupId>org.onap.sdc.dcae.property</groupId>
+          <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
           <artifactId>DCAE-DT-PROPERTY</artifactId>
           <version>${project.version}</version>
         </dependency>
       </dependencies>
     </profile>
-    
-    
+
+
     <profile>
         <id>docker</id>
         <properties>
@@ -264,7 +265,7 @@
                 </plugin>
             </plugins>
         </build>
-       </profile>  
+       </profile>
   </profiles>
   <build>
     <finalName>dcae_fe</finalName>
@@ -348,6 +349,31 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.0.0</version>
+      </plugin>
+      <!-- Site Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.4</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.10</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <!-- Staging Plugin -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <nexusUrl>${nexus.proxy}</nexusUrl>
+          <stagingProfileId>${staging.profile.id}</stagingProfileId>
+          <serverId>ecomp-staging</serverId>
+        </configuration>
       </plugin>
     </plugins>
   </build>
