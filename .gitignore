@@ -1,0 +1,21 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Maven
+log/
+target/
+src/main/webapp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Other
+*.class
+*.orig
+.idea/*
+/bin/
+*.iml
