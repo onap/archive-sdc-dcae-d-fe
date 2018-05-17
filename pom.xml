@@ -149,7 +149,7 @@
         <dependency>
           <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
           <artifactId>DCAE-DT-PROPERTY</artifactId>
-          <version>${project.version}</version>
+          <version>1.2.0-SNAPSHOT</version>
         </dependency>
       </dependencies>
     </profile>
@@ -308,7 +308,7 @@
               <goal>yarn</goal>
             </goals>
             <configuration>
-              <arguments>global add node-gyp</arguments>
+              <arguments>global add node-gyp --network-timeout 1000000</arguments>
             </configuration>
           </execution>
           <execution>
