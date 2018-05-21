@@ -1,7 +1,4 @@
-FROM dockercentral.it.att.com:5100/com.att.sdc/openecomp/base_sdc-jetty:1.2.0-SNAPSHOT-latest
-
-ENV http_proxy http://one.proxy.att.com:8080
-ENV https_proxy http://one.proxy.att.com:8080
+FROM onap/base_sdc-jetty:1.2.0-SNAPSHOT-latest
 
 COPY chef-solo /var/opt/dcae-fe/chef-solo/
 
