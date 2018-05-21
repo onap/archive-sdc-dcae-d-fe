@@ -1,382 +1,411 @@
 <project
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.onap.sdc.dcae-d.fe</groupId>
-  <artifactId>dcae_fe</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <name>DCAE FE application</name>
-  <description>DCAE FE</description>
-  <parent>
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.onap.sdc.dcae-d.fe</groupId>
+    <artifactId>dcae_fe</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>DCAE FE application</name>
+    <description>DCAE FE</description>
+
+    <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>1.5.9.RELEASE</version>
     <relativePath />
     <!-- lookup parent from repository   -->
-  </parent>
-  <properties>
+    </parent>
+
+    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <nexus.proxy>https://nexus.onap.org</nexus.proxy>
     <staging.profile.id>176c31dfe190a</staging.profile.id>
-  </properties>
-  <dependencies>
+    <sitePath>/content/sites/site/org/openecomp/sdc/${project.version}</sitePath>
+    </properties>
+    <dependencies>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-proxy</artifactId>
-      <version>${jetty.version}</version>
+    <groupId>org.eclipse.jetty</groupId>
+    <artifactId>jetty-proxy</artifactId>
+    <version>${jetty.version}</version>
     </dependency>
     <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <exclusions>
+    <exclusion>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-      </exclusions>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+    </exclusion>
+    </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.5</version>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.5</version>
     </dependency>
     <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-      <version>3.3</version>
+    <groupId>commons-net</groupId>
+    <artifactId>commons-net</artifactId>
+    <version>3.3</version>
     </dependency>
     <dependency>
-      <groupId>com.jcraft</groupId>
-      <artifactId>jsch</artifactId>
-      <version>0.1.54</version>
+    <groupId>com.jcraft</groupId>
+    <artifactId>jsch</artifactId>
+    <version>0.1.54</version>
     </dependency>
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
+    <groupId>javax.servlet</groupId>
+    <artifactId>javax.servlet-api</artifactId>
+    <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
-      <artifactId>DCAE-DT-PROPERTY</artifactId>
-      <version>1.2.0-SNAPSHOT</version>
+    <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
+    <artifactId>DCAE-DT-PROPERTY</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
     </dependency>
-  </dependencies>
-  <profiles>
-    <profile>
-      <id>local</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-web</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-tomcat</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-jetty</artifactId>
-          <exclusions>
-            <exclusion>
-              <groupId>org.eclipse.jetty.websocket</groupId>
-              <artifactId>*</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
-        <dependency>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-test</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-          <version>3.5</version>
-        </dependency>
-        <dependency>
-          <groupId>commons-net</groupId>
-          <artifactId>commons-net</artifactId>
-          <version>3.3</version>
-        </dependency>
-        <dependency>
-          <groupId>com.jcraft</groupId>
-          <artifactId>jsch</artifactId>
-          <version>0.1.54</version>
-        </dependency>
-        <dependency>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>org.json</groupId>
-          <artifactId>json</artifactId>
-          <version>20160810</version>
-        </dependency>
-        <dependency>
-          <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.5</version>
-          <scope>provided</scope>
-        </dependency>
-        <dependency>
-          <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
-          <artifactId>DCAE-DT-PROPERTY</artifactId>
-          <version>1.2.0-SNAPSHOT</version>
-        </dependency>
-      </dependencies>
-    </profile>
+    </dependencies>
 
-    <profile>
-        <id>docker</id>
-        <properties>
-            <!-- Docker tags -->
-            <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
-            <docker.tag>${project.version}-${maven.build.timestamp}</docker.tag>
-            <docker.latest.tag>${project.version}-latest</docker.latest.tag>
-            <docker.staging.tag>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-STAGING-latest</docker.staging.tag>
-        </properties>
-        <activation>
+    <build>
+        <finalName>dcae_fe</finalName>
+
+
+        <!-- CLEAN -->
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- install node+yarn and run yarn build -->
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.6</version>
+                <configuration>
+                    <workingDirectory>${project.basedir}/public</workingDirectory>
+                    <installDirectory>target</installDirectory>
+                    <nodeVersion>v9.11.1</nodeVersion>
+                    <yarnVersion>v1.6.0</yarnVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and yarn</id>
+                        <goals>
+                            <goal>install-node-and-yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>yarn-install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>global add node-gyp --network-timeout 1000000</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>yarn install</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>install --network-timeout 1000000</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>angular cli build</id>
+                        <goals>
+                            <goal>yarn</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- COPT FROM DIST TO WEBAPPS -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources-fe</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>src/main/webapp</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/public/dist</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+            <!-- Site Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.4</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-webdav-jackrabbit</artifactId>
+                        <version>2.10</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Staging Plugin -->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <nexusUrl>${nexus.proxy}</nexusUrl>
+                    <stagingProfileId>${staging.profile.id}</stagingProfileId>
+                    <serverId>ecomp-staging</serverId>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <profiles>
+        <profile>
+          <id>local</id>
+          <activation>
             <activeByDefault>false</activeByDefault>
-        </activation>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.8</version>
-                    <executions>
-                        <execution>
-                            <id>parse-version</id>
-                            <goals>
-                                <goal>parse-version</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
-                    <executions>
-                        <execution>
-                            <id>copy-dcae-fe-war</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${project.basedir}/docker/target</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>${project.basedir}/dcaedt_fe/target</directory>
-                                        <includes>
-                                            <include>dcae.war</include>
-                                        </includes>
-                                   </resource>
-                               </resources>
-                           </configuration>
-                       </execution>
- <!--  Require to collect also war of Rule Engine   -->
- <!--  T. B. D.                                     -->
-                   </executions>
-               </plugin>
-               <plugin>
-                   <groupId>io.fabric8</groupId>
-                   <artifactId>docker-maven-plugin</artifactId>
-                   <version>0.23.0</version>
-                   <configuration>
-                       <verbose>true</verbose>
-                       <apiVersion>1.23</apiVersion>
-                       <images>
-                           <!-- Build front image -->
-                           <image>
-                               <name>onap/dcae-fe</name>
-                               <alias>dcae-fe</alias>
-                               <build>
-                                   <cleanup>try</cleanup>
-                                   <dockerFileDir>${project.basedir}/docker</dockerFileDir>
-                                   <tags>
-                                       <tag>${docker.tag}</tag>
-                                       <tag>${docker.latest.tag}</tag>
-                                       <tag>${docker.staging.tag}</tag>
-                                    </tags>
-                               </build>
-                           </image>
-                       </images>
-                   </configuration>
-                   <executions>
-                       <execution>
-                           <id>clean-images</id>
-                           <phase>pre-clean</phase>
-                           <goals>
-                               <goal>remove</goal>
-                           </goals>
-                           <configuration>
-                               <removeAll>true</removeAll>
-                               <image>onap/dcae-fe</image>
-                           </configuration>
-                       </execution>
-                       <execution>
-                           <id>generate-images</id>
-                           <phase>package</phase>
-                           <goals>
-                                <goal>build</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>push-images</id>
-                            <phase>deploy</phase>
-                            <goals>
-                                <goal>push</goal>
-                            </goals>
-                            <configuration>
-                                <image>onap/dcae-fe</image>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-       </profile>
-  </profiles>
-  <build>
-    <finalName>dcae_fe</finalName>
-    <!-- CLEAN -->
-    <plugins>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>auto-clean</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- install node+yarn and run yarn build -->
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.6</version>
-        <configuration>
-          <workingDirectory>${project.basedir}/public</workingDirectory>
-          <installDirectory>target</installDirectory>
-          <nodeVersion>v9.11.1</nodeVersion>
-          <yarnVersion>v1.6.0</yarnVersion>
-        </configuration>
-        <executions>
-          <execution>
-            <id>install node and yarn</id>
-            <goals>
-              <goal>install-node-and-yarn</goal>
-            </goals>
-            <phase>generate-resources</phase>
-          </execution>
-          <execution>
-            <id>yarn-install</id>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <configuration>
-              <arguments>global add node-gyp --network-timeout 1000000</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>yarn install</id>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <configuration>
-              <arguments>install --network-timeout 1000000</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>angular cli build</id>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <phase>generate-resources</phase>
-            <configuration>
-              <arguments>run build</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- COPT FROM DIST TO WEBAPPS -->
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>src/main/webapp</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/public/dist</directory>
-                  <filtering>false</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.0.0</version>
-      </plugin>
-      <!-- Site Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.4</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-webdav-jackrabbit</artifactId>
-            <version>2.10</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <!-- Staging Plugin -->
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>1.6.7</version>
-        <extensions>true</extensions>
-        <configuration>
-          <nexusUrl>${nexus.proxy}</nexusUrl>
-          <stagingProfileId>${staging.profile.id}</stagingProfileId>
-          <serverId>ecomp-staging</serverId>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+          </activation>
+          <dependencies>
+            <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-web</artifactId>
+              <exclusions>
+                <exclusion>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-jetty</artifactId>
+              <exclusions>
+                <exclusion>
+                  <groupId>org.eclipse.jetty.websocket</groupId>
+                  <artifactId>*</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-test</artifactId>
+              <scope>test</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.apache.commons</groupId>
+              <artifactId>commons-lang3</artifactId>
+              <version>3.5</version>
+            </dependency>
+            <dependency>
+              <groupId>commons-net</groupId>
+              <artifactId>commons-net</artifactId>
+              <version>3.3</version>
+            </dependency>
+            <dependency>
+              <groupId>com.jcraft</groupId>
+              <artifactId>jsch</artifactId>
+              <version>0.1.54</version>
+            </dependency>
+            <dependency>
+              <groupId>com.google.code.gson</groupId>
+              <artifactId>gson</artifactId>
+            </dependency>
+            <dependency>
+              <groupId>org.json</groupId>
+              <artifactId>json</artifactId>
+              <version>20160810</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>servlet-api</artifactId>
+              <version>2.5</version>
+              <scope>provided</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
+              <artifactId>DCAE-DT-PROPERTY</artifactId>
+              <version>1.2.0-SNAPSHOT</version>
+            </dependency>
+          </dependencies>
+        </profile>
+
+        <profile>
+            <id>docker</id>
+            <properties>
+                <!-- Docker tags -->
+                <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
+                <docker.tag>${project.version}-${maven.build.timestamp}</docker.tag>
+                <docker.latest.tag>${project.version}-latest</docker.latest.tag>
+            </properties>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>delete dcae fe war</id>
+                                <phase>clean</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                                <configuration>
+                                    <filesets>
+                                        <fileset>
+                                            <directory>${project.parent.basedir}/docker/target</directory>
+                                            <followSymlinks>false</followSymlinks>
+                                            <includes>
+                                                <include>*.war</include>
+                                            </includes>
+                                        </fileset>
+                                    </filesets>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.0.2</version>
+                        <executions>
+                            <execution>
+                                <id>copy-dcae-fe-war</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.basedir}/docker/target</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.basedir}/target</directory>
+                                            <includes>
+                                                <include>dcae_fe.war</include>
+                                            </includes>
+                                       </resource>
+                                   </resources>
+                               </configuration>
+                           </execution>
+                       </executions>
+                   </plugin>
+                   <plugin>
+                       <groupId>io.fabric8</groupId>
+                       <artifactId>docker-maven-plugin</artifactId>
+                       <version>0.23.0</version>
+                       <configuration>
+                           <verbose>true</verbose>
+                           <apiVersion>1.23</apiVersion>
+                           <images>
+                               <!-- Build front image -->
+                               <image>
+                                   <name>onap/dcae-fe</name>
+                                   <alias>dcae-fe</alias>
+                                   <build>
+                                       <cleanup>try</cleanup>
+                                       <dockerFileDir>${project.basedir}/docker</dockerFileDir>
+                                       <tags>
+                                           <tag>${docker.tag}</tag>
+                                           <tag>${docker.latest.tag}</tag>
+                                        </tags>
+                                   </build>
+                               </image>
+                           </images>
+                       </configuration>
+                       <executions>
+                           <execution>
+                               <id>clean-images</id>
+                               <phase>pre-clean</phase>
+                               <goals>
+                                   <goal>remove</goal>
+                               </goals>
+                               <configuration>
+                                   <removeAll>true</removeAll>
+                                   <image>onap/dcae-fe</image>
+                               </configuration>
+                           </execution>
+                           <execution>
+                               <id>generate-images</id>
+                               <phase>install</phase>
+                               <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>push-images</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                                <configuration>
+                                    <image>onap/dcae-fe</image>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+           </profile>
+    </profiles>
     <repositories>
         <!-- LF repositories -->
         <repository>
