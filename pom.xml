@@ -18,11 +18,11 @@
     </parent>
 
     <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <nexus.proxy>https://nexus.onap.org</nexus.proxy>
-    <staging.profile.id>176c31dfe190a</staging.profile.id>
-    <sitePath>/content/sites/site/org/openecomp/sdc/${project.version}</sitePath>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <nexus.proxy>https://nexus.onap.org</nexus.proxy>
+        <staging.profile.id>176c31dfe190a</staging.profile.id>
+        <sitePath>/content/sites/site/org/openecomp/sdc/${project.version}</sitePath>
     </properties>
     <dependencies>
     <dependency>
@@ -293,6 +293,7 @@
                 <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
                 <docker.tag>${project.version}-${maven.build.timestamp}</docker.tag>
                 <docker.latest.tag>${project.version}-latest</docker.latest.tag>
+                <docker.staging.tag>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}-STAGING-latest</docker.staging.tag>
             </properties>
             <activation>
                 <activeByDefault>false</activeByDefault>
@@ -366,6 +367,7 @@
                                        <tags>
                                            <tag>${docker.tag}</tag>
                                            <tag>${docker.latest.tag}</tag>
+                                           <tag>${docker.staging.tag}</tag>
                                         </tags>
                                    </build>
                                </image>
