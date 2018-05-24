@@ -6,7 +6,7 @@
     <artifactId>dcae_fe</artifactId>
     <version>1.2.0-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>DCAE FE application</name>
+    <name>dcae-d fe application</name>
     <description>DCAE FE</description>
 
     <parent>
@@ -23,6 +23,7 @@
         <nexus.proxy>https://nexus.onap.org</nexus.proxy>
         <staging.profile.id>176c31dfe190a</staging.profile.id>
         <sitePath>/content/sites/site/org/openecomp/sdc/${project.version}</sitePath>
+        <sonar.branch>${project.version}</sonar.branch>
     </properties>
     <dependencies>
       <dependency>
