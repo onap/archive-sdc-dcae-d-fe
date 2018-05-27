@@ -23,7 +23,7 @@ public class DcaeProxy extends ProxyServlet {
 
 
     //TODO proper configuration class
-    private String beHostUrl;
+    private static String beHostUrl;
 
     public DcaeProxy(String beHostUrl){
         this.beHostUrl = beHostUrl;
