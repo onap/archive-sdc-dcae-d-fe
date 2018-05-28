@@ -9,7 +9,7 @@ GID="35953"
 # Remove user:
 deluser ${USER}
 
-delgroup ${GROUP}
+##delgroup ${GROUP}
 
 echo "${USER}:x:${UID}:${GID}::/home/${USER}:Linux User,,,:/home/jetty:/bin/false" >> /etc/passwd
 

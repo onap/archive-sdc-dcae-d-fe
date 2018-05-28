@@ -3,5 +3,5 @@
         "-//Mort Bay Consulting//DTD Configure//EN"
         "http://www.eclipse.org/jetty/configure_9_0.dtd">
 <Configure class="org.eclipse.jetty.webapp.WebAppContext">
-    <Set name="contextPath">/dcae</Set>
+    <Set name="contextPath">/dcaed</Set>
 </Configure>
