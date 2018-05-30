@@ -19,3 +19,4 @@ src/main/webapp/
 .idea/*
 /bin/
 *.iml
+/public/yarn-error.log
