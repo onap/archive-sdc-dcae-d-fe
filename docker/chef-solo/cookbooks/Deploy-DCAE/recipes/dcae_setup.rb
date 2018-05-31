@@ -1,14 +1,16 @@
 jetty_base = "#{node['JETTY_BASE']}"
 dcae_logs = "#{node['APP_LOG_DIR']}"
 
+dcae_be_vip = node['DCAE_BE_VIP']
+
 if node['disableHttp']
   protocol = "https"
-  dcae_be_vip = node['DCAE_BE_VIP']
   dcae_be_port = node['DCAE']['BE'][:https_port]
+  dcae_fe_port = node['DCAE']['FE'][:https_port]
 else
   protocol = "http"
-  dcae_be_vip  = "localhost"
   dcae_be_port = node['DCAE']['BE'][:http_port]
+  dcae_fe_port = node['DCAE']['FE'][:http_port]
 end
 
 printf("DEBUG: [%s]:[%s] disableHttp=[%s], protocol=[%s], dcae_be_vip=[%s], dcae_be_port=[%s] !!! \n", cookbook_name, recipe_name, node['disableHttp'], protocol, dcae_be_vip ,dcae_be_port )
@@ -41,7 +43,8 @@ template "dcae-fe-config" do
   variables ({
     :dcae_be_vip => dcae_be_vip,
     :dcae_be_port => dcae_be_port,
-    :protocol => protocol
+    :protocol => protocol,
+    :dcae_fe_port => dcae_fe_port
   })
 end
 

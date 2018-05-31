@@ -1,3 +1,5 @@
 server.port=<%= @dcae_fe_port %>
-server.context-path=/dcae
-beUrl=<%= @protocol %>://<%= @dcae_be_vip %>:<%= @dcae_be_port %>#demo
+# this is the context path in which the dcae_fe is exposed:
+server.context-path=/dcaed
+# this is the dcae-d be url which the dcaeProxy in the FE is delegating the request to
+beUrl=<%= @protocol %>://<%= @dcae_be_vip %>:<%= @dcae_be_port %>
