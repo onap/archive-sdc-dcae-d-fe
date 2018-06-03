@@ -1,4 +1,4 @@
-<div class="container">
+<div class="main-container">
 
   <div style="padding: .25em; display: flex;
   justify-content: space-between;
@@ -6,16 +6,18 @@
     <div>
       <a (click)="goBack()" data-tests-id="btn-back-home" style="display: flex; cursor: pointer;text-decoration: none; color: #009fdb;">
         <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 17px; width: 12px; font-size: 17px;"></mat-icon>
-        <span style="display: flex; align-items: center;">Back to Monitoring</span>
+        <span style="display: flex; align-items: center; font-size: 12px;">
+          Back to Monitoring
+        </span>
       </a>
       <div style="margin:10px 0;" data-tests-id="new-monitorying-titie">
-        <span style="font-size: 2em;" *ngIf='store.generalflow === "new"'>
+        <span style="font-size: 22px;" *ngIf='store.generalflow === "new"'>
           New
         </span>
-        <span style="font-size: 2em;" *ngIf='store.generalflow === "import"'>
+        <span style="font-size: 22px;" *ngIf='store.generalflow === "import"'>
           Import
         </span>
-        <span style="font-size: 2em;">
+        <span style="font-size: 22px;">
           Monitoring Configuration
         </span>
       </div>
@@ -24,7 +26,9 @@
     <div>
       <div *ngIf='store.generalflow === "new" || store.generalflow === "edit"'>
         <button *ngIf="!this.store.isEditMode" mat-raised-button color="primary" [disabled]="this.generalComponent.generalForm.invalid"
-          data-tests-id="createMonitoring" (click)="createMC(this.generalComponent.generalForm.value)">Create</button>
+          style="width: 95px;height: 36px;" data-tests-id="createMonitoring" (click)="createMC(this.generalComponent.generalForm.value)">
+          Create
+        </button>
 
         <div *ngIf="this.store.isEditMode" style="display: flex;">
           <button mat-icon-button (click)="saveCDUMP()" [disabled]="!store.cdumpIsDirty">
@@ -35,12 +39,12 @@
             justify-content: center;
             align-items: center;" [innerHTML]="'save' | feather:22"></span>
           </button>
-          <button mat-raised-button color="primary" (click)="saveAndCreateBlueprint()">Submit</button>
+          <button mat-raised-button color="primary" style="width: 95px; height: 36px; border-radius: 2px;" (click)="saveAndCreateBlueprint()">Submit</button>
         </div>
       </div>
       <div *ngIf='store.generalflow === "import"'>
         <button mat-raised-button color="primary" (click)="importMC(this.generalComponent.newVfcmt)" [disabled]="this.generalComponent.generalForm.invalid"
-          data-tests-id="importMonitoring">Import</button>
+          data-tests-id="importMonitoring" style="width: 95px;height: 36px;">Import</button>
       </div>
     </div>
   </div>
@@ -53,7 +57,7 @@
           <app-general (updateCdumpEv)="updateCdump($event)"></app-general>
         </div>
       </p-tabPanel>
-      <p-tabPanel *ngFor="let item of nodes" [header]="item.name">
+      <p-tabPanel *ngFor="let item of nodes;" [header]="item.name">
         <app-rule-frame [tabName]="item.name"></app-rule-frame>
       </p-tabPanel>
     </p-tabView>

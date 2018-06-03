@@ -1,6 +1,6 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { RuleEngineApiService } from '../api/rule-engine-api.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '../../store/store';
+import { RuleEngineApiService } from '../api/rule-engine-api.service';
 
 @Component({
   selector: 'app-version-type-select',
@@ -19,23 +19,58 @@ export class VersionTypeSelectComponent {
   @Input() metaData;
   @Output() nodesUpdated = new EventEmitter();
   @Output() refrashRuleList = new EventEmitter();
-  advancedSetting;
+  advancedSetting: Array<any>;
+  notifyIdCheckbox = false;
 
   constructor(private _ruleApi: RuleEngineApiService, public store: Store) {
     this.selectedVersion = null;
     this.selectedEvent = null;
     // set ddl with the first option value.
-    this.mappingTarget = this.store.configurationForm[0].name;
-    this.advancedSetting = this.store.configurationForm.filter(item => {
-      if (
-        !(
-          item.hasOwnProperty('constraints') &&
-          !item.assignment.value.includes('get_input')
-        )
-      ) {
-        return item;
+
+    this._ruleApi.tabIndex.subscribe(index => {
+      console.log('rule index:', index);
+
+      const tabName = this.store.cdump.nodes[index].name;
+      console.log('tab name:', tabName);
+
+      if (tabName.toLowerCase().includes('map')) {
+        this.mappingTarget = this.store.tabsProperties[index][0].name;
+        this.advancedSetting = this.store.tabsProperties[index].filter(item => {
+          if (
+            !(
+              item.hasOwnProperty('constraints') &&
+              !item.value.includes('get_input')
+            )
+          ) {
+            return item;
+          }
+        });
+
+        this._ruleApi
+          .generateMappingRulesFileName(
+            this.store.ruleListExistParams.nodeName,
+            this.store.ruleListExistParams.nodeId,
+            this.store.ruleListExistParams.vfcmtUuid
+          )
+          .subscribe(response => {
+            console.log('generateMappingRulesFileName response: ', response);
+            this.advancedSetting.forEach(element => {
+              if (response.includes(element.name)) {
+                element.isExist = true;
+              } else {
+                element.isExist = false;
+              }
+            });
+          });
       }
     });
+  }
+
+  changeNotifyId() {
+    if (!this.notifyIdCheckbox) {
+      this.store.notifyIdValue = '';
+    }
+    return (this.notifyIdCheckbox = !this.notifyIdCheckbox);
   }
 
   onChangeMapping(configurationKey) {
@@ -78,9 +113,7 @@ export class VersionTypeSelectComponent {
       .subscribe(tree => {
         console.log('tree: ', tree);
         this.loader = false;
-        this.nodesUpdated.emit({
-          nodes: tree
-        });
+        this.nodesUpdated.emit({ nodes: tree });
       });
   }
 }

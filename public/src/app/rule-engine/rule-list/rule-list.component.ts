@@ -1,12 +1,11 @@
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ActionListComponent } from '../action-list/action-list.component';
-import { RuleEngineApiService } from '../api/rule-engine-api.service';
-import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
-import { Store } from '../../store/store';
 import { isEmpty } from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs/observable/timer';
+import { Store } from '../../store/store';
+import { RuleEngineApiService } from '../api/rule-engine-api.service';
+import { ConfirmPopupComponent } from '../confirm-popup/confirm-popup.component';
 
 const primaryColor = '#009fdb';
 
@@ -58,7 +57,11 @@ export class RuleListComponent {
           );
           this.store.updateRuleList(Object.values(response.rules));
           this.targetSource = response.schema;
+          this.store.notifyIdValue = response.notifyId;
+          this.versionType.notifyIdCheckbox =
+            response.notifyId !== '' ? true : false;
         } else {
+          this.versionType.notifyIdCheckbox = false;
           this.store.resetRuleList();
           this.versionType.updateVersionTypeFlag(false);
           this.targetSource = null;
@@ -83,20 +86,29 @@ export class RuleListComponent {
     private toastr: ToastrService,
     public store: Store
   ) {
-    this.store.loader = true;
-    this.params = {
-      vfcmtUuid: this.store.mcUuid,
-      nodeName: this.store.tabParmasForRule[0].name,
-      nodeId: this.store.tabParmasForRule[0].nid,
-      fieldName: this.store.configurationForm[0].name,
-      userId: 'ym903w', // this.store.sdcParmas.userId
-      flowType: this.store.cdump.flowType
-    };
-    console.log('params: %o', this.params);
-    this.store.loader = true;
-    // set api params by iframe url query
-    this._ruleApi.setParams(this.params);
-    this.getListOfRules();
+    this.store.loader = false;
+    this._ruleApi.tabIndex.subscribe(index => {
+      console.log('rule index in rule-list component:', index);
+      const tabName = this.store.cdump.nodes[index].name;
+      console.log('tab name:', tabName);
+
+      if (tabName.toLowerCase().includes('map')) {
+        this.params = {
+          vfcmtUuid: this.store.mcUuid,
+          nodeName: this.store.tabParmasForRule[0].name,
+          nodeId: this.store.tabParmasForRule[0].nid,
+          fieldName: this.store.tabsProperties[index][0].name,
+          userId: this.store.sdcParmas.userId,
+          flowType: this.store.cdump.flowType
+        };
+        console.log('params: %o', this.params);
+        this.store.loader = true;
+        // set api params by iframe url query
+        this._ruleApi.setParams(this.params);
+        store.ruleListExistParams = this.params;
+        this.getListOfRules();
+      }
+    });
   }
 
   handlePropertyChange() {
@@ -108,7 +120,8 @@ export class RuleListComponent {
   translateRules() {
     this.store.loader = true;
     // send translate JSON
-    this._ruleApi.translate().subscribe(
+    const nofityId = this.store.notifyIdValue;
+    this._ruleApi.translate(nofityId).subscribe(
       data => {
         this.store.loader = false;
         console.log(JSON.stringify(data));
@@ -116,7 +129,7 @@ export class RuleListComponent {
         this.store.configurationForm.forEach(property => {
           console.log('mappingTarget ', this.versionType.mappingTarget);
           if (property.name === this.versionType.mappingTarget) {
-            property.assignment.value = JSON.stringify(data);
+            property.value = JSON.stringify(data);
             domElementName = property.name;
             console.log(property.name);
           }

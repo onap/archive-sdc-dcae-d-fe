@@ -1,0 +1,26 @@
+{
+  "version": "4.1",
+  "eventType": "syslogFields",
+  "description": "newRule2",
+  "uid": "57612d40-c66d-4a5a-95c3-0165564f837d",
+  "phase": "phase_1",
+  "condition": null,
+  "actions": [
+    {
+      "logText": {
+        "name": "AAA",
+        "level": "BBB",
+        "text": "ABC"
+      },
+      "actionType": "log text",
+      "from": {
+        "regex": "",
+        "state": "closed",
+        "values": [{ "value": "" }, { "value": "" }],
+        "value": ""
+      },
+      "target": "",
+      "id": "e340ab50-423b-11e8-94f2-3dd2f158c314"
+    }
+  ]
+}

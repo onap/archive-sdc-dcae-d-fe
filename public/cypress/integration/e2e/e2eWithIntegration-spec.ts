@@ -3,7 +3,6 @@ const randomNodeName = () =>
     .toString(36)
     .substr(2, 7);
 const NODE_NAME = randomNodeName();
-
 const serverGetDDLData = () => {
   return cy
     .server()
@@ -12,14 +11,9 @@ const serverGetDDLData = () => {
       Cypress.env('backendUrl') + '/getResourcesByMonitoringTemplateCategory'
     )
     .as('templateAPi')
-    .route(
-      'GET',
-      Cypress.env('backendUrl') +
-        '/service/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a'
-    )
+    .route('GET', Cypress.env('backendUrl') + '/service/**')
     .as('vfniListAPi');
 };
-
 const saveAndDoneHttp = () => {
   cy.server();
   cy
@@ -29,7 +23,6 @@ const saveAndDoneHttp = () => {
     })
     .as('doneSaveCopyRule');
 };
-
 const createNewMC = () => {
   cy
     .get('input[data-tests-id="nameMc"]')
@@ -64,18 +57,33 @@ const createNewMC = () => {
     .click()
     .wait('@newMC');
 };
-
 import { buttonCreateMC } from '../mocks/homePage-spec';
 import {
   selectVersionAndTypeAndAddFirstRule,
-  fillRuleDecription,
+  fillRuleDescription,
   addCopyAction,
   editFirstRule
 } from '../mocks/ruleEngine-spec';
+describe('DCAED - forntend e2e and inagration test ', () => {
+  // context(('home page'), () => {   it.only('should open env', () => {     cy
+  // .visit('https://www.e-access.att.com/DevOps02/sdc1/portal#!/dashboard')
+  // .get(':nth-child(2) > :nth-child(1) > [border="0"][width="100%"] >
+  // :nth-child(1) > :nt' +           'h-child(1) > td > input') .type('ym903w')
+  //     .get(':nth-child(3) > td > input') .type('Apple1qazxsw2')
+  // .get('[border="0"][width="100%"] > :nth-child(1) > :nth-child(5) > td >
+  // input')       .click()       .get('#srv_successok > input')       .click()
+  //    .get(':nth-child(1) > .w-sdc-dashboard-card-new-content')
+  // .trigger('mouseover') .get('button[data-tests-id="createServiceButton"]')
+  //   .click() .get('input[data-tests-id="name"]')
+  // .type(`DCAE_SRV_${NODE_NAME}`)
+  // .get('select[data-tests-id="selectGeneralCategory"]') .select('Mobility')
+  //   .get('textarea[data-tests-id="description"]') .type('bla')
+  // .get('input[data-tests-id="projectCode"]') .type('att01')
+  // .get('button[data-tests-id="create/save"]') .click()
+  // .get('div[data-tests-id="CompositionLeftSideMenu"]') .click()   }); });
 
-describe('DCAED - forntend e2e and inagration test', () => {
-  context('Empty Monitoring Configuration list for service', () => {
-    it('Loads', () => {
+  context('Empty Monitoring Configuration list for service ', () => {
+    it(' Loads ', () => {
       cy.homePage();
     });
   });
@@ -96,50 +104,24 @@ describe('DCAED - forntend e2e and inagration test', () => {
         .and('be.disabled');
     });
 
-    it('click on create mc - more then one tab should be visible', () => {
-      createNewMC();
-      cy
-        .get('ul[p-tabviewnav]')
-        .children()
-        .should($el => {
-          expect($el.length).to.be.greaterThan(1);
-        });
-    });
-
-    it('should enter rule engine in map tab and create new rule', () => {
-      createNewMC();
-      cy
-        .get('#ui-tabpanel-1-label')
-        .should('contain', 'map')
-        .click();
-      selectVersionAndTypeAndAddFirstRule();
-      fillRuleDecription('newRule');
-      addCopyAction();
-      saveAndDoneHttp();
-      cy.get('button[data-tests-id="btnDone"]').click();
-      cy
-        .wait('@doneSaveCopyRule')
-        .get('div[data-tests-id="ruleElement"]')
-        .should('be.visible')
-        .then(function($lis) {
-          expect($lis).to.have.length(1);
-          expect($lis.eq(0)).to.contain('newRule');
-        });
-      editFirstRule();
-      fillRuleDecription('LiavRule');
-      saveAndDoneHttp();
-      cy
-        .get('button[data-tests-id="btnSave"]')
-        .click()
-        .wait('@doneSaveCopyRule')
-        .get('a[data-tests-id="btnBackRule"]')
-        .click()
-        .get('div[data-tests-id="ruleElement"]')
-        .should('be.visible')
-        .then(function($lis) {
-          expect($lis).to.have.length(1);
-          expect($lis.eq(0)).to.contain('LiavRule');
-        });
-    });
+    // it('click on create mc - more then one tab should be visible', () => {
+    // createNewMC();   cy     .get('ul[p-tabviewnav]')     .children()
+    // .should($el => {       expect($el.length).to.be.greaterThan(1);     }); });
+    // it('should enter rule engine in map tab and create new rule', () => {
+    // createNewMC();   cy     .get('#ui-tabpanel-1-label')     .should('contain',
+    // 'map')     .click();   selectVersionAndTypeAndAddFirstRule();
+    // fillRuleDescription('newRule');   addCopyAction();   saveAndDoneHttp();
+    // cy.get('button[data-tests-id="btnDone"]').click();   cy
+    // .wait('@doneSaveCopyRule')     .get('div[data-tests-id="ruleElement"]')
+    // .should('be.visible')     .then(function($lis) {
+    // expect($lis).to.have.length(1);
+    // expect($lis.eq(0)).to.contain('newRule');     });   editFirstRule();
+    // fillRuleDescription('LiavRule');   saveAndDoneHttp();   cy
+    // .get('button[data-tests-id="btnSave"]')     .click()
+    // .wait('@doneSaveCopyRule')     .get('a[data-tests-id="btnBackRule"]')
+    // .click()     .get('div[data-tests-id="ruleElement"]')
+    // .should('be.visible')     .then(function($lis) {
+    // expect($lis).to.have.length(1);
+    // expect($lis.eq(0)).to.contain('LiavRule');     }); });
   });
 });

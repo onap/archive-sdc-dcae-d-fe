@@ -27,9 +27,12 @@ export class ActionComponent implements OnInit {
     if (this.action.from !== '') {
       console.log('Action %o', this.action);
       this.fromInstance.updateMode(this.action.from);
+    }
+    if (this.action.target !== '') {
       this.targetInstance.updateMode(this.action);
     }
   }
+
   updateFrom(data) {
     this.action.from = data;
   }

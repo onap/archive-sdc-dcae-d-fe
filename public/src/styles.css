@@ -1,8 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
 
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @font-face {
   font-family: 'Open Sans';
+  src: url('./assets/fonts/OpenSans-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans-SemiBold';
   src: url('./assets/fonts/OpenSans-SemiBold.ttf') format('ttf');
 }
 
@@ -19,9 +24,15 @@ body,
 app-root,
 app-home {
   height: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-size: 13px;
   /* height: 100vh; */
+}
+
+select,
+input,
+textarea {
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 div,
@@ -29,18 +40,15 @@ span {
   font-weight: 400;
 }
 
-div .field-label,
-span .field-label,
-div .field-label > span {
-  font-weight: 600;
-}
-
 /* form input validation border */
-textarea.ng-touched.ng-invalid:not(form),input.ng-touched.ng-invalid:not(form) {
+
+textarea.ng-touched.ng-invalid:not(form),
+input.ng-touched.ng-invalid:not(form) {
   border: 1px solid #cf2a2a !important;
 }
 
 /** reset button **/
+
 .mat-fab.mat-primary,
 .mat-mini-fab.mat-primary,
 .mat-raised-button.mat-primary {
@@ -60,7 +68,13 @@ textarea.ng-touched.ng-invalid:not(form),input.ng-touched.ng-invalid:not(form) {
   box-shadow: none !important;
 }
 
+.mat-raised-button.mat-primary[disabled] {
+  background-color: #979797;
+  color: white;
+}
+
 /* Astrix required */
+
 .required::before {
   content: '*';
   color: red;
@@ -68,9 +82,11 @@ textarea.ng-touched.ng-invalid:not(form),input.ng-touched.ng-invalid:not(form) {
 }
 
 /** overide dialog **/
-.ui-dialog {
+
+/* .ui-dialog {
   border-top: solid 6px #cf2a2a;
-}
+} */
+
 .ui-dialog-titlebar {
   background: white;
 }

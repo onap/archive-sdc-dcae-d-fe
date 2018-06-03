@@ -1,17 +1,17 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  Http,
-  Response,
   Headers,
+  Http,
   RequestOptions,
+  Response,
   URLSearchParams
 } from '@angular/http';
-import { Observable, Subject } from 'rxjs/Rx';
+import 'rxjs/add/operator/catch';
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import { environment } from '../../../environments/environment';
+import { Observable, Subject } from 'rxjs/Rx';
 import { v4 as uuid } from 'uuid';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class RuleEngineApiService {
@@ -25,6 +25,7 @@ export class RuleEngineApiService {
   flowType: string;
   editorData: Subject<any> = new Subject();
   updateVersionLock: Subject<any> = new Subject();
+  tabIndex: Subject<any> = new Subject();
 
   constructor(private http: Http) {
     this.baseUrl = `${environment.apiBaseUrl}/rule-editor`;
@@ -108,16 +109,35 @@ export class RuleEngineApiService {
       });
   }
 
-  translate() {
-    const url = `${this.baseUrl}/rule/translate/${this.vfcmtUuid}/${
-      this.dcaeCompName
-    }/${this.nid}/${this.configParam}`;
+  translate(nofityId) {
+    const url = `${this.baseUrl}/rule/translate`;
+    const params = {
+      vfcmtUuid: this.vfcmtUuid,
+      dcaeCompLabel: this.dcaeCompName,
+      nid: this.nid,
+      configParam: this.configParam,
+      flowType: this.flowType,
+      notifyId: nofityId
+    };
+    this.options.headers.set('X-ECOMP-RequestID', uuid());
+    // const params = new URLSearchParams(); params.append('flowType',
+    // this.flowType); const options = {   ...this.options,   params: params };
+    return this.http
+      .post(url, params, this.options)
+      .map(response => response.json())
+      .catch((error: any) => {
+        return Observable.throw(error.json().requestError || 'Server error');
+      });
+  }
+
+  generateMappingRulesFileName(dcaeCompLabel, nid, vfcmtUuid) {
+    const url = `${
+      this.baseUrl
+    }/getExistingRuleTargets/${vfcmtUuid}/${dcaeCompLabel}/${nid}`;
     this.options.headers.set('X-ECOMP-RequestID', uuid());
     const params = new URLSearchParams();
-    params.append('flowType', this.flowType);
-    const options = { ...this.options, params: params };
     return this.http
-      .get(url, options)
+      .get(url, this.options)
       .map(response => response.json())
       .catch((error: any) => {
         return Observable.throw(error.json().requestError || 'Server error');
@@ -130,5 +150,9 @@ export class RuleEngineApiService {
 
   callUpdateVersionLock() {
     this.updateVersionLock.next();
+  }
+
+  callUpdateTabIndex(index) {
+    this.tabIndex.next(index);
   }
 }

@@ -1,10 +1,19 @@
-.container {
+.my-confrim-dialog .mat-dialog-container {
+  height: 180px;
+}
+
+.container-popup {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   margin: 0 !important;
-  border-top: solid 6px #ffb81c;
+  border-top: solid 6px #cf2a2a;
   .header {
     border-bottom: none;
+    padding-top: 15px;
+    padding-left: 20px;
+    padding-right: 12px;
+    padding-bottom: 0;
   }
   .content {
     margin: 1rem;

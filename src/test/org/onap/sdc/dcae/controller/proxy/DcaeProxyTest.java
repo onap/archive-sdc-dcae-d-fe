@@ -19,8 +19,8 @@ public class DcaeProxyTest {
 
     @Test
     public void testRewriteUrlWithQueryParams(){
-        String requestUrl = "/dcae/dcaeProxy/someBeApi?%20x=1&y=2";
-        String expectedUrl = BEHOST + "/dcae/someBeApi?%20x=1&y=2";
+        String requestUrl = "/dcaed/dcaeProxy/someBeApi?%20x=1&y=2";
+        String expectedUrl = BEHOST + "/dcaed/someBeApi?%20x=1&y=2";
         when(servletRequest.getRequestURI()).thenReturn(requestUrl);
         String target = proxy.rewriteTarget(servletRequest);
         assertTrue(target.equals(expectedUrl));

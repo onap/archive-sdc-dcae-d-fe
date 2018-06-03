@@ -43,14 +43,16 @@ public class DcaeProxy extends ProxyServlet {
             log.error("Unexpected FE request logging error :", e);
         }
         String uri = request.getRequestURI();
-        uri = uri.replace("/dcaeProxy", "");
+		uri = uri.replaceFirst("/dcaed", "/dcae"); // replacing the new FE context (/dcaed) with BE context (/dcae)
+        uri = uri.replace("/dcaeProxy", ""); // removing the proxy from the request
         String query = request.getQueryString();
         StringBuilder url = new StringBuilder();
         url.append(beHostUrl).append(uri);
-        if(null != query)
-            url.append("?").append(query);
+        if(null != query){
+            url.append("?").append(query); // restoring all query params if tsuch exists
+		}
         String urlString = url.toString();
-        log.info("Proxy outgoing request={}", urlString);
+        log.info("New FE Proxy outgoing request={}", urlString);
         return urlString;
     }
 

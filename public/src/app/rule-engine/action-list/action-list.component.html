@@ -1,10 +1,10 @@
 <form #actionListFrm="ngForm" class="wrapper" data-tests-id="popupRuleEditor">
   <div class="header">
-    <div style="display: flex; justify-content: flex-end; align-items: center;">
+    <div style="display: flex; justify-content: flex-end; align-items: center;     margin-left: 20px;">
       <a (click)="closeDialog()" data-tests-id="btnBackRule" style="cursor: pointer;text-decoration: none; color: #009fdb;">
         <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 22px; width: 22px; font-size: 22px; padding-right: 20px;"></mat-icon>
       </a>
-      <span style="font-size: 18px;">New Rule Editor</span>
+      <span style="font-size: 18px;">{{title}}</span>
     </div>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding: 10px;">
@@ -17,7 +17,7 @@
           align-items: center;" [innerHTML]="'save' | feather:22"></span>
       </button>
 
-      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 20px;" color="primary" data-tests-id="btnDone"
+      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 10px;" color="primary" data-tests-id="btnDone"
         (click)="saveAndDone()">
         Done
       </button>
@@ -62,18 +62,24 @@
       <div style="display: flex;">
         <select [(ngModel)]="selectedAction" name="selectedAction" style="height: 2rem; width: 150px; margin-right: 1rem;" data-tests-id="selectAction">
           <option [ngValue]="null" disabled>Select Action</option>
+          
           <option value="copy">Copy</option>
           <option value="concat">Concat</option>
           <option value="map">Map</option>
           <option value="date formatter">Date Formatter</option>
+          <option value="log text">Log Text</option>
+          <option value="log event">Log Event</option>
+          <option value="replace text">Replace Text</option>
+          <option value="clear">Clear</option>
+
         </select>
 
         <div style="display: flex; align-items: center;">
-          <button mat-mini-fab color="primary" style="height: 24px; width: 24px; display:flex; justify-content: center;" (click)="addAction2list(selectedAction)"
+          <button mat-mini-fab color="primary" style="height: 16px; width: 16px; display:flex; justify-content: center;" (click)="addAction2list(selectedAction)"
             data-tests-id="btnAddAction">
-            <span style="display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:16"></span>
+            <span style="display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
           </button>
-          <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 10px">Add Action</span>
+          <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 6px">Add Action</span>
         </div>
 
       </div>

@@ -13,10 +13,24 @@ storiesOf('Diagram', module).add('simple', () => ({
   },
   props: {
     list: array('list', [
-      { source: 'node1dsvsdsvd', target: 'node2' },
-      { source: 'node3', target: 'node4' },
-      { source: 'node5', target: 'nodedsvsds6' },
-      { source: 'node7', target: 'node8' }
+      {
+        name1: 'node1dsvsdsvd',
+        name2: 'node2',
+        p1: 'Stream_publish_0',
+        p2: 'capability'
+      },
+      {
+        name1: 'node33',
+        name2: 'node2555',
+        p1: 'requirement2',
+        p2: 'capability11'
+      },
+      {
+        name1: 'namber4',
+        name2: 'namber3',
+        p1: 'requirement3',
+        p2: 'capability4'
+      }
     ])
   }
 }));

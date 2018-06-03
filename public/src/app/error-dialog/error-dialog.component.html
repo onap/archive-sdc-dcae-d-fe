@@ -1,17 +1,35 @@
-<p-dialog [(visible)]="store.displayErrorDialog" modal="modal" width="500" [responsive]="true" data-tests-id="error-dialog">
+<p-dialog [(visible)]="store.displayErrorDialog" [closable]="false" modal="modal" width="500" [responsive]="true" data-tests-id="error-dialog"
+  styleClass="dcae-error">
   <p-header>
-    <span style="font-size: 1.3em;">
-      Error
-    </span>
+    <div style="display: flex;">
+      <span style="color: #CF2A2A;
+        padding-right: 15px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;" [innerHTML]="'x-circle' | feather:28"></span>
+      <span style="font-family: 'Open Sans', sans-serif;
+      font-size: 24px; width: 100%;">
+        Error
+      </span>
+      <span style="
+        height: 100%;
+        display: flex;
+        color:rgb(90, 90, 90);
+        justify-content: center;
+        align-items: center;" [innerHTML]="'x' | feather:20" (click)="closeDialog()" data-tests-id="error-cancel-icon"></span>
+    </div>
   </p-header>
 
-  <div *ngFor="let error of store.ErrorContent">
+  <div *ngFor="let error of store.ErrorContent" style="padding: 0 0 20px 43px; font-family: 'Open Sans', sans-serif;
+  font-size: 14px;">
     {{ error.formattedErrorMessage }}
   </div>
 
   <p-footer>
-    <button mat-raised-button color="primary" (click)="closeDialog()" data-tests-id="error-cancel">
-      Cancel
+    <button mat-raised-button color="primary" style="background-color: #CF2A2A; font-size: 14px; font-family: 'Open Sans', sans-serif;"
+      (click)="closeDialog()" data-tests-id="error-cancel">
+      OK
     </button>
   </p-footer>
 </p-dialog>

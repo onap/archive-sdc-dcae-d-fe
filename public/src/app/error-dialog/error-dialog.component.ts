@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '../store/store';
 
 @Component({
@@ -6,10 +6,8 @@ import { Store } from '../store/store';
   templateUrl: './error-dialog.component.html',
   styleUrls: ['./error-dialog.component.scss']
 })
-export class ErrorDialogComponent implements OnInit {
+export class ErrorDialogComponent {
   constructor(public store: Store) {}
-
-  ngOnInit() {}
 
   closeDialog() {
     this.store.displayErrorDialog = false;

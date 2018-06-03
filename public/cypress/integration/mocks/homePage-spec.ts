@@ -6,11 +6,11 @@ export const buttonCreateMCSpan = () => {
 };
 
 export const tableItems = () => {
-  return cy.get('tr[data-tests-id="monitoringComponentTableItems"]');
+  return cy.get('datatable-row-wrapper');
 };
 
-export const tableHeaders = () => {
-  return cy.get('tr[data-tests-id="monitoringComponentTableHeaders"]');
+export const monitoringComponentTable = () => {
+  return cy.get('ngx-datatable[data-tests-id="monitoringComponentTable"]');
 };
 export const tableItemsDeleteButton = () => {
   return cy.get('button[data-tests-id="tableItemsButtonDelete"]');
@@ -64,9 +64,9 @@ describe('Home Page - E2E test flow with mock', () => {
     });
 
     it("Shouldn't have create table with headers", () => {
-      tableHeaders().should('not.be.visible');
+      monitoringComponentTable().should('not.be.visible');
     });
-    it("Shouldn't have create table without items", () => {
+    it("Shouldn't have create table with items", () => {
       buttonCreateMC()
         .get('div[data-tests-id="new-monitoring-title"]')
         .should('contain', 'Monitoring');
@@ -100,17 +100,10 @@ describe('Home Page - E2E test flow with mock', () => {
     });
 
     it('Should have create table with headers', () => {
-      tableHeaders().should('be.visible');
+      monitoringComponentTable().should('be.visible');
     });
     it('Should have create table with items', () => {
       tableItems().should('have.length', NUMBER_OF_ITEMS);
-    });
-  });
-
-  describe('MC List Edit Tests', () => {
-    beforeEach(() => {
-      cy.getMCList();
-      cy.homePage();
     });
   });
 
@@ -126,26 +119,34 @@ describe('Home Page - E2E test flow with mock', () => {
       tableItemsDeleteButton().should('be.visible');
       tableItemsInfoButton().should('not.be.visible');
     });
-    it('Mouse hover over item, call delete and remove not submitted (call delete without blueprint api)', () => {
-      tableItems().should('have.length', NUMBER_OF_ITEMS);
-      doHoverOverFirstLine();
-      tableItemsDeleteButton()
-        .should('be.visible')
-        .click({ force: true });
-      popupGetDeleteBtn().click({ force: true });
-      tableItems().should('have.length', NUMBER_OF_ITEMS - 1);
-    });
-    it('Mouse hover over item, call delete and remove submitted (call delete with blueprint api)', () => {
-      tableItems()
-        .should('have.length', NUMBER_OF_ITEMS)
-        .last()
-        .trigger('mouseover');
-      tableItemsDeleteButton()
-        .should('be.visible')
-        .click({ force: true });
-      popupGetDeleteBtn().click({ force: true });
-      tableItems().should('have.length', NUMBER_OF_ITEMS - 1);
-    });
+    it(
+      'Mouse hover over item, call delete and remove not submitted (call delete without' +
+        ' blueprint api)',
+      () => {
+        tableItems().should('have.length', NUMBER_OF_ITEMS);
+        doHoverOverFirstLine();
+        tableItemsDeleteButton()
+          .should('be.visible')
+          .click({ force: true });
+        popupGetDeleteBtn().click({ force: true });
+        tableItems().should('have.length', NUMBER_OF_ITEMS - 1);
+      }
+    );
+    it(
+      'Mouse hover over item, call delete and remove submitted (call delete with bluepr' +
+        'int api)',
+      () => {
+        tableItems()
+          .should('have.length', NUMBER_OF_ITEMS)
+          .last()
+          .trigger('mouseover');
+        tableItemsDeleteButton()
+          .should('be.visible')
+          .click({ force: true });
+        popupGetDeleteBtn().click({ force: true });
+        tableItems().should('have.length', NUMBER_OF_ITEMS - 1);
+      }
+    );
     it('Mouse hover over item, call delete and cancelOperation', () => {
       tableItems().should('have.length', NUMBER_OF_ITEMS);
       doHoverOverFirstLine();
@@ -171,6 +172,7 @@ describe('Home Page - E2E test flow with mock', () => {
 
   describe('Successfully Entry Home Page Monitoring Configuration', () => {
     beforeEach(() => {
+      cy.httpGetDDLData();
       cy.getMCListEmpty();
       cy.homePage();
     });
@@ -190,12 +192,17 @@ describe('Home Page - E2E test flow with mock', () => {
     it('Buttons Functionality Assertion', () => {
       buttonCreateMC()
         .click()
-        .get('div[data-tests-id="new-monitoring-title"]')
+        .get('div[data-tests-id="new-monitorying-titie"]')
         .should('contain', 'Monitoring');
     });
   });
 
   describe('Not Auth Entry Home Page Monitoring Configuration', () => {
+    beforeEach(() => {
+      cy.httpGetDDLData();
+      cy.getMCListEmpty();
+    });
+
     it('Buttons disabled when user not owner', () => {
       cy.sdcIsOwnerFalse();
       navigateButtonDisabled();

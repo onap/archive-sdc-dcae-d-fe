@@ -1,40 +1,44 @@
-<div style="display: flex; position: relative; justify-content: flex-end;">
-  <div style="display: flex; justify-content: flex-end;" [class]="genrateBarTestId()">
+<div style="display: flex; position: relative; justify-content: flex-end;" class="bars">
+  <div style="display: flex; justify-content: flex-end; align-items:center;" [class]="genrateBarTestId()">
     <button mat-icon-button>
       <span style="width: 100%;
+          color:#5a5a5a;
           height: 100%;
           display: flex;
           justify-content: center;
-          align-items: center;" [innerHTML]="'help-circle' | feather:18"></span>
+          align-items: center;" [innerHTML]="'help-circle' | feather:20"></span>
     </button>
     <hr>
 
-    <div *ngIf="tabName.includes('map')" style="display: flex;">
+    <div *ngIf="tabName.includes('map')" style="display: flex; align-items: center;">
       <button mat-icon-button>
         <span style="width: 100%;
+            color:#5a5a5a;
                 height: 100%;
                 display: flex;
                 justify-content: center;
-                align-items: center;" [innerHTML]="'upload' | feather:18"></span>
+                align-items: center;" [innerHTML]="'upload' | feather:20"></span>
       </button>
       <hr>
 
       <button mat-icon-button>
         <span style="width: 100%;
+            color:#5a5a5a;
                 height: 100%;
                 display: flex;
                 justify-content: center;
-                align-items: center;" [innerHTML]="'download' | feather:18"></span>
+                align-items: center;" [innerHTML]="'download' | feather:20"></span>
       </button>
       <hr>
     </div>
 
     <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear" [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : 'black'">
       <span style="width: 100%;
+          color:#5a5a5a;
           height: 100%;
           display: flex;
           justify-content: center;
-          align-items: center;" [innerHTML]="'settings' | feather:18"></span>
+          align-items: center;" [innerHTML]="'settings' | feather:20"></span>
     </button>
   </div>
 
@@ -44,14 +48,32 @@
       <div style="font-size: 1.5em; padding: 0 12px;">{{tabName}} Advanced Setting</div>
       <form #cdumpConfForm="ngForm">
         <div *ngFor="let prop of store.configurationForm" class="field" [id]="prop.name">
-          <p class="field-label">{{prop.name}}</p>
-          <input *ngIf="!isPropertyDdl(prop)" type="text" name="{{prop.name}}" class="field-text" [(ngModel)]="prop.assignment.value"
+          <div style="display: flex;">
+            <p class="field-label">
+              {{prop.name}}
+            </p>
+            <span *ngIf="prop.description" class="help-description" style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14"
+              pTooltip="{{prop.description}}" tooltipPosition="top"></span>
+          </div>
+
+          <input *ngIf="isPropertyDdl(prop) === dropDownTypes.none" type="text" name="{{prop.name}}" class="field-text" [(ngModel)]="prop.value"
             (ngModelChange)="onChange($event)">
-          <select *ngIf="isPropertyDdl(prop)" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.assignment.value" (ngModelChange)="onChange($event)">
-          <option *ngFor="let value of prop.constraints[0].valid_values" [value]="value">
-            {{value}}
-          </option>
-        </select>
+
+          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.regularDDL" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.value"
+            (ngModelChange)="onChange($event)">
+            <option *ngFor="let value of prop.constraints[0].valid_values" [value]="value">
+              {{value}}
+            </option>
+          </select>
+          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.booleanDDL" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.value"
+            (ngModelChange)="onChange($event)" data-tests-id="booleanDDL">
+            <option value="false">
+              false
+            </option>
+            <option value="true">
+              true
+            </option>
+          </select>
         </div>
       </form>
     </div>

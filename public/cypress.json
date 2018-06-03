@@ -2,6 +2,7 @@
   "chromeWebSecurity": false,
   "requestTimeout": 60000,
   "responseTimeout": 100000,
+  "videoRecording": false,
   "baseUrl": "http://localhost:4300/#/",
   "env": {
     "backendUrl": "http://localhost:8446"

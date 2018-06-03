@@ -1,6 +1,5 @@
-import { Component, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Store } from '../store/store';
-import { BarIconsComponent } from '../bar-icons/bar-icons.component';
 
 @Component({
   selector: 'app-rule-frame',

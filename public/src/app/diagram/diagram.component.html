@@ -1,19 +1,35 @@
-<svg id="diagram" #diagram>
-  <svg viewBox="0 0 500 500" width="100%" height="500px" preserveAspectRatio="xMaxYMin meet" *ngFor="let item of list; let i = index">
+<div style="overflow:hidden; height:450px; padding: 0 1em; border: 1px solid #d9d9d9;">
+  <svg id="diagram" #diagram align="center" #svgContainer>
+    <svg width="100%" height="550px" preserveAspectRatio="xMaxYMin meet" *ngFor="let item of list; let i = index"
+      style="padding: 1em 0;" align="center">
 
-    <svg width="80px">
-      <text x="0" [attr.y]="45 * (i+1)">
-        {{item.source}}
+      <svg [attr.width]="maxLengthLeft * 10">
+        <text text-anchor="start" x="0" [attr.y]="40 * (i+1)" font-size="12" dy="0">
+          <tspan x="0" dy=".6em" font-weight="bold">
+            {{item.name1}}
+          </tspan>
+          <tspan x="0" dy="1.2em">
+            {{item.p1}}
+          </tspan>
+        </text>
+      </svg>
+
+      <circle stroke="#8BC34A" fill="#8BC34A" [attr.cx]="maxLengthLeft * 8" [attr.cy]="44 * (i+1)" r="5" />
+
+      <line [attr.x1]="maxLengthLeft * 8" [attr.y1]="44 * (i+1)" [attr.x2]="maxWidth - maxLengthRight * 8 - 30" [attr.y2]="44 * (i+1)"
+        stroke-width="2" stroke="black" stroke-dasharray="5, 5" stroke="#8BC34A" fill="#8BC34A" class="line" />
+
+      <circle [attr.cx]="maxWidth - maxLengthRight * 8 - 30" [attr.cy]="44 * (i+1)" r="5" stroke="#8BC34A" fill="#8BC34A" />
+
+      <text text-anchor="start" [attr.x]="maxWidth - maxLengthRight * 8" [attr.y]="40 * (i+1)" font-size="12" dy="0">
+        <tspan [attr.x]="maxWidth - maxLengthRight * 8" dy=".6em" font-weight="bold">
+          {{item.name2}}
+        </tspan>
+        <tspan [attr.x]="maxWidth - maxLengthRight * 8" dy="1.2em">
+          {{item.p2}}
+        </tspan>
       </text>
+
     </svg>
-
-    <circle cx="100" [attr.cy]="44 * (i+1)" r="5" />
-    <line x1="100" [attr.y1]="44 * (i+1)" [attr.x2]="maxWidth - 150" [attr.y2]="44 * (i+1)" stroke-width="2" stroke="black" stroke-dasharray="5, 5"
-      class="line" />
-    <circle [attr.cx]="maxWidth - 150" [attr.cy]="44 * (i+1)" r="5" />
-
-    <text [attr.x]="maxWidth - 130" [attr.y]="45 * (i+1)">
-      {{item.target}}
-    </text>
   </svg>
-</svg>
+</div>

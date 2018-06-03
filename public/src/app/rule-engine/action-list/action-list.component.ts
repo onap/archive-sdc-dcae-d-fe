@@ -1,20 +1,16 @@
 import {
-  Component,
-  Inject,
-  ViewChildren,
-  QueryList,
   AfterViewInit,
+  Component,
+  QueryList,
   ViewChild,
-  Input
+  ViewChildren
 } from '@angular/core';
-import { RuleEngineApiService } from '../api/rule-engine-api.service';
-import { Subject } from 'rxjs/Subject';
-import { v1 as uuid } from 'uuid';
-import { environment } from '../../../environments/environment';
-import { ActionComponent } from '../action/action.component';
-import { cloneDeep } from 'lodash';
-import { Store } from '../../store/store';
 import { NgForm } from '@angular/forms';
+import { cloneDeep } from 'lodash';
+import { v1 as uuid } from 'uuid';
+import { Store } from '../../store/store';
+import { ActionComponent } from '../action/action.component';
+import { RuleEngineApiService } from '../api/rule-engine-api.service';
 
 @Component({
   selector: 'app-action-list',
@@ -22,6 +18,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./action-list.component.scss']
 })
 export class ActionListComponent implements AfterViewInit {
+  title = '';
   error: Array<string>;
   condition: any;
   eventType: string;
@@ -53,8 +50,10 @@ export class ActionListComponent implements AfterViewInit {
         this.condition = data.item.condition;
         this.uid = data.item.uid;
         this.description = data.item.description;
+        this.title = this.description + ' - Rule Editor';
         this.ifStatement = this.condition == null ? false : true;
       } else {
+        this.title = 'New Rule Editor';
         this.actions = new Array();
         this.backupActionForCancel = new Array();
         this.condition = null;
@@ -97,12 +96,24 @@ export class ActionListComponent implements AfterViewInit {
           value: '',
           regex: '',
           state: 'closed',
-          values: [{ value: '' }, { value: '' }]
+          values: [
+            {
+              value: ''
+            },
+            {
+              value: ''
+            }
+          ]
         },
         actionType: this.selectedAction,
         target: '',
         map: {
-          values: [{ key: '', value: '' }],
+          values: [
+            {
+              key: '',
+              value: ''
+            }
+          ],
           haveDefault: false,
           default: ''
         },
@@ -111,6 +122,18 @@ export class ActionListComponent implements AfterViewInit {
           toFormat: '',
           fromTimezone: '',
           toTimezone: ''
+        },
+        replaceText: {
+          find: '',
+          replace: ''
+        },
+        logText: {
+          name: '',
+          level: '',
+          text: ''
+        },
+        logEvent: {
+          title: ''
         }
       });
     }
@@ -162,7 +185,10 @@ export class ActionListComponent implements AfterViewInit {
               ? item.target
               : item.selectedNode.id,
         map: item.map,
-        dateFormatter: item.dateFormatter
+        dateFormatter: item.dateFormatter,
+        replaceText: item.replaceText,
+        logText: item.logText,
+        logEvent: item.logEvent
       };
     });
     let conditionData2server = null;
@@ -178,6 +204,7 @@ export class ActionListComponent implements AfterViewInit {
     return {
       version: this.version,
       eventType: this.eventType,
+      notifyId: this.store.notifyIdValue,
       uid: this.uid,
       description: this.description,
       actions: actionSetData,
@@ -225,12 +252,12 @@ export class ActionListComponent implements AfterViewInit {
     const actionComp = this.actionsRef.toArray();
     const filterInvalidActions = actionComp.filter(comp => {
       return (
-        comp.fromInstance.fromFrm.invalid ||
-        comp.targetInstance.targetFrm.invalid ||
-        comp.actionFrm.invalid
+        // (comp.fromInstance && comp.fromInstance.fromFrm.invalid) ||
+        // (comp.targetInstance && comp.targetInstance.targetFrm.invalid) ||
+        comp.actionFrm && comp.actionFrm.invalid
       );
     });
-    if (this.actionListFrm.valid && filterInvalidActions.length === 0) {
+    if (this.actionListFrm.valid && filterInvalidActions.length == 0) {
       const data = this.prepareDataToSaveRule();
       this.store.loader = true;
       this._ruleApi.modifyRule(data).subscribe(
@@ -249,11 +276,10 @@ export class ActionListComponent implements AfterViewInit {
         }
       );
     } else {
-      // scroll to first invalid element
-      const elId = filterInvalidActions[0].action.id;
-      const el = document.getElementById(elId as string);
-      const label = el.children.item(0) as HTMLElement;
-      el.scrollIntoView();
+      // scroll to first invalid element const elId =
+      // filterInvalidActions[0].action.id; const el = document.getElementById(elId as
+      // string); const label = el.children.item(0) as HTMLElement;
+      // el.scrollIntoView();
     }
   }
 

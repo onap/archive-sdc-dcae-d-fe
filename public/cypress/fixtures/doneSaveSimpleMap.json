@@ -1,0 +1,29 @@
+{
+  "version": "4.1",
+  "eventType": "syslogFields",
+  "description": "newRule2",
+  "uid": "57612d40-c66d-4a5a-95c3-0165564f837d",
+  "phase": "phase_1",
+  "condition": null,
+  "actions": [
+    {
+      "map": {
+        "default": "",
+        "haveDefault": false,
+        "values": [
+          { "key": "Key1", "value": "Key1" },
+          { "key": "Key2", "value": "Key2" }
+        ]
+      },
+      "actionType": "map",
+      "from": {
+        "regex": "",
+        "state": "closed",
+        "values": [{ "value": "" }, { "value": "" }],
+        "value": "test"
+      },
+      "target": "event.commonEventHeader.eventId",
+      "id": "e340ab50-423b-11e8-94f2-3dd2f158c314"
+    }
+  ]
+}

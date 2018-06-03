@@ -1,30 +1,28 @@
 import {
   Component,
+  EventEmitter,
   OnInit,
-  ViewChild,
-  ViewEncapsulation,
   Output,
-  EventEmitter
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
-import { RestApiService } from '../api/rest-api.service';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '../store/store';
-import { NgForm } from '@angular/forms';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { forEach, sortBy } from 'lodash';
+import { ToastrService } from 'ngx-toastr';
 import {
-  pipe,
+  descend,
+  find,
+  findIndex,
   groupBy,
   map,
-  sort,
-  descend,
-  ascend,
+  pipe,
   prop,
-  find,
   propEq,
-  findIndex
+  sort
 } from 'ramda';
-import { sortBy, forEach } from 'lodash';
-import { ToastrService } from 'ngx-toastr';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { RestApiService } from '../api/rest-api.service';
+import { Store } from '../store/store';
 
 export const groupingData = pipe(
   groupBy(prop('name')),
@@ -64,12 +62,6 @@ export class GeneralComponent implements OnInit {
   disableVnfiList = false;
   @Output() updateCdumpEv = new EventEmitter<string>();
   @ViewChild('generalForm') generalForm;
-  // list = [
-  //   { source: 'node1dsvsdsvd', target: 'node2' },
-  //   { source: 'node3', target: 'node4' },
-  //   { source: 'node5', target: 'nodedsvsds6' },
-  //   { source: 'node7', target: 'node8' }
-  // ];
   list = [];
 
   constructor(
@@ -142,13 +134,23 @@ export class GeneralComponent implements OnInit {
         .subscribe(
           response => {
             this.newVfcmt = response.vfcmt;
-            this.flowTypes.push(this.newVfcmt.flowType);
+            this.flowTypes.push(response.cdump.flowType);
+            this.newVfcmt.flowType = response.cdump.flowType;
+            this.store.flowType = response.cdump.flowType;
             this.newVfcmt.vfni = this.store.vfiName;
             this.vfniList.push({ resourceInstanceName: this.newVfcmt.vfni });
-            // this.store.cdump = response.cdump;
             this.updateCdumpEv.next(response.cdump);
             this.store.isEditMode = true;
             this.store.loader = false;
+
+            this.list = response.cdump.relations.map(item => {
+              return {
+                name1: item.name1,
+                name2: item.name2,
+                p1: item.meta.p1,
+                p2: item.meta.p2
+              };
+            });
           },
           error => {
             this.notifyError(error);

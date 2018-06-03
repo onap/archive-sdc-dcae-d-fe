@@ -1,11 +1,10 @@
-svg {
-  height: 400px;
+#diagram {
+  height: 1000px;
   width: 100%;
   margin: auto;
   display: block;
   .line {
-    stroke-dasharray: 1400;
-    animation: draw 5s ease-in;
+    stroke-dasharray: 5; // animation: draw 1s ease-in;
   }
 }
 

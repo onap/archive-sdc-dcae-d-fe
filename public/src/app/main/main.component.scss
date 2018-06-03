@@ -1,7 +1,6 @@
-.container {
+.main-container {
   display: flex;
-  flex-direction: column;
-  // height: 100%;
+  flex-direction: column; // height: 100%;
   margin: 1em;
 }
 
@@ -16,11 +15,12 @@
 
 .ui-tabview .ui-tabview-nav li {
   margin: 0;
+  border-radius: 0;
 }
 
 .ui-tabview .ui-tabview-nav li.ui-tabview-selected {
   color: #009fdb;
-  border-top: 4px solid #009fdb;
+  border-top: 2px solid #009fdb;
   border-bottom: none;
 }
 
