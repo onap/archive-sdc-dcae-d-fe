@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod --deploy-url=/dcae",
+    "build": "ng build --prod --deploy-url=/dcaed",
     "test": "ng test",
     "test:jest": "jest --watch",
     "test:ci": "jest --runInBand",
