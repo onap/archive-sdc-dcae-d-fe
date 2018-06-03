@@ -1,0 +1,21 @@
+{
+  "version": "4.1",
+  "eventType": "syslogFields",
+  "description": "newRule",
+  "uid": "f620724b-7170-43e1-8a8b-55e98cabe658",
+  "phase": "sto2",
+  "condition": null,
+  "actions": [
+    {
+      "actionType": "copy",
+      "from": {
+        "regex": "",
+        "state": "closed",
+        "values": [{ "value": "" }, { "value": "" }],
+        "value": "aB"
+      },
+      "target": "event.commonEventHeader.domain",
+      "id": "296bcdd0-1d20-11e8-a96d-298fbe0cb0fd"
+    }
+  ]
+}

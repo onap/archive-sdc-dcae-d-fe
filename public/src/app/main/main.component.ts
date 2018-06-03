@@ -1,12 +1,11 @@
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { RestApiService } from '../api/rest-api.service';
-import { Store } from '../store/store';
-import { RuleFrameComponent } from '../rule-frame/rule-frame.component';
-import { GeneralComponent } from '../general/general.component';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { RestApiService } from '../api/rest-api.service';
+import { GeneralComponent } from '../general/general.component';
+import { RuleEngineApiService } from '../rule-engine/api/rule-engine-api.service';
+import { Store } from '../store/store';
 
 @Component({
   selector: 'app-main',
@@ -18,11 +17,13 @@ export class MainComponent {
   cdump;
   nodes = [];
   @ViewChild(GeneralComponent) generalComponent: GeneralComponent;
-  // @ViewChildren(RuleFrameComponent) ruleFrameRef: QueryList<RuleFrameComponent>;
+  // @ViewChildren(RuleFrameComponent) ruleFrameRef:
+  // QueryList<RuleFrameComponent>;
 
   constructor(
     private route: ActivatedRoute,
     private restApi: RestApiService,
+    private _ruleApi: RuleEngineApiService,
     private toastr: ToastrService,
     public store: Store,
     private location: Location
@@ -39,6 +40,8 @@ export class MainComponent {
   createMC(params) {
     console.log('newVfcmt: %o', params);
     this.store.loader = true;
+    this.store.vfiName = params.serviceAttached;
+    this.store.flowType = 'default';
     this.restApi
       .createNewVFCMT({
         name: params.name,
@@ -55,6 +58,7 @@ export class MainComponent {
           this.store.mcUuid = success.vfcmt.uuid;
           console.log(this.cleanProperty(success));
           this.store.cdump = success.cdump;
+          this.diagramRelationsFromCdump(success);
           this.nodes = this.store.cdump.nodes;
           this.store.setTabsProperties(this.nodes);
           this.setDataFromMapToRuleEngine(success.cdump);
@@ -70,6 +74,17 @@ export class MainComponent {
       );
   }
 
+  private diagramRelationsFromCdump(success: any) {
+    this.generalComponent.list = success.cdump.relations.map(item => {
+      return {
+        name1: item.name1,
+        name2: item.name2,
+        p1: item.meta.p1,
+        p2: item.meta.p2
+      };
+    });
+  }
+
   updateCdump(cdump) {
     this.store.cdump = cdump;
     this.nodes = this.store.cdump.nodes;
@@ -81,6 +96,8 @@ export class MainComponent {
     console.log('importVfcmt: %o', params);
     this.generalComponent.importCompleted = true;
     this.store.loader = true;
+    this.store.vfiName = params.serviceAttached;
+    this.store.flowType = params.flowType;
     this.restApi
       .importVFCMT({
         name: params.name,
@@ -96,11 +113,13 @@ export class MainComponent {
       .subscribe(
         success => {
           console.log(success);
+
           this.location.path();
           // this.location.go();
           this.store.mcUuid = success.vfcmt.uuid;
           console.log(this.cleanProperty(success));
           this.store.cdump = success.cdump;
+          this.diagramRelationsFromCdump(success);
           this.nodes = this.store.cdump.nodes;
           this.store.setTabsProperties(this.nodes);
           this.setDataFromMapToRuleEngine(success.cdump);
@@ -119,12 +138,9 @@ export class MainComponent {
 
   setDataFromMapToRuleEngine(cdump) {
     this.store.tabParmasForRule = cdump.nodes
-      .filter(x => x.name.includes('map'))
+      .filter(x => x.name.toLowerCase().includes('map'))
       .map(y => {
-        return {
-          name: y.name,
-          nid: y.nid
-        };
+        return { name: y.name, nid: y.nid };
       });
   }
 
@@ -139,7 +155,6 @@ export class MainComponent {
   }
 
   saveCDUMP() {
-    debugger;
     this.store.loader = true;
     this.restApi
       .saveMonitoringComponent({
@@ -167,7 +182,6 @@ export class MainComponent {
   }
 
   saveAndCreateBlueprint() {
-    debugger;
     this.store.loader = true;
     if (this.store.cdumpIsDirty) {
       this.restApi
@@ -210,6 +224,7 @@ export class MainComponent {
       .subscribe(
         success => {
           this.store.loader = false;
+
           this.toastr.success('', 'Save succeeded');
         },
         error => {
@@ -223,6 +238,7 @@ export class MainComponent {
   }
 
   handleChange(e) {
+    this._ruleApi.callUpdateTabIndex(e.index - 1);
     this.store.setTabIndex(e.index - 1);
   }
 }

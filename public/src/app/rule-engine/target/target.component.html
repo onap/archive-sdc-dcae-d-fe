@@ -7,7 +7,7 @@
       <img src="{{imgBase}}/target.svg" alt="target">
     </span>
   </div>
-  <div class="bottom-select" *ngIf="showOption" [@toggleDropdown]>
+  <div class="bottom-select" *ngIf="showOption">
     <div class="filter-container" style="display: flex; border-bottom: 1px solid #F2F2F2;margin-bottom: 1rem; width:100%;">
       <input id="filter" #filter class="filter" (keyup)="tree.treeModel.filterNodes(filter.value)" placeholder="Search..." />
       <button mat-raised-button style="min-width: 18px; box-shadow: none; display: flex; justify-content: center;" (click)="tree.treeModel.clearFilter(); filter.value = ''">

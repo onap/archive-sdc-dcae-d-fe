@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { Store } from '../store/store';
-import { includes } from 'lodash';
 import { NgForm } from '@angular/forms';
+import { includes } from 'lodash';
+import { Store } from '../store/store';
 
 @Component({
   selector: 'app-bar-icons',
@@ -12,6 +12,11 @@ export class BarIconsComponent {
   configuration;
   @Input() tabName: string;
   @ViewChild('cdumpConfForm') cdumpConfForm: NgForm;
+  dropDownTypes = {
+    none: 1,
+    regularDDL: 2,
+    booleanDDL: 3
+  };
 
   constructor(public store: Store) {}
 
@@ -21,19 +26,19 @@ export class BarIconsComponent {
 
   isPropertyDdl(property) {
     if (property.hasOwnProperty('constraints')) {
-      if (
-        includes(
-          property.constraints[0].valid_values,
-          property.assignment.value
-        )
+      if (includes(property.constraints[0].valid_values, property.value)) {
+        return this.dropDownTypes.regularDDL;
+      } else if (
+        property.hasOwnProperty('type') &&
+        property.type === 'boolean'
       ) {
-        return true;
-      } else {
-        return false;
+        if (!(property.value === 'false')) {
+          property.value = true;
+        }
+        return this.dropDownTypes.booleanDDL;
       }
-    } else {
-      return false;
     }
+    return this.dropDownTypes.none;
   }
 
   genrateBarTestId() {

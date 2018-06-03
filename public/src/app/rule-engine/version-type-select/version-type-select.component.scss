@@ -1,7 +1,6 @@
 .selected-event {
   display: flex;
-  margin: 10px 0;
-  // align-items: center;
+  // margin: 10px 0; // align-items: center;
   flex-direction: column;
   margin-bottom: 30px;
 }
@@ -23,6 +22,20 @@
   outline: none;
 }
 
+.space-down {
+  margin-bottom: 5px;
+}
+
+.input-wrapper {
+  .input {
+    height: 35px;
+    border-radius: 2px;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #d2d2d2;
+  }
+}
+
 .target-field {
   width: 370px;
   display: flex;
@@ -42,5 +55,6 @@
     min-width: 250px;
     padding: 5px 0 5px 5px;
     margin: 0;
+    border: 1px solid #d2d2d2;
   }
 }

@@ -1,8 +1,8 @@
 <div class="container">
   <div class="header">
-    <span style="font-size: 18px;">Rule Engine</span>
+    <span style="font-size: 18px; margin-left:20px;">Rule Engine</span>
     <div style="display:flex">
-      <button mat-raised-button (click)="translateRules()" color="primary" [disabled]="store.ruleList.length === 0" style="margin-left: 20px;"
+      <button mat-raised-button (click)="translateRules()" color="primary" [disabled]="store.ruleList.length === 0" style="margin-right: 10px; width: 113px;height: 36px;"
         data-tests-id="btnTranslate">
         Translate
       </button>
@@ -19,6 +19,35 @@
 
     <app-version-type-select #versionEventType [versions]="versions" [metaData]="metaData" (nodesUpdated)="handleUpdateNode($event)"
       (refrashRuleList)="handlePropertyChange()"></app-version-type-select>
+
+    <!-- <div class="container-phase-notify">
+      <div>
+        <span class="field-label required" style="margin-right: 10px;">
+          phase
+        </span>
+        <select name="phase" [(ngModel)]="phase" data-tests-id="phase" style="height: 27px; padding: 0.3rem; margin-right: 18px;"
+          class="field-select">
+          <option [ngValue]="null" disabled>Select phase</option>
+        </select>
+      </div>
+
+      <div class="default" style="display: flex; align-items: center">
+        <div class="pretty p-svg">
+          <input type="checkbox" name="notifyCheckbox" data-tests-id="notifyCheckbox" />
+          <div class="state">
+            <svg class="svg svg-icon" viewBox="0 0 20 20">
+              <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                style="stroke: #009fdb; fill:#009fdb;"></path>
+            </svg>
+            <label>notify OID</label>
+          </div>
+        </div>
+        <div class="input-wrapper">
+          <input type="text" ngModel required name="notify-oid" data-tests-id="notify-oid" class="input">
+        </div>
+      </div>
+
+    </div> -->
 
     <div *ngIf="targetSource && store.ruleList.length === 0" style="margin: 30px 0; display: flex; align-items: center; justify-content: center; flex-direction: column;">
 
@@ -40,9 +69,6 @@
     </div>
 
     <div *ngIf="store.ruleList.length > 0">
-      <div style="padding: 10px 0;">
-        Rules
-      </div>
       <div style="display: flex; align-items: center;">
         <button mat-mini-fab color="primary" id="addMoreRule" data-tests-id="addMoreRule" style="height: 24px; width: 24px; display:flex"
           (click)="openAction()">

@@ -97,14 +97,37 @@
         "properties": [
           {
             "assignment": {
-              "value": {
-                "get_input": "mappingType"
-              }
+              "value": ""
             },
-            "name": "Type1",
-            "description":
-              "CSV to VES mapping, from the file to generate multiple events or single event",
-            "type": "string",
+            "name": "valueUndefined",
+            "description": "valueUndefined",
+            "type": "boolean",
+            "constraints": [
+              {
+                "valid_values": ["single", "multiple"]
+              }
+            ]
+          },
+          {
+            "assignment": {
+              "value": "false"
+            },
+            "name": "valueFalse",
+            "description": "DDL value false",
+            "type": "boolean",
+            "constraints": [
+              {
+                "valid_values": ["single", "multiple"]
+              }
+            ]
+          },
+          {
+            "assignment": {
+              "value": "true"
+            },
+            "name": "valueTrue",
+            "description": "DDL value true",
+            "type": "boolean",
             "constraints": [
               {
                 "valid_values": ["single", "multiple"]

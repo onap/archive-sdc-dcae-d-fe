@@ -1,10 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatIconModule } from '@angular/material';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // component
 import { TargetComponent } from './target.component';
 
@@ -46,12 +45,28 @@ describe('TargetComponent', () => {
     const openTargetElement = fixture.debugElement
       .query(By.css('span[data-tests-id=openTargetTree]'))
       .nativeElement.click();
-
     fixture.detectChanges();
-
     const treeContainer = fixture.debugElement.query(
       By.css('.filter-container')
     );
     expect(treeContainer).not.toBeNull();
   });
+
+  it('should toggle target tree when clicking 2 times on button', () => {
+    fixture.debugElement
+      .query(By.css('span[data-tests-id=openTargetTree]'))
+      .nativeElement.click();
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('span[data-tests-id=openTargetTree]'))
+      .nativeElement.click();
+    fixture.detectChanges();
+    const treeContainer = fixture.debugElement.query(
+      By.css('.filter-container')
+    );
+    expect(treeContainer).toBeNull();
+  });
+
+  // it('check when input change', () => {   tree.setData({nodes: _nodes, options:
+  // null, events: null});   component.filterFn('liav', tree); });
 });

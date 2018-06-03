@@ -64,6 +64,12 @@ export class FromComponent {
   hoveredIndex;
   // public keyUp = new BehaviorSubject<string>(null);
 
+  ngOnInit(): void {
+    if (this.actionType === 'clear') {
+      this.from.values = [{ value: '' }];
+    }
+  }
+
   showRegex(item) {
     item.state = item.state === 'closed' ? 'open' : 'closed';
     if (item.state === 'closed') {

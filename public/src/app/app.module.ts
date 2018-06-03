@@ -13,8 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
-// import { SdcUiComponentsModule } from 'sdc-ui/lib/angular';
+// import {SdcUiComponentsModule} from 'sdc-ui/lib/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -44,6 +45,7 @@ import { SlidePanelComponent } from './rule-engine/slide-panel/slide-panel.compo
 import { RuleListComponent } from './rule-engine/rule-list/rule-list.component';
 import { BarIconsComponent } from './bar-icons/bar-icons.component';
 import { DiagramComponent } from './diagram/diagram.component';
+import { SdcNotifyDialogComponent } from './sdc-notify-dialog/sdc-notify-dialog.component';
 
 const appInitializerFn = () => {
   return () => {
@@ -71,7 +73,8 @@ const appInitializerFn = () => {
     SlidePanelComponent,
     RuleListComponent,
     BarIconsComponent,
-    DiagramComponent
+    DiagramComponent,
+    SdcNotifyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +92,8 @@ const appInitializerFn = () => {
     TreeModule,
     NgSelectModule,
     TooltipModule,
-    ToastrModule.forRoot({ enableHtml: true })
+    ToastrModule.forRoot({ enableHtml: true }),
+    NgxDatatableModule
   ],
   entryComponents: [ConfirmPopupComponent],
   providers: [

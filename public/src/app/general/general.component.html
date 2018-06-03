@@ -66,18 +66,18 @@
       </div>
       <select name="serviceAttached" [disabled]="this.store.isEditMode || disableVnfiList" required [(ngModel)]="newVfcmt.vfni"
         data-tests-id="vfniDdl" (ngModelChange)="onChangeVfni($event)" class="field-text" [style.background]="this.store.isEditMode || disableVnfiList ? '#ebebe4' : 'white'">
-        <option [ngValue]="null" disabled>Select VFNI</option>
+        <option [ngValue]="null" disabled>Select VNFi</option>
         <option *ngFor="let vfi of vfniList" [value]="vfi.resourceInstanceName">{{vfi.resourceInstanceName}}</option>
       </select>
     </div>
   </div>
 
   <div class="right">
-    <div style="padding: 0.7em 0.5em; padding-top: 1em; font-weight: 600;">Flow diagram</div>
+    <div style="padding: 0.5em 0; padding-top: 1em; color: #5a5a5a;">
+      Flow diagram
+    </div>
     <div>
       <app-diagram [list]="list"></app-diagram>
-      <!-- <img style="width:100%; height:100%;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flag_of_Romania.svg/1200px-Flag_of_Romania.svg.png"
-        alt="flow"> -->
     </div>
   </div>
 </form>

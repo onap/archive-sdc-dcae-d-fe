@@ -3,6 +3,7 @@ declare namespace Cypress {
     httpGetDDLData: typeof httpGetDDLData;
     fillNewMcForm: typeof fillNewMcForm;
     httpCreateNewMc: typeof httpCreateNewMc;
+    httpCreateNewMcWithBooleanDDL: typeof httpCreateNewMcWithBooleanDDL;
   }
 }
 
@@ -44,7 +45,22 @@ function httpCreateNewMc() {
     .as('newMC');
 }
 
+function httpCreateNewMcWithBooleanDDL() {
+  cy.server();
+  cy
+    .route({
+      method: 'POST',
+      url: Cypress.env('backendUrl') + '/createMC',
+      response: 'fixture:createMcResWithBooleanDDL'
+    })
+    .as('newMCWithBooleanDDL');
+}
+
 // Add cypress commands
 Cypress.Commands.add('httpGetDDLData', httpGetDDLData);
 Cypress.Commands.add('fillNewMcForm', fillNewMcForm);
 Cypress.Commands.add('httpCreateNewMc', httpCreateNewMc);
+Cypress.Commands.add(
+  'httpCreateNewMcWithBooleanDDL',
+  httpCreateNewMcWithBooleanDDL
+);

@@ -1,28 +1,31 @@
-import { Component } from '@angular/core';
-import { Store } from '../store/store';
-import { HostService } from '../host/host.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RestApiService } from '../api/rest-api.service';
-import { NgIf } from '@angular/common';
-import { ConfirmPopupComponent } from '../rule-engine/confirm-popup/confirm-popup.component';
+import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ChangeDetectorRef } from '@angular/core';
+import { RestApiService } from '../api/rest-api.service';
+import { HostService } from '../host/host.service';
+import { ConfirmPopupComponent } from '../rule-engine/confirm-popup/confirm-popup.component';
+import { PluginPubSub } from '../sdc/plugin-pubsub';
+import { Store } from '../store/store';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent {
   linkToMain: string;
-  currentUserId: string;
   showTable = true;
-  selectedLine;
+  selectedLine = [];
   monitoringComponents = new Array();
   unavailableMonitoringComponents = new Array();
-  hoveredIndex = null;
+  hoveredIndex = 1;
   dialogRef;
+  deleteRow: number;
+
+  loadingIndicator = true;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -37,14 +40,58 @@ export class HomeComponent {
     this.activeRoute.queryParams.subscribe(params => {
       console.log('params: %o', params);
       this.store.sdcParmas = params;
+
+      console.log('init comunication with sdc');
+      const eventsToWaitFor = [
+        'WINDOW_OUT',
+        'VERSION_CHANGE',
+        'CHECK_IN',
+        'CHECK_OUT',
+        'SUBMIT_FOR_TESTING',
+        'UNDO_CHECK_OUT'
+      ];
+      this.store.ifrmaeMessenger = new PluginPubSub(
+        this.store.sdcParmas.eventsClientId,
+        this.store.sdcParmas.parentUrl,
+        eventsToWaitFor
+      );
+      console.log('send ready to sdc');
+      this.store.ifrmaeMessenger.notify('READY');
+
+      this.store.ifrmaeMessenger.on((eventData, event) => {
+        console.log('eventData', eventData);
+        console.log('event', event);
+        if (
+          eventData.type === 'WINDOW_OUT' ||
+          eventData.type === 'CHECK_IN' ||
+          eventData.type === 'SUBMIT_FOR_TESTING'
+        ) {
+          const currentUrl = this.route.url;
+          if (currentUrl.includes('main')) {
+            if (this.store.cdumpIsDirty) {
+              this.store.displaySDCDialog = true;
+            } else {
+              this.store.ifrmaeMessenger.notify('ACTION_COMPLETED');
+            }
+          } else {
+            this.store.ifrmaeMessenger.notify('ACTION_COMPLETED');
+          }
+        } else {
+          this.store.ifrmaeMessenger.notify('ACTION_COMPLETED');
+        }
+      });
+
       this.linkToMain = `/main/${params.contextType}/${params.uuid}/${
         params.version
       }/`;
+      this.loadingIndicator = true;
+
       this._restApi.getMonitoringComponents(params).subscribe(
         response => {
           console.log('response:  ', response);
           if (response.hasOwnProperty('monitoringComponents')) {
             this.monitoringComponents = response.monitoringComponents;
+            this.loadingIndicator = false;
           }
           if (response.hasOwnProperty('unavailable')) {
             this.unavailableMonitoringComponents = response.unavailable;
@@ -83,8 +130,11 @@ export class HomeComponent {
     }
   }
 
-  checkHoverCondition(item: any): boolean {
+  // Monitoring Table logic
+
+  checkTableItemHoverCondition(item: any): boolean {
     if (
+      this.store.sdcParmas !== undefined &&
       this.store.sdcParmas.userId === item.lastUpdaterUserId &&
       this.store.sdcParmas.lifecycleState === 'NOT_CERTIFIED_CHECKOUT'
     ) {
@@ -94,12 +144,19 @@ export class HomeComponent {
     }
   }
 
-  editItem(item: any): void {
+  onTableActivate(event: any): void {
+    this.hoveredIndex = this.monitoringComponents.findIndex(
+      s => s == event.row
+    );
+    console.log('selected : ');
+  }
+
+  editTableItem(item: any): void {
     this.store.vfiName = item.vfiName;
     this.route.navigate([this.linkToMain + '/' + item.uuid]);
   }
 
-  onSelect(item: any): void {
+  onTableSelectItem(item: any): void {
     this.selectedLine = item;
     console.log('selected : ', item);
   }
@@ -107,17 +164,17 @@ export class HomeComponent {
   deleteEnable(item: any): boolean {
     console.log(
       'delete enable: ',
-      item.isOwner && item.Lifecycle == 'NOT_CERTIFIED_CHECKOUT'
+      item.isOwner && item.Lifecycle === 'NOT_CERTIFIED_CHECKOUT'
     );
     const { userId, lifecycleState } = this.store.sdcParmas;
     return (
-      item.lastUpdaterUserId == userId &&
-      lifecycleState == 'NOT_CERTIFIED_CHECKOUT'
+      item.lastUpdaterUserId === userId &&
+      lifecycleState === 'NOT_CERTIFIED_CHECKOUT'
     );
   }
 
-  deleteItem(item: any): void {
-    let deleteRow = this.hoveredIndex;
+  deleteTableItem(item: any, index: any): void {
+    this.deleteRow = index;
     this.dialogRef = this.dialog.open(ConfirmPopupComponent, {
       panelClass: 'my-confrim-dialog',
       disableClose: true
@@ -125,7 +182,7 @@ export class HomeComponent {
     this.dialogRef.afterClosed().subscribe(result => {
       // if the user want to delete
       if (result) {
-        if (item.status == 'submitted') {
+        if (item.status === 'Submitted') {
           this._restApi
             .deleteMonitoringComponentWithBlueprint(
               this.store.sdcParmas,
@@ -135,15 +192,15 @@ export class HomeComponent {
             )
             .subscribe(
               response => {
-                this.itemDeletedRemoveAndNotify(deleteRow);
+                this.itemDeletedRemoveAndNotify(this.deleteRow);
               },
               error => {
                 if (error.messageId === 'SVC6118') {
-                  this.monitoringComponents.splice(deleteRow, 1);
+                  this.monitoringComponents.splice(this.deleteRow, 1);
                   this.changeDetectorRef.detectChanges();
                 }
                 const errorMsg = Object.values(error.requestError) as any;
-                this.toastr.error('', errorMsg[0]);
+                this.toastr.error('', errorMsg[0].formattedErrorMessage);
               }
             );
         } else {
@@ -155,7 +212,7 @@ export class HomeComponent {
             )
             .subscribe(
               response => {
-                this.itemDeletedRemoveAndNotify(deleteRow);
+                this.itemDeletedRemoveAndNotify(this.deleteRow);
               },
               error => {
                 const errorMsg = Object.values(error.requestError) as any;
@@ -175,14 +232,4 @@ export class HomeComponent {
       'Monitoring Configuration was successfully deleted'
     );
   }
-
-  // convertFile(fileInput: any) {
-  //   // read file from input
-  //   const fileReaded = fileInput.target.files[0];
-  //   Papa.parse(fileReaded, {
-  //     complete: function(results) {
-  //       console.log('Finished:', results.data);
-  //     }
-  //   });
-  // }
 }

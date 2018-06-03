@@ -17,25 +17,33 @@ declare namespace Cypress {
 // functionality
 function sdcIsOwnerFalse(): void {
   cy.visit(
-    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICE&uuid=b1645734-b812-4cd7-a0cc-5b5843940ad6&lifecycleState=NOT_CERTIFIED_CHECKOUT&isOwner=false'
+    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uu' +
+      'id=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=NOT_CERTIFIED_CHECKOUT&is' +
+      'Owner=false&version=0.1'
   );
 }
 
 function sdcUserNotCheckout(): void {
   cy.visit(
-    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICE&uuid=b1645734-b812-4cd7-a0cc-5b5843940ad6&lifecycleState=READY_FOR_CERTIFICATION&isOwner=true'
+    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uu' +
+      'id=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=READY_FOR_CERTIFICATION&i' +
+      'sOwner=true&version=0.1'
   );
 }
 
 function homePage(): void {
   cy.visit(
-    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uuid=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=NOT_CERTIFIED_CHECKOUT&isOwner=true&version=0.1'
+    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uu' +
+      'id=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=NOT_CERTIFIED_CHECKOUT&is' +
+      'Owner=true&version=0.1'
   );
 }
 
 function homePageCertified(): void {
   cy.visit(
-    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uuid=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=CERTIFIED_CHECKOUT&isOwner=true&version=0.1'
+    'home?userId=cs0008&userRole=DESIGNER&displayType=context&contextType=SERVICES&uu' +
+      'id=06c7d927-4e2f-47e1-a29d-b6ed229ebc0a&lifecycleState=CERTIFIED_CHECKOUT&isOwne' +
+      'r=true&version=0.1'
   );
 }
 
@@ -46,7 +54,8 @@ function deleteMonitoringComponent(): void {
       method: 'DELETE',
       url:
         Cypress.env('backendUrl') +
-        '/SERVICES/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9b0/cba37ed8-94e1-406f-b4f5-b5edbc31ac85/deleteVfcmtReference',
+        '/SERVICES/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9' +
+        'b0/cba37ed8-94e1-406f-b4f5-b5edbc31ac85/deleteVfcmtReference',
       response: '{}'
     })
     .as('deleteMonitoringComponent');
@@ -59,7 +68,8 @@ function saveMonitoringComponent(): void {
       method: 'POST',
       url:
         Cypress.env('backendUrl') +
-        '/SERVICES/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9b0/saveComposition/cba37ed8-94e1-406f-b4f5-b5edbc31ac85',
+        '/SERVICES/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9' +
+        'b0/saveComposition/cba37ed8-94e1-406f-b4f5-b5edbc31ac85',
       response: '{}'
     })
     .as('saveMonitoringComponent');
@@ -72,7 +82,8 @@ function submitMonitoringComponent(): void {
       method: 'POST',
       url:
         Cypress.env('backendUrl') +
-        '/SERVICES/createBluePrint/cba37ed8-94e1-406f-b4f5-b5edbc31ac85/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9b0/',
+        '/SERVICES/createBluePrint/cba37ed8-94e1-406f-b4f5-b5edbc31ac85/06c7d927-4e2f-47e' +
+        '1-a29d-b6ed229ebc0a/vfb53dd48360ff4fa2b66e6ceb1961bd9b0/',
       response: '{}'
     })
     .as('submitMonitoringComponent');
@@ -85,7 +96,8 @@ function deleteMonitoringComponentWithBlueprint(): void {
       method: 'DELETE',
       url:
         Cypress.env('backendUrl') +
-        '/SERVICES/teSt.__.monitoring---TempLATE.6hnc/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/dump0/64471437-8feb-40d9-a8b0-9407a81dd5c0/deleteVfcmtReference',
+        '/SERVICES/06c7d927-4e2f-47e1-a29d-b6ed229ebc0a/dump0/64471437-8feb-40d9-a8b0-940' +
+        '7a81dd5c0/deleteVfcmtReference',
       response: '{}'
     })
     .as('deleteMonitoringComponentWithBlueprint');

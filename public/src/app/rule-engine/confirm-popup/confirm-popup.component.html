@@ -1,12 +1,36 @@
-<div class="container" data-tests-id="delete-popup">
+<div class="container-popup" data-tests-id="delete-popup">
   <div class="header">
-    Delete
+    <div style="display: flex; width:100%;">
+      <span style="color: #CF2A2A;
+        padding-right: 15px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;" [innerHTML]="'x-circle' | feather:28"></span>
+      <span style="font-family: 'Open Sans', sans-serif;
+      font-size: 24px; width: 100%;">
+        Delete
+      </span>
+      <span style="
+        height: 100%;
+        display: flex;
+        color:rgb(90, 90, 90);
+        justify-content: center;
+        align-items: center;" [innerHTML]="'x' | feather:20" (click)="close(false)"></span>
+    </div>
   </div>
-  <div class="content">
+  <div class="content" style="padding: 0 0 20px 50px; font-family: 'Open Sans', sans-serif; font-size: 14px;">
     Are you sure you want to delete?
   </div>
   <div class="buttons">
-    <button mat-raised-button (click)="close(true)" data-tests-id="btnDelete" style="margin-right: 1rem;" color="primary">Delete</button>
-    <button mat-raised-button (click)="close(false)" data-tests-id="btnCancel" style="border: 1px solid #009FDB; color: #009FDB; background: #ffffff;">Cancel</button>
+
+    <button mat-raised-button color="primary" style="background-color: #CF2A2A; margin-right: 10px; font-size: 14px; font-family: 'Open Sans', sans-serif; height: 36px; color:white;"
+      (click)="close(true)" data-tests-id="btnDelete">
+      DELETE
+    </button>
+    <button mat-raised-button class="btn-secondry" style="border-color: #CF2A2A !important; color:#CF2A2A !important; font-size: 14px; font-family: 'Open Sans', sans-serif;text-align: center; height: 36px;"
+      (click)="close(false)" data-tests-id="btnCancel">
+      CANCEL
+    </button>
   </div>
 </div>

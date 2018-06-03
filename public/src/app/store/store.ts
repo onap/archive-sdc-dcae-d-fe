@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { observable, computed, action, toJS, reaction } from 'mobx';
 import { findIndex } from 'lodash';
+import { action, computed, observable, toJS } from 'mobx';
 
 @Injectable()
 export class Store {
@@ -16,6 +16,10 @@ export class Store {
   @observable expandAdvancedSetting = [];
   @observable generalflow;
   @observable vfiName;
+  @observable flowType;
+  @observable ifrmaeMessenger;
+  @observable waitForSave = false;
+  @observable displaySDCDialog = false;
   // error dialog
   @observable displayErrorDialog = false;
   @observable ErrorContent = [];
@@ -23,9 +27,11 @@ export class Store {
   // rule-engine
   @observable tabParmasForRule;
   @observable ruleList = new Array();
+  @observable ruleListExistParams;
   @observable ruleEditorInitializedState;
   @observable isLeftVisible;
   @observable inprogress;
+  @observable notifyIdValue = '';
 
   @action
   updateRuleInList(rule) {
@@ -81,6 +87,13 @@ export class Store {
           x.assignment.value = '';
         } else if (typeof x.assignment.value === 'object') {
           x.assignment.value = JSON.stringify(x.assignment.value);
+        }
+        if (x.value) {
+          if (typeof x.value === 'object') {
+            x.value = JSON.stringify(x.value);
+          }
+        } else if (!x.value) {
+          x.value = x.assignment.value;
         }
         return x;
       });

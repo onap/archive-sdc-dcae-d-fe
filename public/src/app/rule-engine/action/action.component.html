@@ -1,56 +1,151 @@
 <form #actionFrm="ngForm" class="conatiner" id="{{action.id}}" (mouseover)="changeStyle($event)" (mouseout)="changeStyle($event)">
   <div>
+
     <div class="center-content">
       <!-- type info -->
       <div class="action-info" [ngClass]="highlight">
         {{action.actionType | uppercase}}
       </div>
+
       <!-- from component -->
-      <app-from #from style="width: 100%" [actionType]="action.actionType" (onFromChange)="updateFrom($event)"></app-from>
+      <app-from [hidden]="action.actionType === 'log event' || action.actionType === 'log text'" class="center-content-item" #from
+        [actionType]="action.actionType" (onFromChange)="updateFrom($event)"></app-from>
+
       <!-- target component -->
-      <app-target #target style="width: 100%" (onTargetChange)="updateTarget($event)" [nodes]="action.nodes">
+      <app-target [hidden]="action.actionType === 'clear' || action.actionType === 'replace text' || action.actionType === 'log text' || action.actionType === 'log event'"
+        #target style="width: 100%" (onTargetChange)="updateTarget($event)" [nodes]="action.nodes">
       </app-target>
+
+      <!-- log Event -->
+      <div *ngIf="action.actionType === 'log event'" class="center-content-item">
+        <div class="from">
+          <div class="from-container">
+            <div style="display: flex; align-items: center; width: 100%;" class="label">
+              <span class="label" style="padding: 0 5px; width: 100px;">Title</span>
+              <input required class="input-text" data-tests-id="InputLogTitle" ngModel name="title" [(ngModel)]="action.logEvent.title"
+                type="text" placeholder="The title for the log entry">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- log Text -->
+      <div *ngIf="action.actionType === 'log text'" class="center-content-item">
+        <div class="from">
+          <div class="from-container">
+            <div style="display: flex; align-items: center; width: 100%;" class="label">
+              <span class="label" style="padding: 0 5px; width: 100px;">Log Text</span>
+              <input required class="input-text" data-tests-id="InputLogText" ngModel name="logText" [(ngModel)]="action.logText.text"
+                type="text" placeholder="The title for the log entry">
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- dateFormatter -->
-    <div *ngIf="action.actionType === 'date formatter'" style="display: flex; flex-direction: column; margin: 1em; align-items: flex-end;">
-      <div style="display: flex; margin: 0.5em 0;">
-        <div class="from">
-          <div class="from-conatiner">
-            <div style="display: flex; align-items: center;" class="label">
-              <span class="label" style="padding: 0 5px; width: 100px;">From Format</span>
-              <input class="input-text" ngModel required name="fromFormat" [(ngModel)]="action.dateFormatter.fromFormat" type="text">
+      <!-- dateFormatter -->
+      <div *ngIf="action.actionType === 'date formatter'" style="flex-direction: column; margin-left: 156px; align-items: flex-end;">
+          <div style="display: flex; margin: 0.5em 0; padding-left: 6px;">
+            <div class="from" style="width:50%;">
+              <div class="from-container">
+                <div style="display: flex; align-items: center; width: 100%;" class="label">
+                  <span class="label" style="padding: 0 5px; width: 100px;">From Format</span>
+                  <input data-tests-id="InputFromFormat" class="input-text" ngModel required name="fromFormat" [(ngModel)]="action.dateFormatter.fromFormat" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="from"  style="width:50%; padding: 0;">
+              <div class="from-container">
+                <div style="display: flex; align-items: center; width: 100%;" class="label">
+                  <span class="label" style="padding: 0 5px; width: 100px;">To Format</span>
+                  <input data-tests-id="InputToFormat" class="input-text" ngModel required name="toFormat" [(ngModel)]="action.dateFormatter.toFormat" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div style="display: flex; margin: 0.5em 0; padding-left: 6px;">
+            <div class="from" style="width:50%;">
+              <div class="from-container">
+                <div style="display: flex; align-items: center; width: 100%;" class="label">
+                  <span class="label" style="padding: 0 5px; width: 132px;">From Time-zone</span>
+                  <input class="input-text" data-tests-id="InputFromTimezone" ngModel required name="fromTimezone" [(ngModel)]="action.dateFormatter.fromTimezone" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="from" style="width:50%; padding: 0;">
+              <div class="from-container">
+                <div style="display: flex; align-items: center; width: 100%;" class="label">
+                  <span class="label" style="padding: 0 5px; width: 100px;">To Time-zone</span>
+                  <input class="input-text" data-tests-id="InputToTimezone" ngModel required name="toTimezone" [(ngModel)]="action.dateFormatter.toTimezone" type="text">
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="from">
-          <div class="from-conatiner">
-            <div style="display: flex; align-items: center;" class="label">
-              <span class="label" style="padding: 0 5px; width: 100px;">To Format</span>
-              <input class="input-text" ngModel required name="toFormat" [(ngModel)]="action.dateFormatter.toFormat" type="text">
+
+    <!-- replace text -->
+    <div *ngIf="action.actionType === 'replace text'" class="action-container" style="flex-direction: row; margin-left: 152px; padding: 0 0.8em;">
+
+      <div class="action-item">
+        <div class="from" style="width:100%;">
+          <div class="from-container" display="padding:0;">
+
+            <div class="label" style="width: 100%;">
+              <span class="label" style="padding: 0 5px; width: 100px;">Find what</span>
+              <input data-tests-id="InputFindWhat" class="input-text" ngModel required name="findWhat" [(ngModel)]="action.replaceText.find"
+                type="text" placeholder="Find text">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="action-item">
+        <div class="from" style="width: 100%; padding: 0;">
+          <div class="from-container">
+
+            <div class="label" style="width: 100%;">
+              <span class="label" style="padding: 0 5px; width: 100px;">Replace with</span>
+              <input data-tests-id="InputReplaceWith" class="input-text" ngModel required name="replaceWith" [(ngModel)]="action.replaceText.replace"
+                type="text" placeholder="Replace with text">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- log text -->
+    <div *ngIf="action.actionType === 'log text'" class="action-container" style="flex-direction: row; margin-left: 152px; padding: 0 0.8em;">
+
+      <div class="action-item">
+        <div class="from" style="width: 100%;">
+          <div class="from-container" display="padding:0;">
+            <div class="label" style="width: 100%;">
+              <span class="label" style="padding: 0 5px; width: 100px;">Log Name</span>
+              <input class="input-text" data-tests-id="InputLogName" ngModel name="logName" [(ngModel)]="action.logText.name"
+                type="text" placeholder="Enter log name">
             </div>
           </div>
         </div>
       </div>
 
-      <div style="display: flex; margin: 0.5em 0;">
-        <div class="from">
-          <div class="from-conatiner">
-            <div style="display: flex; align-items: center;" class="label">
-              <span class="label" style="padding: 0 5px; width: 100px;">From Time-zone</span>
-              <input class="input-text" ngModel required name="fromTimezone" [(ngModel)]="action.dateFormatter.fromTimezone" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="from">
-          <div class="from-conatiner">
-            <div style="display: flex; align-items: center;" class="label">
-              <span class="label" style="padding: 0 5px; width: 100px;">To Time-zone</span>
-              <input class="input-text" ngModel required name="toTimezone" [(ngModel)]="action.dateFormatter.toTimezone" type="text">
+      <div class="action-item">
+        <div class="from" style="width: 100%; padding: 0;">
+          <div class="from-container">
+            <div class="label" style="width: 100%;">
+              <span class="label" style="padding: 0 5px; width: 100px;">Log Level</span>
+              <input class="input-text" data-tests-id="InputLogLevel" ngModel required name="logLevel" [(ngModel)]="action.logText.level"
+                type="text" placeholder="Text to log">
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Map -->
@@ -90,8 +185,8 @@
               <input [(ngModel)]="item.value" ngModel required name="mapValue[{{index}}]" data-tests-id="value" type="text" style="width:97%; height: 100%;border: none; padding:0 5px;">
             </th>
             <th style="height: 30px; display: flex; align-items: baseline;">
-              <button mat-icon-button [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}" class="button-remove" (click)="removeMapRow(index)"
-                *ngIf="action.map.values.length > 1" style="height: 24px; width: 24px; display:flex; box-shadow: none;">
+              <button mat-icon-button data-tests-id="btn-remove-row" [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}"
+                class="button-remove" (click)="removeMapRow(index)" *ngIf="action.map.values.length > 1" style="height: 24px; width: 24px; display:flex; box-shadow: none;">
                 <mat-icon class="md-24">delete</mat-icon>
               </button>
             </th>
@@ -102,8 +197,9 @@
 
       <div style="display:flex; justify-content: space-between;">
         <div style="display: flex; align-items: center;">
-          <button mat-mini-fab color="primary" (click)="addMapRow()" style="height: 24px; width: 24px; display:flex; box-shadow: none;">
-            <mat-icon>add</mat-icon>
+          <button mat-mini-fab color="primary" (click)="addMapRow()" data-tests-id="btn-add-row" style="height: 16px; width: 16px; display:flex; box-shadow: none;">
+            <span style="padding-left: 2px; display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
+            <!-- <mat-icon>add</mat-icon> -->
           </button>
           <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 6px">Add Row</span>
         </div>

@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  Http,
-  Response,
-  Headers,
-  RequestOptions,
-  URLSearchParams
-} from '@angular/http';
+import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import { environment } from '../../environments/environment';
 import { v4 as uuidGenarator } from 'uuid';
+import { environment } from '../../environments/environment';
+import { Store } from '../store/store';
 
 @Injectable()
 export class RestApiService {
@@ -20,16 +15,24 @@ export class RestApiService {
   headers: Headers;
   baseUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, public store: Store) {
     this.baseUrl = `${environment.apiBaseUrl}`;
+  }
+
+  addHeaders() {
+    const userID =
+      this.store.sdcParmas === undefined
+        ? 'ym903w'
+        : this.store.sdcParmas.userId;
     this.headers = new Headers({
       'Content-Type': 'application/json',
-      USER_ID: 'ym903w'
+      USER_ID: userID
     });
     this.options = new RequestOptions({ headers: this.headers });
   }
 
   getVfcmtsForMigration(params) {
+    this.addHeaders();
     const { contextType, uuid, version } = params;
     const url = `${
       this.baseUrl
@@ -44,6 +47,7 @@ export class RestApiService {
   }
 
   getVfcmtReferenceData(vfcmtUUID) {
+    this.addHeaders();
     const url = `${this.baseUrl}/getVfcmtReferenceData/${vfcmtUUID}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -53,6 +57,7 @@ export class RestApiService {
   }
 
   getFlowType() {
+    this.addHeaders();
     const url = `${this.baseUrl}/conf/composition`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -62,6 +67,7 @@ export class RestApiService {
   }
 
   createNewVFCMT(params) {
+    this.addHeaders();
     const url = `${this.baseUrl}/createMC`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -73,6 +79,7 @@ export class RestApiService {
   }
 
   importVFCMT(params) {
+    this.addHeaders();
     const url = `${this.baseUrl}/importMC`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -84,6 +91,7 @@ export class RestApiService {
   }
 
   getServiceInstances(serviceID) {
+    this.addHeaders();
     const url = `${this.baseUrl}/service/${serviceID}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -95,6 +103,7 @@ export class RestApiService {
   }
 
   getTemplateResources() {
+    this.addHeaders();
     const url = `${this.baseUrl}/getResourcesByMonitoringTemplateCategory`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -104,6 +113,7 @@ export class RestApiService {
   }
 
   getMonitoringComponents(params) {
+    this.addHeaders();
     const { contextType, uuid, version } = params;
     const url = `${
       this.baseUrl
@@ -116,6 +126,7 @@ export class RestApiService {
   }
 
   deleteMonitoringComponent(params, vfcmtUuid, vfiName) {
+    this.addHeaders();
     const { contextType, uuid } = params;
     const url = `${
       this.baseUrl
@@ -123,7 +134,7 @@ export class RestApiService {
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
       .delete(url, this.options)
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
@@ -133,6 +144,7 @@ export class RestApiService {
     vfcmtUuid,
     vfiName
   ) {
+    this.addHeaders();
     const { contextType, uuid } = params;
     const url = `${
       this.baseUrl
@@ -140,11 +152,12 @@ export class RestApiService {
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
       .delete(url, this.options)
-      .map((res: Response) => res.json())
+      .map((res: Response) => res)
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
   getCompositionMonitoringComponent(vfcmtUuid) {
+    this.addHeaders();
     const url = `${this.baseUrl}/getMC/${vfcmtUuid}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
@@ -154,18 +167,20 @@ export class RestApiService {
   }
 
   saveMonitoringComponent(params) {
+    this.addHeaders();
     const { contextType, serviceUuid, vfiName, vfcmtUuid, cdump } = params;
     const url = `${
       this.baseUrl
     }/${contextType}/${serviceUuid}/${vfiName}/saveComposition/${vfcmtUuid}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
-      .post(url, cdump, this.options)
+      .post(url, JSON.stringify(cdump), this.options)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
   submitMonitoringComponent(params) {
+    this.addHeaders();
     const { contextType, serviceUuid, vfiName, vfcmtUuid, flowType } = params;
     const url = `${
       this.baseUrl
