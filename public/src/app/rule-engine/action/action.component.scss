@@ -11,6 +11,13 @@
   .highlight {
     color: #009fdb;
   }
+  .input-text {
+    border: none;
+    flex: 1;
+    // width: 250px;
+    padding: 5px 0 5px 5px;
+    margin: 0;
+  }
   .center-content {
     display: flex;
     width: 100%;
@@ -23,7 +30,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 142px;
+      min-width: 150px;
     }
     .center-content-item {
       width: 100%;
@@ -84,7 +91,8 @@
 .from {
   display: flex;
   flex-direction: column;
-  padding: 0 10px;
+  // padding: 0 10px;
+  padding-right: 10px;
   .from-container {
     display: flex;
     flex-direction: column;
@@ -130,4 +138,17 @@
 .label .action-item-label {
   padding: 0 5px;
   width: 110px;
+}
+
+.btn-wrapper {
+  position: relative;
+}
+.btn-wrapper input[type='file'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
 }

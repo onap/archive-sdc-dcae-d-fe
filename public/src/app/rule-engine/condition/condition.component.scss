@@ -9,7 +9,7 @@
     padding: 0;
   }
   .angular-tree-component {
-    padding-left: 1em;
+    // padding-left: 1em;
     overflow-y: hidden;
   }
   .tree-node-leaf.container {
@@ -26,11 +26,45 @@
   }
   .node-wrapper {
     background: white;
+    padding-top: 10px;
   }
   .tree-children {
     border-left: 2px solid #f2f2f2;
+    border-right: 2px solid #f2f2f2;
+    border-bottom: 2px solid #f2f2f2;
     // border-top: 1px solid #f2f2f2;
     border-bottom: 1px solid #f2f2f2;
+    // border-bottom: 1px solid #f2f2f2;
+  }
+  .tree-node-level-2
+    > tree-node-wrapper
+    > .node-wrapper
+    > .node-content-wrapper {
+    width: 90%;
+  }
+  .tree-node-level-2 .tree-children {
+    width: 90%;
+  }
+  .tree-node-level-3
+    > tree-node-wrapper
+    > .node-wrapper
+    > .node-content-wrapper {
+    width: 85%;
+  }
+  .tree-node-level-3 .tree-children {
+    width: 85%;
+  }
+  .tree-node-level-4
+    > tree-node-wrapper
+    > .node-wrapper
+    > .node-content-wrapper {
+    width: 80%;
+  }
+  .tree-node-level-4 .tree-children {
+    width: 80%;
+  }
+  div .node-content-wrapper {
+    padding: 0;
   }
   tree-node-expander {
     display: none;

@@ -31,3 +31,14 @@
 .ui-tabview .ui-tabview-nav li.ui-tabview-selected .ui-tabview-title {
   color: #009fdb;
 }
+
+.ui-tabview .ui-tabview-nav {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.ui-tabview .ui-tabview-nav li {
+  display: inline-block;
+  float: none;
+  margin-right: -4px;
+}

@@ -63,6 +63,7 @@ export class GeneralComponent implements OnInit {
   @Output() updateCdumpEv = new EventEmitter<string>();
   @ViewChild('generalForm') generalForm;
   list = [];
+  importBtnDisabled = true;
 
   constructor(
     private restApi: RestApiService,
@@ -217,6 +218,7 @@ export class GeneralComponent implements OnInit {
   }
 
   private getServiceRef(data) {
+    this.importBtnDisabled = false;
     if (data.flowType !== undefined) {
       if (data.serviceUuid === this.serviceUUID) {
         this.newVfcmt.name = data.name;

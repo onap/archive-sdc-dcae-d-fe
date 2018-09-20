@@ -5,7 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { RestApiService } from '../api/rest-api.service';
 import { HostService } from '../host/host.service';
 import { ConfirmPopupComponent } from '../rule-engine/confirm-popup/confirm-popup.component';
-import { PluginPubSub } from '../sdc/plugin-pubsub';
+// import { PluginPubSub } from '../sdc/plugin-pubsub';
+import { PluginPubSub } from 'sdc-pubsub';
 import { Store } from '../store/store';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
@@ -120,33 +121,25 @@ export class HomeComponent {
   }
 
   checkCanCreate() {
-    if (
+    return (
       JSON.parse(this.store.sdcParmas.isOwner) &&
       this.store.sdcParmas.lifecycleState === 'NOT_CERTIFIED_CHECKOUT'
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    );
   }
 
   // Monitoring Table logic
 
   checkTableItemHoverCondition(item: any): boolean {
-    if (
-      this.store.sdcParmas !== undefined &&
-      this.store.sdcParmas.userId === item.lastUpdaterUserId &&
-      this.store.sdcParmas.lifecycleState === 'NOT_CERTIFIED_CHECKOUT'
-    ) {
-      return false;
-    } else {
-      return true;
-    }
+    return (
+      this.checkCanCreate() &&
+      (this.store.sdcParmas.userId === item.lastUpdaterUserId ||
+        item['lifecycleState'] !== 'NOT_CERTIFIED_CHECKOUT')
+    );
   }
 
   onTableActivate(event: any): void {
     this.hoveredIndex = this.monitoringComponents.findIndex(
-      s => s == event.row
+      s => s === event.row
     );
     console.log('selected : ');
   }
@@ -161,18 +154,6 @@ export class HomeComponent {
     console.log('selected : ', item);
   }
 
-  deleteEnable(item: any): boolean {
-    console.log(
-      'delete enable: ',
-      item.isOwner && item.Lifecycle === 'NOT_CERTIFIED_CHECKOUT'
-    );
-    const { userId, lifecycleState } = this.store.sdcParmas;
-    return (
-      item.lastUpdaterUserId === userId &&
-      lifecycleState === 'NOT_CERTIFIED_CHECKOUT'
-    );
-  }
-
   deleteTableItem(item: any, index: any): void {
     this.deleteRow = index;
     this.dialogRef = this.dialog.open(ConfirmPopupComponent, {
@@ -183,6 +164,7 @@ export class HomeComponent {
       // if the user want to delete
       if (result) {
         if (item.status === 'Submitted') {
+          this.store.loader = true;
           this._restApi
             .deleteMonitoringComponentWithBlueprint(
               this.store.sdcParmas,
@@ -192,18 +174,24 @@ export class HomeComponent {
             )
             .subscribe(
               response => {
-                this.itemDeletedRemoveAndNotify(this.deleteRow);
+                this.itemDeletedRemoveAndNotify(item.uuid, this.deleteRow);
+                this.store.loader = false;
               },
               error => {
-                if (error.messageId === 'SVC6118') {
-                  this.monitoringComponents.splice(this.deleteRow, 1);
-                  this.changeDetectorRef.detectChanges();
-                }
                 const errorMsg = Object.values(error.requestError) as any;
+                if (errorMsg[0].messageId === 'SVC6118') {
+                  this.monitoringComponents = this.monitoringComponents.filter(
+                    comp => {
+                      return comp.uuid !== item.uuid;
+                    }
+                  );
+                }
+                this.store.loader = false;
                 this.toastr.error('', errorMsg[0].formattedErrorMessage);
               }
             );
         } else {
+          this.store.loader = true;
           this._restApi
             .deleteMonitoringComponent(
               this.store.sdcParmas,
@@ -212,10 +200,12 @@ export class HomeComponent {
             )
             .subscribe(
               response => {
-                this.itemDeletedRemoveAndNotify(this.deleteRow);
+                this.itemDeletedRemoveAndNotify(item.uuid, this.deleteRow);
+                this.store.loader = false;
               },
               error => {
                 const errorMsg = Object.values(error.requestError) as any;
+                this.store.loader = false;
                 this.toastr.error('', errorMsg[0]);
               }
             );
@@ -224,9 +214,10 @@ export class HomeComponent {
     });
   }
 
-  itemDeletedRemoveAndNotify(deletedRow: number): void {
-    this.monitoringComponents.splice(deletedRow, 1);
-    this.changeDetectorRef.detectChanges();
+  itemDeletedRemoveAndNotify(uuid, deletedRow: number): void {
+    this.monitoringComponents = this.monitoringComponents.filter(comp => {
+      return comp.uuid !== uuid;
+    });
     this.toastr.success(
       '',
       'Monitoring Configuration was successfully deleted'

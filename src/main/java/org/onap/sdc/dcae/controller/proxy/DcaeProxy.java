@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +33,17 @@ public class DcaeProxy extends ProxyServlet {
     @Override
     protected HttpClient newHttpClient() {
         SslContextFactory factory = new SslContextFactory(true);
-        return new HttpClient(factory);
+		return new HttpClient(factory);
     }
+
+
+    @Override
+	protected HttpClient createHttpClient() throws ServletException {
+    	HttpClient client = super.createHttpClient();
+		client.setIdleTimeout(180000);
+		client.setConnectTimeout(180000);
+		return client;
+	}
 
     @Override
     protected String rewriteTarget(HttpServletRequest request) {
