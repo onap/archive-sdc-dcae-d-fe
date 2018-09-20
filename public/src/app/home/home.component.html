@@ -5,7 +5,7 @@
     <div style="font-size: 22px; display: flex; align-items: center;">Monitoring</div>
 
     <div style="display: flex;">
-      <button mat-icon-button [disabled]="checkCanCreate()" style="margin-right: 10px;" data-tests-id="btn-import-mc" (click)="importScreen()">
+      <button mat-icon-button [disabled]="!checkCanCreate()" style="margin-right: 10px;" data-tests-id="btn-import-mc" (click)="importScreen()">
         <span style="width: 100%;
                   height: 100%;
                   display: flex;
@@ -13,7 +13,7 @@
                   align-items: center;" [innerHTML]="'download' | feather:20"></span>
       </button>
 
-      <button mat-raised-button color="primary" (click)="createScreen()" data-tests-id="btn-create-mc" class="btn-create" [disabled]="checkCanCreate()">
+      <button mat-raised-button color="primary" (click)="createScreen()" data-tests-id="btn-create-mc" class="btn-create" [disabled]="!checkCanCreate()">
         Create New MC
       </button>
     </div>
@@ -29,19 +29,15 @@
       </div>
     </div>
 
-    <ngx-datatable data-tests-id="monitoringComponentTable" class="material" [rows]="monitoringComponents" [loadingIndicator]="loadingIndicator" [columnMode]="'flex'"
-      [headerHeight]="40" [footerHeight]="40" [limit]="10" [rowHeight]="40"(selected)="onTableSelectItem($event)"
+    <ngx-datatable data-tests-id="monitoringComponentTable" class="material" [rows]="monitoringComponents" [loadingIndicator]="loadingIndicator"
+      [columnMode]="'flex'" [headerHeight]="40" [footerHeight]="40" [limit]="12" [rowHeight]="40" (selected)="onTableSelectItem($event)"
       [selectionType]="'single'" [selected]="selectedLine" (activate)="onTableActivate($event)">
 
       <ngx-datatable-column name="Monitoring Configuration" prop="name" [flexGrow]="3">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-
-          <div data-tests-id="tableItemsMonitoringConfiguration" [hidden]="checkTableItemHoverCondition(row)" (click)="editTableItem(row)"
-            class="ngx-datatable-monitoring-name">
+          <div data-tests-id="tableItemsMonitoringConfiguration" (click)="checkTableItemHoverCondition(row) && editTableItem(row)"
+               [ngClass]="{'ngx-datatable-monitoring-name': checkTableItemHoverCondition(row)}">
             <span> {{value}} </span>
-          </div>
-          <div data-tests-id="tableItemsMonitoringConfigurationNotOwner" [hidden]="!checkTableItemHoverCondition(row)">
-            <span>{{value}} </span>
           </div>
         </ng-template>
 
@@ -57,22 +53,22 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Version" prop="version" [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Status" prop="status" [flexGrow]="2"></ngx-datatable-column>
-      <ngx-datatable-column name="Last Updated by"  prop="lastUpdaterUserId" [flexGrow]="2"></ngx-datatable-column>
-      <ngx-datatable-column name="Actions" sortable="false" prop="id"  [flexGrow]="1">
-        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template >
+      <ngx-datatable-column name="Last Updated by" prop="lastUpdaterUserId" [flexGrow]="2"></ngx-datatable-column>
+      <ngx-datatable-column name="Actions" sortable="false" prop="id" [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
 
-          <div *ngIf="hoveredIndex == rowIndex" style="margin-top:-5px;" >
-            <button data-tests-id="tableItemsButtonDelete" *ngIf="!checkTableItemHoverCondition(row); else elseBtnBlock" mat-icon-button
+          <div *ngIf="hoveredIndex == rowIndex" style="margin-top:-5px;">
+            <button data-tests-id="tableItemsButtonDelete" *ngIf="checkCanCreate(); else elseBtnBlock" mat-icon-button
               data-tests-id="tableItemsButtonDelete" (click)="deleteTableItem(row, rowIndex)" style="width:30px; height: 30px;">
               <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;" [innerHTML]="'trash-2' | feather:18"></span>
             </button>
-             
+
             <ng-template #elseBtnBlock>
 
-                <button data-tests-id="tableItemsButtonInfo" mat-icon-button data-tests-id="tableItemsButtonInfo" style="width:30px; height: 30px;">
-                  <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;" [innerHTML]="'info' | feather:18"></span>
-                </button>
-              </ng-template>
+              <button data-tests-id="tableItemsButtonInfo" mat-icon-button data-tests-id="tableItemsButtonInfo" style="width:30px; height: 30px;">
+                <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;" [innerHTML]="'info' | feather:18"></span>
+              </button>
+            </ng-template>
 
           </div>
 
@@ -100,10 +96,10 @@
         Please create a new MC to monitor the service
       </div>
       <div class="wrapper-btn-add-mc">
-        <button mat-mini-fab color="primary" (click)="createScreen()" data-tests-id="btn-fab-create-mc" [disabled]="checkCanCreate()">
+        <button mat-mini-fab color="primary" (click)="createScreen()" data-tests-id="btn-fab-create-mc" [disabled]="!checkCanCreate()">
           <span [innerHTML]="'plus' | feather:24"></span>
         </button>
-        <span data-tests-id="btn-span-create-mc" style="margin-top: 10px; font-size: 14px; " [style.color]="checkCanCreate() ? '#ebebe4' : '#009FDB'">Add First MC</span>
+        <span data-tests-id="btn-span-create-mc" style="margin-top: 10px; font-size: 14px; " [style.color]="!checkCanCreate() ? '#ebebe4' : '#009FDB'">Add First MC</span>
       </div>
     </div>
   </ng-template>

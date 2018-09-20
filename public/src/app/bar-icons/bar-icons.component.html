@@ -1,45 +1,47 @@
 <div style="display: flex; position: relative; justify-content: flex-end;" class="bars">
   <div style="display: flex; justify-content: flex-end; align-items:center;" [class]="genrateBarTestId()">
-    <button mat-icon-button>
-      <span style="width: 100%;
-          color:#5a5a5a;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;" [innerHTML]="'help-circle' | feather:20"></span>
-    </button>
-    <hr>
 
-    <div *ngIf="tabName.includes('map')" style="display: flex; align-items: center;">
-      <button mat-icon-button>
+    <div *ngIf="tabName.toLowerCase().includes('map') || tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp')"
+      style="display: flex; align-items: center;">
+      <button mat-icon-button (click)="downloadRules()" pTooltip="Export" tooltipPosition="top">
         <span style="width: 100%;
             color:#5a5a5a;
                 height: 100%;
                 display: flex;
                 justify-content: center;
-                align-items: center;" [innerHTML]="'upload' | feather:20"></span>
+                align-items: center;"
+          [innerHTML]="'upload' | feather:20"></span>
       </button>
       <hr>
 
-      <button mat-icon-button>
+      <button mat-icon-button (click)="enableImports()" data-tests-id="import-rules" pTooltip="Import" tooltipPosition="top">
         <span style="width: 100%;
             color:#5a5a5a;
                 height: 100%;
                 display: flex;
                 justify-content: center;
-                align-items: center;" [innerHTML]="'download' | feather:20"></span>
+                align-items: center;"
+          [innerHTML]="'download' | feather:20"></span>
       </button>
       <hr>
     </div>
 
-    <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear" [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : 'black'">
+    <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear" [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : 'black'"
+      pTooltip="Settings" tooltipPosition="top">
       <span style="width: 100%;
           color:#5a5a5a;
           height: 100%;
           display: flex;
           justify-content: center;
-          align-items: center;" [innerHTML]="'settings' | feather:20"></span>
+          align-items: center;"
+        [innerHTML]="'settings' | feather:20"></span>
     </button>
+  </div>
+
+  <div *ngIf="tabName.toLowerCase().includes('map') || tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp')">
+    <div class="import" [style.display]="!store.expandImports[store.tabIndex] ? 'none' : 'block'">
+      <app-import-rules></app-import-rules>
+    </div>
   </div>
 
   <!-- advanced setting -->
@@ -56,17 +58,17 @@
               pTooltip="{{prop.description}}" tooltipPosition="top"></span>
           </div>
 
-          <input *ngIf="isPropertyDdl(prop) === dropDownTypes.none" type="text" name="{{prop.name}}" class="field-text" [(ngModel)]="prop.value"
-            (ngModelChange)="onChange($event)">
+          <input *ngIf="isPropertyDdl(prop) === dropDownTypes.none" type="text" name="{{prop.name}}" class="field-text"
+            [(ngModel)]="prop.value" (ngModelChange)="onChange($event)">
 
-          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.regularDDL" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.value"
-            (ngModelChange)="onChange($event)">
+          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.regularDDL" class="field-text" name="{{prop.name}}"
+            [(ngModel)]="prop.value" (ngModelChange)="onChange($event)">
             <option *ngFor="let value of prop.constraints[0].valid_values" [value]="value">
               {{value}}
             </option>
           </select>
-          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.booleanDDL" class="field-text" name="{{prop.name}}" [(ngModel)]="prop.value"
-            (ngModelChange)="onChange($event)" data-tests-id="booleanDDL">
+          <select *ngIf="isPropertyDdl(prop) === dropDownTypes.booleanDDL" class="field-text" name="{{prop.name}}"
+            [(ngModel)]="prop.value" (ngModelChange)="onChange($event)" data-tests-id="booleanDDL">
             <option value="false">
               false
             </option>

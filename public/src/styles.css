@@ -90,3 +90,7 @@ input.ng-touched.ng-invalid:not(form) {
 .ui-dialog-titlebar {
   background: white;
 }
+
+::-webkit-file-upload-button {
+  cursor: pointer;
+}

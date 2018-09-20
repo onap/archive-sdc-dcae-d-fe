@@ -17,8 +17,8 @@
           align-items: center;" [innerHTML]="'save' | feather:22"></span>
       </button>
 
-      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 10px;" color="primary" data-tests-id="btnDone"
-        (click)="saveAndDone()">
+      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 10px;" color="primary"
+        data-tests-id="btnDone" (click)="saveAndDone()">
         Done
       </button>
     </div>
@@ -51,7 +51,7 @@
       </div>
 
       <div *ngIf="ifStatement">
-        <app-condition #condition (removeConditionCheck)="removeConditionCheck($event)" (onConditionChange)="updateCondition($event)"></app-condition>
+        <app-condition #conditions [condition]="condition" (removeConditionCheck)="removeConditionCheck($event)" (onConditionChange)="updateCondition($event)"></app-condition>
       </div>
     </div>
 
@@ -62,7 +62,7 @@
       <div style="display: flex;">
         <select [(ngModel)]="selectedAction" name="selectedAction" style="height: 2rem; width: 150px; margin-right: 1rem;" data-tests-id="selectAction">
           <option [ngValue]="null" disabled>Select Action</option>
-          
+
           <option value="copy">Copy</option>
           <option value="concat">Concat</option>
           <option value="map">Map</option>
@@ -71,6 +71,10 @@
           <option value="log event">Log Event</option>
           <option value="replace text">Replace Text</option>
           <option value="clear">Clear</option>
+          <option *ngIf="isEnrich" value="hp metric">HP Metric</option>
+          <option *ngIf="isEnrich" value="clear nsf">Clear NSF</option>
+          <option *ngIf="isEnrich" value="string transform">String Transform</option>
+          <option *ngIf="isEnrich" value="Topology Search">Topology Search</option>
 
         </select>
 
@@ -85,13 +89,21 @@
       </div>
 
       <div>
-        <ul>
+        <ul data-tests-id="action-list">
           <li *ngFor="let action of actions; let index = index" style="list-style: none; margin: 1rem 0;" (mouseleave)="hoveredIndex=-1"
             (mouseover)="hoveredIndex=index" data-tests-id="action">
             <div style="display:flex;">
               <app-action #actions style="width: 100%;" [action]="action"></app-action>
 
-              <div style="height: 45px; display: flex; align-items: center;">
+              <div class="btn-wrapper" [ngStyle]="hoveredIndex === index ? {opacity:'1'} :  {opacity:'0'}">
+                <button mat-icon-button class='button-remove' (click)="copyAction(action, index)" data-tests-id="makeCopyOfAction" *ngIf="!(action.actionType === 'map' || action.actionType === 'clear' || action.actionType === 'log text')">
+                  <span style="width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;" [innerHTML]="'copy' | feather:20"></span>
+                </button>
+
                 <button mat-icon-button class='button-remove' (click)="removeAction(action)" data-tests-id="deleteAction">
                   <mat-icon>delete</mat-icon>
                 </button>

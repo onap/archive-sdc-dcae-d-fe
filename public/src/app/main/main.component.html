@@ -42,8 +42,9 @@
           <button mat-raised-button color="primary" style="width: 95px; height: 36px; border-radius: 2px;" (click)="saveAndCreateBlueprint()">Submit</button>
         </div>
       </div>
+
       <div *ngIf='store.generalflow === "import"'>
-        <button mat-raised-button color="primary" (click)="importMC(this.generalComponent.newVfcmt)" [disabled]="this.generalComponent.generalForm.invalid"
+        <button mat-raised-button color="primary" (click)="importMC(this.generalComponent.newVfcmt)" [disabled]="this.generalComponent.generalForm.invalid || this.generalComponent.importBtnDisabled"
           data-tests-id="importMonitoring" style="width: 95px;height: 36px;">Import</button>
       </div>
     </div>

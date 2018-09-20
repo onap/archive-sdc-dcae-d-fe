@@ -28,40 +28,46 @@ export class VersionTypeSelectComponent {
     // set ddl with the first option value.
 
     this._ruleApi.tabIndex.subscribe(index => {
-      console.log('rule index:', index);
-
-      const tabName = this.store.cdump.nodes[index].name;
-      console.log('tab name:', tabName);
-
-      if (tabName.toLowerCase().includes('map')) {
-        this.mappingTarget = this.store.tabsProperties[index][0].name;
-        this.advancedSetting = this.store.tabsProperties[index].filter(item => {
-          if (
-            !(
-              item.hasOwnProperty('constraints') &&
-              !item.value.includes('get_input')
-            )
-          ) {
-            return item;
-          }
-        });
-
-        this._ruleApi
-          .generateMappingRulesFileName(
-            this.store.ruleListExistParams.nodeName,
-            this.store.ruleListExistParams.nodeId,
-            this.store.ruleListExistParams.vfcmtUuid
-          )
-          .subscribe(response => {
-            console.log('generateMappingRulesFileName response: ', response);
-            this.advancedSetting.forEach(element => {
-              if (response.includes(element.name)) {
-                element.isExist = true;
-              } else {
-                element.isExist = false;
+      if (index >= 0) {
+        const tabName = this.store.cdump.nodes[index].name;
+        console.log('tab name:', tabName);
+        if (
+          tabName.toLowerCase().includes('map') ||
+          tabName.toLowerCase().includes('highlandpark') ||
+          tabName.toLowerCase().includes('hp')
+        ) {
+          this.advancedSetting = this.store.tabsProperties[index].filter(
+            item => {
+              if (
+                !(
+                  item.hasOwnProperty('constraints') &&
+                  item.value !== undefined &&
+                  !item.value.includes('get_input')
+                )
+              ) {
+                return item;
               }
+            }
+          );
+          this.mappingTarget = this.advancedSetting[0].name;
+
+          this._ruleApi
+            .generateMappingRulesFileName(
+              this.store.ruleListExistParams.nodeName,
+              this.store.ruleListExistParams.nodeId,
+              this.store.ruleListExistParams.vfcmtUuid
+            )
+            .subscribe(response => {
+              console.log('generateMappingRulesFileName response: ', response);
+              this.advancedSetting.forEach(element => {
+                if (response.includes(element.name)) {
+                  element.isExist = true;
+                } else {
+                  element.isExist = false;
+                }
+              });
             });
-          });
+        }
       }
     });
   }

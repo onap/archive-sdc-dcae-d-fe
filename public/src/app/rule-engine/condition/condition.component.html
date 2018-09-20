@@ -5,17 +5,58 @@
       <div *ngIf="node.data.name === 'operator'" style="background: #F2F2F2;">
         <div style="display: flex; margin-left: 5px; align-items: center; min-height: 35px;">
           <div style="display: flex; align-items: center;" *ngIf="showType">
-            <select style="padding: 5px;" [(ngModel)]="node.data.type">
+            <select style="padding: 5px;margin-left: 10px;" [(ngModel)]="node.data.type">
               <option value="ANY">ANY</option>
               <option value="ALL">ALL</option>
             </select>
 
-            <div style="display: flex; align-items: center; margin-left: 10px;">
+            <div style="display: flex; align-items: center; margin-left: 10px; width: 150px;">
               of the following are true:
             </div>
           </div>
 
-          <div style="display: flex; margin-left: auto;">
+          <div *ngIf="isFilter" style="display: flex; width: 100%; justify-content: space-between; cursor: default;">
+            <div style="display: flex;">
+              <div style="display: flex; align-items: center; padding: 0 15px;">
+                <button mat-mini-fab color="primary" data-tests-id="addCondition" (click)="addConditional(tree, node)" style="height: 16px; width: 16px; display:flex; box-shadow: none;align-items: center;justify-content: center;">
+                  <span style="width: 100%;
+                color:white;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'plus' | feather:12"></span>
+                </button>
+                <span class="btn-label">Add Filter
+                </span>
+              </div>
+
+              <div style="display: flex; align-items: center; padding: 0 25px;">
+                <button mat-mini-fab color="primary" data-tests-id="addConditionGroup" [disabled]="node.data.level === 2" (click)="addConditionalGroup(tree, node)"
+                  style="height: 16px; width: 16px; display:flex; box-shadow: none;align-items: center;justify-content: center;">
+                  <span style="width: 100%;
+                color:white;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'plus' | feather:12"></span>
+                </button>
+                <span [style.color]="node.data.level === 2 ? '#a7a7a7' : '#009fdb' " class="btn-label">Add Filter Group
+                </span>
+              </div>
+            </div>
+            <!-- background: #FFFFFF; -->
+            <div style="display: flex; align-items: center; padding: 0 5px; ">
+              <button data-tests-id="removeConditionNode" mat-icon-button (click)="removeConditional(tree, node)" class="button-remove">
+                <span style="width: 100%;
+                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;" [innerHTML]="'trash-2' | feather:20"></span>
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="!isFilter" style="display: flex; margin-left: auto;">
 
             <div style="display: flex; align-items: center; padding: 0 25px;">
               <button mat-mini-fab color="primary" data-tests-id="addCondition" (click)="addConditional(tree, node)" style="height: 24px; width: 24px; display:flex; box-shadow: none;">
@@ -35,9 +76,13 @@
               </span>
             </div>
 
-            <div style="display: flex; align-items: center; padding: 0 5px; background: #FFFFFF;">
+            <div style="display: flex; align-items: center; padding: 0 5px;">
               <button data-tests-id="removeConditionNode" mat-icon-button (click)="removeConditional(tree, node)" class="button-remove">
-                <mat-icon class="md-24">delete</mat-icon>
+                <span style="width: 100%;
+                            height: 100%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;" [innerHTML]="'trash-2' | feather:20"></span>
               </button>
             </div>
 
@@ -64,21 +109,41 @@
                 <option value="startsWith">Starts with</option>
                 <option value="equals">Equals</option>
                 <option value="notEqual">Not equal</option>
+                <option value="assigned">Assigned</option>
+                <option value="unassigned">Unassigned</option>
+                <option value="oneOf">One of</option>
+                <option value="NotOneOf">Not one of</option>
               </select>
             </div>
 
-            <div class="label" style="width:100%">
+            <div class="label" style="width:100%" *ngIf="node.data.operator !== 'assigned' && node.data.operator !== 'unassigned'">
               <span class="label" style="padding: 0 10px; border-left: none;">
                 Value
               </span>
               <input class="input-text" data-tests-id="right" (ngModelChange)="modelChange($event)" [(ngModel)]="node.data.right" ngDefaultControl
                 type="text">
             </div>
+
+            <div *ngIf="node.data.operator === 'assigned' || node.data.operator === 'unassigned'" class="pretty p-svg" style="margin: 4px 0 1em 0em; margin-left:10px;">
+              <input type="checkbox" name="emptyIsAssigned" data-tests-id="emptyIsAssigned" [checked]="node.data.emptyIsAssigned" (change)="node.data.emptyIsAssigned = !node.data.emptyIsAssigned"
+              />
+              <div class="state">
+                <svg class="svg svg-icon" viewBox="0 0 20 20">
+                  <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
+                    style="stroke: #009fdb; fill:#009fdb;"></path>
+                </svg>
+                <label>Empty Is Assigned</label>
+              </div>
+            </div>
           </div>
           <!-- remove button -->
           <div class="show-delete">
             <button mat-icon-button data-tests-id="RemoveCondition" (click)="removeConditional(tree, node)" class="button-remove">
-              <mat-icon class="md-24">delete</mat-icon>
+              <span style="width: 100%;
+                          height: 100%;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;" [innerHTML]="'trash-2' | feather:20"></span>
             </button>
           </div>
 

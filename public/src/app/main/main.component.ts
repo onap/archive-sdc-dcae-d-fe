@@ -138,7 +138,12 @@ export class MainComponent {
 
   setDataFromMapToRuleEngine(cdump) {
     this.store.tabParmasForRule = cdump.nodes
-      .filter(x => x.name.toLowerCase().includes('map'))
+      .filter(
+        x =>
+          x.name.toLowerCase().includes('map') ||
+          x.name.toLowerCase().includes('highlandpark') ||
+          x.name.toLowerCase().includes('hp')
+      )
       .map(y => {
         return { name: y.name, nid: y.nid };
       });
@@ -156,6 +161,7 @@ export class MainComponent {
 
   saveCDUMP() {
     this.store.loader = true;
+
     this.restApi
       .saveMonitoringComponent({
         contextType: this.store.sdcParmas.contextType,
@@ -224,8 +230,7 @@ export class MainComponent {
       .subscribe(
         success => {
           this.store.loader = false;
-
-          this.toastr.success('', 'Save succeeded');
+          this.toastr.success('', 'Blueprint was successfully submitted');
         },
         error => {
           this.store.loader = false;

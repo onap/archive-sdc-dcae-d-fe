@@ -43,6 +43,28 @@
   }
 }
 
+.btn-wrapper {
+  display: flex;
+  height: 45px;
+  opacity: 0;
+  &:hover {
+    opacity: 1;
+    align-items: center;
+  }
+}
+
+::ng-deep .ui-radiobutton-box.ui-state-active {
+  border: 1px solid #009fdb;
+  background: #ffffff;
+  color: #009fdb;
+}
+
+.ui-radiobutton-box.ui-state-active {
+  border: 1px solid #009fdb;
+  background: #ffffff;
+  color: #009fdb;
+}
+
 :host {
   @mixin md-icon-size($size: 24px) {
     // font-size: $size;
@@ -53,9 +75,12 @@
   .material-icons.mat-icon {
     @include md-icon-size(24px);
   }
-  /deep/ .mat-button-wrapper {
+
+  /deep/ .mat-mini-fab .mat-button-wrapper {
     padding: 0;
+    display: flex;
   }
+
   .mat-icon {
     width: 18px;
     height: 18px;

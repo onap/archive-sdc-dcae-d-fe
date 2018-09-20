@@ -7,14 +7,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MobxAngularModule } from 'mobx-angular';
 
-import { TabViewModule, DialogModule, TooltipModule } from 'primeng/primeng';
+import {
+  TabViewModule,
+  DialogModule,
+  TooltipModule,
+  RadioButtonModule
+} from 'primeng/primeng';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ToastrModule } from 'ngx-toastr';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
+import { PapaParseModule } from 'ngx-papaparse';
 // import {SdcUiComponentsModule} from 'sdc-ui/lib/angular';
 
 import { AppComponent } from './app.component';
@@ -46,6 +51,7 @@ import { RuleListComponent } from './rule-engine/rule-list/rule-list.component';
 import { BarIconsComponent } from './bar-icons/bar-icons.component';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SdcNotifyDialogComponent } from './sdc-notify-dialog/sdc-notify-dialog.component';
+import { ImportRulesComponent } from './import-rules/import-rules.component';
 
 const appInitializerFn = () => {
   return () => {
@@ -74,7 +80,8 @@ const appInitializerFn = () => {
     RuleListComponent,
     BarIconsComponent,
     DiagramComponent,
-    SdcNotifyDialogComponent
+    SdcNotifyDialogComponent,
+    ImportRulesComponent
   ],
   imports: [
     BrowserModule,
@@ -86,12 +93,14 @@ const appInitializerFn = () => {
     MobxAngularModule,
     TabViewModule,
     DialogModule,
+    RadioButtonModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
     TreeModule,
     NgSelectModule,
     TooltipModule,
+    PapaParseModule,
     ToastrModule.forRoot({ enableHtml: true }),
     NgxDatatableModule
   ],

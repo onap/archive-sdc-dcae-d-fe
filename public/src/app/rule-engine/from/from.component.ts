@@ -3,7 +3,9 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef
 } from '@angular/core';
 // import { From } from "../model";
 import { Subject } from 'rxjs/Subject';
@@ -23,40 +25,27 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./from.component.scss'],
   animations: [
     trigger('state', [
-      state(
-        'open',
-        style({
-          opacity: 1,
-          height: 'auto'
-        })
-      ),
+      state('open', style({ opacity: 1, height: 'auto' })),
       transition('* => open', [
-        animate(
-          200,
-          keyframes([
-            style({
-              opacity: 1,
-              height: 'auto'
-            })
-          ])
-        )
+        animate(200, keyframes([style({ opacity: 1, height: 'auto' })]))
       ]),
-      state(
-        'closed',
-        style({
-          opacity: 0,
-          height: 0
-        })
-      )
+      state('closed', style({ opacity: 0, height: 0 }))
     ])
   ]
 })
-export class FromComponent {
+export class FromComponent implements AfterViewInit {
   from: any = {
     value: '',
     regex: '',
     state: 'closed',
-    values: [{ value: '' }, { value: '' }]
+    values: [
+      {
+        value: ''
+      },
+      {
+        value: ''
+      }
+    ]
   };
   @Input() actionType;
   @Output() onFromChange = new EventEmitter();
@@ -64,10 +53,20 @@ export class FromComponent {
   hoveredIndex;
   // public keyUp = new BehaviorSubject<string>(null);
 
-  ngOnInit(): void {
-    if (this.actionType === 'clear') {
-      this.from.values = [{ value: '' }];
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
+  ngAfterViewInit(): void {
+    if (
+      (this.actionType === 'clear' || this.actionType === 'clear nsf') &&
+      this.from.values[0].value === ''
+    ) {
+      this.from.values = [
+        {
+          value: ''
+        }
+      ];
     }
+    this.changeDetector.detectChanges();
   }
 
   showRegex(item) {
@@ -79,11 +78,21 @@ export class FromComponent {
   updateMode(fromData) {
     console.log(fromData);
     if (fromData) {
-      this.from = fromData;
+      if (
+        (this.actionType === 'clear' || this.actionType === 'clear nsf') &&
+        fromData.values[0].value === ''
+      ) {
+        this.from.values = [
+          {
+            value: ''
+          }
+        ];
+      } else {
+        this.from = fromData;
+      }
     }
+    this.changeDetector.detectChanges();
   }
-
-  constructor() {}
 
   modelChange(event) {
     this.onFromChange.emit(event);
