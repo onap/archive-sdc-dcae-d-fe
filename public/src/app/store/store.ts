@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { findIndex } from 'lodash';
 import { action, computed, observable, toJS } from 'mobx';
+import { groupBy, prop, compose, values } from 'ramda';
 
 @Injectable()
 export class Store {
@@ -14,6 +15,7 @@ export class Store {
   @observable loader = false;
   @observable cdumpIsDirty = false;
   @observable expandAdvancedSetting = [];
+  @observable expandImports = [];
   @observable generalflow;
   @observable vfiName;
   @observable flowType;
@@ -27,6 +29,7 @@ export class Store {
   // rule-engine
   @observable tabParmasForRule;
   @observable ruleList = new Array();
+  @observable groupList = new Array();
   @observable ruleListExistParams;
   @observable ruleEditorInitializedState;
   @observable isLeftVisible;
@@ -50,22 +53,60 @@ export class Store {
       console.log('new rule');
       this.ruleList.push(rule);
     }
+    // handle group list
+    if (rule.groupId !== undefined) {
+      this.groupList
+        .filter(item => item.groupId === rule.groupId)
+        .map(item2 => {
+          if (item2.list === undefined) {
+            item2.list = new Array();
+          }
+          const ruleItemIndex = findIndex(
+            item2.list,
+            ruleFromList => ruleFromList.uid === rule.uid
+          );
+          if (ruleItemIndex > -1) {
+            item2.list[ruleItemIndex] = rule;
+          } else {
+            item2.list.push(rule);
+          }
+        });
+    }
   }
 
   @action
   updateRuleList(listOfRules) {
     this.ruleList = listOfRules;
     console.log(toJS(this.ruleList));
+    const fn = compose(values, groupBy(prop('groupId')))(listOfRules);
+    const dis = fn.map(item => {
+      return { groupId: item[0].groupId, phase: item[0].phase, list: item };
+    });
+    console.log(dis);
+    this.groupList = dis;
   }
 
   @action
-  removeRuleFromList(uid) {
+  deleteFromGroup(groupId) {
+    this.groupList = this.groupList.filter(item => item.groupId !== groupId);
+  }
+
+  @action
+  removeRuleFromList(uid, groupId) {
     this.ruleList = this.ruleList.filter(item => item.uid !== uid);
+    // remove from group
+    this.groupList.forEach(item => {
+      if (item.groupId === groupId) {
+        item.list = item.list.filter(listItem => listItem.uid !== uid);
+      }
+      return item;
+    });
   }
 
   @action
   resetRuleList() {
     this.ruleList = new Array();
+    this.groupList = new Array();
   }
 
   @action
@@ -85,21 +126,23 @@ export class Store {
         if (!x.assignment) {
           x.assignment = {};
           x.assignment.value = '';
-        } else if (typeof x.assignment.value === 'object') {
-          x.assignment.value = JSON.stringify(x.assignment.value);
         }
         if (x.value) {
           if (typeof x.value === 'object') {
-            x.value = JSON.stringify(x.value);
+            x.value = '';
           }
         } else if (!x.value) {
-          x.value = x.assignment.value;
+          if (typeof x.assignment.value === 'object') {
+            x.value = '';
+          }
+          // else {   x.value = x.assignment.value; }
         }
         return x;
       });
     });
     nodes.map(() => {
       this.expandAdvancedSetting.push(false);
+      this.expandImports.push(false);
     });
     console.log('tabsProperties: %o', this.tabsProperties.toJS());
   }

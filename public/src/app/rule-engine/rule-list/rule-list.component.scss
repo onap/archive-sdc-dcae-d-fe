@@ -6,6 +6,7 @@
   flex-direction: column;
   margin: 0;
   padding: 0;
+  width: 100%;
   .header {
     position: relative;
     display: flex;
@@ -26,6 +27,10 @@
   .mat-raised-button {
     box-shadow: none;
   }
+}
+
+/deep/ .mat-mini-fab .mat-button-wrapper {
+  padding: 0;
 }
 
 .my-full-screen-dialog .mat-dialog-container {
@@ -116,4 +121,75 @@
 
 .material-icons.md-light.md-inactive {
   color: rgba(255, 255, 255, 0.3);
+}
+
+.listOfRule {
+  display: flex;
+  background-color: #ffffff;
+  color: gray;
+  &:hover {
+    background-color: #e6f6fb;
+    color: #009fdb;
+  }
+  .ruleList-btn {
+    opacity: 0;
+  }
+  &:hover .ruleList-btn {
+    opacity: 1;
+  }
+}
+
+.gray {
+  color: #696969;
+}
+
+.icon-img {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+
+.button-list {
+  position: absolute;
+  left: 100px;
+  list-style-type: none;
+  width: 150px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  background-color: #ffffff;
+  border: solid 1px #d2d2d2;
+  border-top: 2px solid #009fdb;
+  margin-left: 11px;
+  top: 10px;
+  // margin-top: 15px;
+  .button-options {
+    height: 29px;
+    padding: 7px 9px;
+    width: 100%;
+    text-align: left;
+    background: white;
+    border: 0px;
+    &:hover {
+      background-color: #e6f6fb;
+      cursor: pointer;
+    }
+    &:disabled,
+    [disabled] {
+      cursor: default;
+    }
+  }
+}
+
+.btn-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+.btn-wrapper input[type='file'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 36px;
+  cursor: pointer;
 }

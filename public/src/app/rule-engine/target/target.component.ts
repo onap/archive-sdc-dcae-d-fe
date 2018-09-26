@@ -4,7 +4,8 @@ import {
   ViewChild,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  ChangeDetectorRef
 } from '@angular/core';
 import { TreeModel, TreeComponent, ITreeOptions } from 'angular-tree-component';
 // import {trigger, state, animate, transition, style} from
@@ -36,6 +37,8 @@ export class TargetComponent {
     animateAcceleration: 1.2
   };
 
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
   filterFn(value, treeModel: TreeModel) {
     treeModel.filterNodes(node => fuzzysearch(value, node.data.name));
   }
@@ -49,6 +52,7 @@ export class TargetComponent {
       id: action.target,
       name: ''
     };
+    this.changeDetector.detectChanges();
   }
 
   onEvent(event) {

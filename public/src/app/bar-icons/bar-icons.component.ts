@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { includes } from 'lodash';
 import { Store } from '../store/store';
+import { RuleEngineApiService } from '../rule-engine/api/rule-engine-api.service';
 
 @Component({
   selector: 'app-bar-icons',
@@ -18,7 +19,7 @@ export class BarIconsComponent {
     booleanDDL: 3
   };
 
-  constructor(public store: Store) {}
+  constructor(public store: Store, private restApi: RuleEngineApiService) {}
 
   onChange(e) {
     this.store.cdumpIsDirty = true;
@@ -48,5 +49,15 @@ export class BarIconsComponent {
   enableSetting() {
     this.store.expandAdvancedSetting[this.store.tabIndex] = !this.store
       .expandAdvancedSetting[this.store.tabIndex];
+  }
+
+  enableImports() {
+    this.store.expandImports[this.store.tabIndex] = !this.store.expandImports[
+      this.store.tabIndex
+    ];
+  }
+
+  downloadRules() {
+    this.restApi.exportRules();
   }
 }

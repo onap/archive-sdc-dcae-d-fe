@@ -38,6 +38,35 @@
     </div>
   </div>
 
+  <!-- clear NSF template -->
+  <div class="from" *ngIf="actionType === 'clear nsf'" ngModelGroup="clear-nsf" #clearFrom="ngModelGroup" style="padding-right: 0;">
+    <div *ngFor="let input of from.values; let index = index;" data-tests-id="clearInputArrayFrom" (mouseleave)="hoveredIndex=-1"
+      (mouseover)="hoveredIndex=index" class="from-conatiner" style="margin-bottom:1rem; display: flex; flex-direction: column; align-items: flex-start;"
+      data-tests-id="fromComponent">
+      <div style="display: flex; align-items: center; width: 100%;">
+        <div style="display: flex; align-items: center; width: 100%;" class="label">
+          <span class="label" style="padding: 0 5px; width: 50px;">From</span>
+          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput"
+            ngModel required name="clear-nfs[{{index}}]">
+        </div>
+
+        <button mat-icon-button class="button-remove" [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}" (click)="removeFromInput(index)"
+          *ngIf="from.values.length > 1" style="box-shadow: none; height: 24px; width: 24px; display:flex" data-tests-id="btnDelete">
+          <mat-icon class="md-24">delete</mat-icon>
+        </button>
+      </div>
+
+    </div>
+    <div style="display:flex; justify-content: space-between;">
+      <div style="display: flex; align-items: center;">
+        <button mat-mini-fab color="primary" (click)="addFromInput()" style="box-shadow: none; height: 16px; width: 16px; display:flex"
+          data-tests-id="btnAddInput">
+          <span style="padding-left: 2px; display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
+        </button>
+        <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 6px">Add input</span>
+      </div>
+    </div>
+  </div>
   <!-- clear template -->
   <div class="from" *ngIf="actionType === 'clear'" ngModelGroup="clear" #clearFrom="ngModelGroup">
     <div *ngFor="let input of from.values; let index = index;" data-tests-id="clearInputArrayFrom" (mouseleave)="hoveredIndex=-1"
@@ -62,8 +91,6 @@
         <button mat-mini-fab color="primary" (click)="addFromInput()" style="box-shadow: none; height: 16px; width: 16px; display:flex"
           data-tests-id="btnAddInput">
           <span style="padding-left: 2px; display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
-<!-- 
-          <mat-icon>add</mat-icon> -->
         </button>
         <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 6px">Add input</span>
       </div>

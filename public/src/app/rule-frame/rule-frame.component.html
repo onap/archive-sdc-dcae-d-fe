@@ -1,11 +1,12 @@
 <div style="position: relative; display: flex; justify-content: flex-end; height: 100%;">
 
-  <div *ngIf="!tabName.toLowerCase().includes('map')" style="margin: 1em;">
+  <div *ngIf="!tabName.toLowerCase().includes('map') && !(tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))"
+    style="margin: 1em;">
     <app-bar-icons [tabName]="tabName"></app-bar-icons>
   </div>
 
   <!-- rule engine -->
-  <div style="width: 100%;" *ngIf="tabName.toLowerCase().includes('map')">
+  <div style="width: 100%;" *ngIf="tabName.toLowerCase().includes('map') || tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp')">
     <app-slide-panel [activePane]="store.isLeftVisible ? 'left' : 'right'">
       <div leftPane style="height: 100%; overflow: auto;">
         <app-rule-list></app-rule-list>
