@@ -23,7 +23,7 @@
         align-items: center;" [ngClass]="{'required' : !readOnly}">
         Version
       </span>
-      <select *ngIf="!readOnly" style="height: 35px; padding: 0.3rem; border: 1px solid #d2d2d2" [(ngModel)]="selectedVersion"
+      <select *ngIf="!readOnly" style="height: 35px; padding: 0.3rem; border: 1px solid #d2d2d2" [(ngModel)]="selectedVersion" [disabled]="store.viewOnly"
         (ngModelChange)="onSelectVersion($event)" data-tests-id="selectVersion">
         <option [ngValue]="null" disabled>Select Version</option>
         <option *ngFor="let version of versions" [value]="version" data-tests-id="option">{{version}}</option>
@@ -37,7 +37,7 @@
         Event Domain
       </span>
       <select *ngIf="!readOnly" style="height: 35px; padding: 0.3rem; border: 1px solid #d2d2d2" [(ngModel)]="selectedEvent" (ngModelChange)="onSelectEventType($event)"
-        data-tests-id="selectEventType">
+        data-tests-id="selectEventType" [disabled]="store.viewOnly">
         <option [ngValue]="null" disabled>Select Type</option>
         <option *ngFor="let event of events" [value]="event" data-tests-id="option">{{event | slice:0:event.length-6}}</option>
       </select>

@@ -30,6 +30,7 @@ export class DiagramComponent implements OnChanges, AfterViewInit {
   constructor() {}
 
   ngOnChanges() {
+    console.log('list:', this.list);
     if (this.list) {
       const name1MaxLength = this.list.reduce(
         (r, s) => (r > s.name1.length ? r : s.name1.length),

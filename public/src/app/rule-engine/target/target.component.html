@@ -1,7 +1,7 @@
 <form #targetFrm="ngForm" novalidate class="target">
   <div class="top-select">
     <span class="label" style="border-right: none;">Target</span>
-    <input class="text-input" style="border-right: none;" type="text" [(ngModel)]="selectedNode.id" (ngModelChange)="inputChange()"
+    <input class="text-input" style="border-right: none;" type="text" [(ngModel)]="selectedNode.id" (ngModelChange)="inputChange()" [readonly]="store.viewOnly"
       ngModel required name="targetInput" data-tests-id="inputTarget">
     <span class="label clickable" data-tests-id="openTargetTree" style="border-left: none;" (click)="showOption = !showOption">
       <img src="{{imgBase}}/target.svg" alt="target">

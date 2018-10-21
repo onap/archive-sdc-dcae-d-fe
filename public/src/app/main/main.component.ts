@@ -41,7 +41,7 @@ export class MainComponent {
     console.log('newVfcmt: %o', params);
     this.store.loader = true;
     this.store.vfiName = params.serviceAttached;
-    this.store.flowType = 'default';
+    // this.store.flowType = 'default';
     this.restApi
       .createNewVFCMT({
         name: params.name,
@@ -56,6 +56,9 @@ export class MainComponent {
         success => {
           console.log(success);
           this.store.mcUuid = success.vfcmt.uuid;
+          this.store.generalflow = '';
+          this.store.mcName = success.vfcmt.name;
+          this.store.flowType = success.cdump.flowType;
           console.log(this.cleanProperty(success));
           this.store.cdump = success.cdump;
           this.diagramRelationsFromCdump(success);
@@ -113,10 +116,11 @@ export class MainComponent {
       .subscribe(
         success => {
           console.log(success);
-
           this.location.path();
           // this.location.go();
           this.store.mcUuid = success.vfcmt.uuid;
+          this.store.generalflow = '';
+          this.store.mcName = success.vfcmt.name;
           console.log(this.cleanProperty(success));
           this.store.cdump = success.cdump;
           this.diagramRelationsFromCdump(success);

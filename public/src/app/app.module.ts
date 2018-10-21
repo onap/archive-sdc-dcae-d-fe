@@ -51,6 +51,7 @@ import { RuleListComponent } from './rule-engine/rule-list/rule-list.component';
 import { BarIconsComponent } from './bar-icons/bar-icons.component';
 import { DiagramComponent } from './diagram/diagram.component';
 import { SdcNotifyDialogComponent } from './sdc-notify-dialog/sdc-notify-dialog.component';
+import { RevertDialogComponent } from './revert-dialog/revert-dialog.component';
 import { ImportRulesComponent } from './import-rules/import-rules.component';
 
 const appInitializerFn = () => {
@@ -81,6 +82,7 @@ const appInitializerFn = () => {
     BarIconsComponent,
     DiagramComponent,
     SdcNotifyDialogComponent,
+    RevertDialogComponent,
     ImportRulesComponent
   ],
   imports: [

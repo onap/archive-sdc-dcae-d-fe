@@ -9,6 +9,7 @@ import { ConfirmPopupComponent } from '../rule-engine/confirm-popup/confirm-popu
 import { PluginPubSub } from 'sdc-pubsub';
 import { Store } from '../store/store';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -20,11 +21,11 @@ export class HomeComponent {
   linkToMain: string;
   showTable = true;
   selectedLine = [];
-  monitoringComponents = new Array();
   unavailableMonitoringComponents = new Array();
   hoveredIndex = 1;
   dialogRef;
   deleteRow: number;
+  imgBase = environment.imagePath;
 
   loadingIndicator = true;
 
@@ -38,6 +39,8 @@ export class HomeComponent {
     private changeDetectorRef: ChangeDetectorRef
   ) {
     this.store.loader = true;
+    this.store.viewOnly = false;
+    this.store.mcName = '';
     this.activeRoute.queryParams.subscribe(params => {
       console.log('params: %o', params);
       this.store.sdcParmas = params;
@@ -91,13 +94,13 @@ export class HomeComponent {
         response => {
           console.log('response:  ', response);
           if (response.hasOwnProperty('monitoringComponents')) {
-            this.monitoringComponents = response.monitoringComponents;
+            this.store.monitoringComponents = response.monitoringComponents;
             this.loadingIndicator = false;
           }
           if (response.hasOwnProperty('unavailable')) {
             this.unavailableMonitoringComponents = response.unavailable;
           }
-          this.showTable = this.monitoringComponents.length > 0;
+          this.showTable = this.store.monitoringComponents.length > 0;
           this.store.loader = false;
         },
         response => {
@@ -138,10 +141,28 @@ export class HomeComponent {
   }
 
   onTableActivate(event: any): void {
-    this.hoveredIndex = this.monitoringComponents.findIndex(
+    this.hoveredIndex = this.store.monitoringComponents.findIndex(
       s => s === event.row
     );
     console.log('selected : ');
+  }
+
+  revertMcDialog(item) {
+    this.store.submittedMcUuid = item.submittedUuid;
+    this.store.mcUuid = item.uuid;
+    this.store.vfiName = item.vfiName;
+    this.store.displayRevertDialog = true;
+  }
+
+  checkReverted(item: any) {
+    return !item.uuid.includes(item.submittedUuid);
+  }
+
+  viewSubmitted(item: any): void {
+    this.store.vfiName = item.vfiName;
+    console.log('item.submittedUuid', item.submittedUuid);
+    this.store.viewOnly = true;
+    this.route.navigate([this.linkToMain + '/' + item.submittedUuid]);
   }
 
   editTableItem(item: any): void {
@@ -165,12 +186,16 @@ export class HomeComponent {
       if (result) {
         if (item.status === 'Submitted') {
           this.store.loader = true;
+          const submittedUuid = !item.uuid.includes(item.submittedUuid)
+            ? item.submittedUuid
+            : '';
           this._restApi
             .deleteMonitoringComponentWithBlueprint(
               this.store.sdcParmas,
               item.name,
               item.uuid,
-              item.vfiName
+              item.vfiName,
+              submittedUuid
             )
             .subscribe(
               response => {
@@ -180,7 +205,7 @@ export class HomeComponent {
               error => {
                 const errorMsg = Object.values(error.requestError) as any;
                 if (errorMsg[0].messageId === 'SVC6118') {
-                  this.monitoringComponents = this.monitoringComponents.filter(
+                  this.store.monitoringComponents = this.store.monitoringComponents.filter(
                     comp => {
                       return comp.uuid !== item.uuid;
                     }
@@ -215,12 +240,33 @@ export class HomeComponent {
   }
 
   itemDeletedRemoveAndNotify(uuid, deletedRow: number): void {
-    this.monitoringComponents = this.monitoringComponents.filter(comp => {
-      return comp.uuid !== uuid;
-    });
+    this.store.monitoringComponents = this.store.monitoringComponents.filter(
+      comp => {
+        return comp.uuid !== uuid;
+      }
+    );
     this.toastr.success(
       '',
       'Monitoring Configuration was successfully deleted'
     );
+  }
+
+  test() {
+    const path = location.href;
+    console.log('path', path);
+
+    const newUrl = this.updateQueryStringParameter(path, 'userId', 'dror');
+    console.log('newUrl', newUrl);
+    window.location.href = newUrl;
+  }
+
+  updateQueryStringParameter(uri, key, value) {
+    const re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+    const separator = uri.indexOf('?') !== -1 ? '&' : '?';
+    if (uri.match(re)) {
+      return uri.replace(re, '$1' + key + '=' + value + '$2');
+    } else {
+      return uri + separator + key + '=' + value;
+    }
   }
 }

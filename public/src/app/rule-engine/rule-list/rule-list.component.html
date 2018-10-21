@@ -2,7 +2,7 @@
   <div class="header">
     <span style="font-size: 18px; margin-left:20px;">Rule Engine</span>
     <div style="display:flex">
-      <button mat-raised-button (click)="translateRules()" color="primary" [disabled]="store.ruleList.length === 0 || entryPhase === '' || publishPhase === '' "
+      <button mat-raised-button (click)="translateRules()" color="primary" [disabled]="store.ruleList.length === 0 || entryPhase === '' || publishPhase === '' || store.viewOnly"
         style="margin-right: 10px; width: 113px;height: 36px;" data-tests-id="btnTranslate">
         Translate
       </button>
@@ -13,7 +13,7 @@
   <div style="margin: 0rem 1rem; flex-grow: 1; overflow-y: auto;">
 
     <!-- error container -->
-    <div *ngIf="error" style="color: white; background: red; padding: 1rem; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">
+    <div *ngIf="error && error.length > 0" style="color: white; background: red; padding: 1rem; border-radius: 5px; font-weight: bold; margin-bottom: 15px;">
       {{ error }}
     </div>
 
@@ -26,7 +26,7 @@
           <div class="field-label required" style="padding-right: 10px;">
             Entry Phase
           </div>
-          <input type="text" name="entryPhase" required [(ngModel)]="entryPhase" class="field-text" style="width:250px;"
+          <input name="entryPhase" [readonly]="store.viewOnly" required [(ngModel)]="entryPhase" class="field-text" style="width:250px;"
             data-tests-id="entryPhase" />
         </div>
 
@@ -34,16 +34,16 @@
           <div class="field-label required" style="padding-right: 10px;">
             Publish Phase
           </div>
-          <input type="text" name="publishPhase" [(ngModel)]="publishPhase" class="field-text" style="width:250px;"
+          <input name="publishPhase" [readonly]="store.viewOnly" [(ngModel)]="publishPhase" class="field-text" style="width:250px;"
             data-tests-id="publishPhase" />
         </div>
       </div>
     </div>
 
-    <div style="margin-bottom: 24px;">
+    <div style="margin-bottom: 24px;" *ngIf="versionType.selectedEvent">
       <div style="display: flex; justify-content: space-between; align-items: baseline;">
         <div class="pretty p-svg" style="margin-top: 24px; margin-bottom: 10px;">
-          <input type="checkbox" name="isCondition" data-tests-id="isFilter" [checked]="ifStatement" (change)="filterCheckbox()" />
+          <input type="checkbox" name="isCondition" data-tests-id="isFilter" [checked]="ifStatement" (change)="filterCheckbox()" [disabled]="store.viewOnly" />
           <div class="state">
             <svg class="svg svg-icon" viewBox="0 0 20 20">
               <path d="M7.629,14.566c0.125,0.125,0.291,0.188,0.456,0.188c0.164,0,0.329-0.062,0.456-0.188l8.219-8.221c0.252-0.252,0.252-0.659,0-0.911c-0.252-0.252-0.659-0.252-0.911,0l-7.764,7.763L4.152,9.267c-0.252-0.251-0.66-0.251-0.911,0c-0.252,0.252-0.252,0.66,0,0.911L7.629,14.566z"
@@ -67,10 +67,10 @@
     </div>
 
     <div *ngIf="targetSource && (tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))">
-      <div style="display: flex; align-items: baseline; width: 170px; position:relative;" (mouseenter)="showBtnList = true"
+      <div style="display: flex; align-items: baseline; width: 170px; height:35px; position:relative;" (mouseenter)="showBtnList = true"
         (mouseleave)="showBtnList = false" data-tests-id="addGroup">
         <div style="display: flex; align-items: center;">
-          <button mat-mini-fab color="primary" id="addGroup" style="height: 16px; width: 16px; display:flex; justify-content: center; background-color: white; border: 1.5px solid #009fdb; color: #009fdb; cursor: default;">
+          <button mat-mini-fab color="primary" id="addGroup" style="height: 16px; width: 16px; display:flex; justify-content: center; background-color: white; border: 1.5px solid #009fdb; color: #009fdb; cursor: default;" [disabled]="store.viewOnly">
             <span style="width: 100%;
                 color:#009fdb;
                 height: 100%;
@@ -111,19 +111,7 @@
             </div>
             <input type="text" name="phase" [(ngModel)]="item.phase" class="field-text" data-tests-id="phase" />
 
-            <!-- <div class="btn-wrapper" *ngIf="item.groupId.substring(0, 1).toLowerCase() === 'm'">
-              <button mat-icon-button class="gray button-options" data-tests-id="importCDAP">
-                <span style="width: 100%;
-                  color:#5a5a5a;
-                  height: 100%;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;" [innerHTML]="'upload' | feather:20"></span>
-              </button>
-              <input type="file" id="file" accept=".json" (change)="handleImportCDAP($event.target.files, item.groupId, item.phase)">
-            </div> -->
-
-            <button mat-icon-button (click)="deleteGroup(item.groupId)" [disabled]="disableDeleteGroup(item.groupId)"
+            <button mat-icon-button (click)="deleteGroup(item.groupId)" [disabled]="disableDeleteGroup(item.groupId)" [disabled]="store.viewOnly"
               class="gray" data-tests-id="deleteGroup">
               <span style="width: 100%;
                             height: 100%;
@@ -146,7 +134,7 @@
                   <mat-icon class="md-24">mode_edit</mat-icon>
                 </button>
                 <button mat-icon-button class='btn-list' (click)="copyRule(rule, index, {groupId: item.groupId, phase: item.phase})"
-                  data-tests-id="copyRule">
+                  data-tests-id="copyRule" [disabled]="store.viewOnly">
                   <span style="width: 100%;
                     height: 100%;
                     display: flex;
@@ -155,25 +143,43 @@
                     [innerHTML]="'copy' | feather:20"></span>
                 </button>
                 <button (click)="removeItem(rule.uid, item.groupId)" data-tests-id="deleteRule" class="btn-list"
-                  mat-icon-button [disabled]="disableDeleteGroup(item.groupId) && item.list.length === 1">
+                  mat-icon-button [disabled]="disableDeleteGroup(item.groupId) && item.list.length === 1 || store.viewOnly">
                   <mat-icon class="md-24">delete</mat-icon>
                 </button>
               </div>
             </div>
           </div>
 
-          <div style="display: flex; align-items: center; margin:1em;">
-            <button mat-mini-fab color="primary" id="addMoreRule" data-tests-id="addMoreRule" style="height: 16px; width: 16px; display:flex; justify-content: center;"
-              (click)="openAction(null,item)">
-              <span style="width: 100%;
-                      color:white;
-                      height: 100%;
-                      display: flex;
-                      justify-content: center;
-                      align-items: center;"
-                [innerHTML]="'plus' | feather:12"></span>
-            </button>
-            <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 10px">Add Rule</span>
+          <div style="display: flex;">
+
+            <div style="display: flex; align-items: center; margin:1em;">
+              <button mat-mini-fab color="primary" id="addMoreRule" data-tests-id="addMoreRule" style="height: 16px; width: 16px; display:flex; justify-content: center;"
+                (click)="openAction(null,item)" [disabled]="store.viewOnly">
+                <span style="width: 100%;
+                        color:white;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;"
+                  [innerHTML]="'plus' | feather:12"></span>
+              </button>
+              <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 10px">Add Rule</span>
+            </div>
+            <div>
+              <div class="btn-wrapper" *ngIf="item.groupId.substring(0, 1).toLowerCase() === 'm'" style="display: flex; align-items: center;">
+                <button mat-icon-button class="gray button-options" data-tests-id="importCDAP" [disabled]="store.viewOnly">
+                  <span style="width: 100%;
+                                color:#009FDB;
+                                height: 100%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;"
+                    [innerHTML]="'download' | feather:18"></span>
+                </button>
+                <input type="file" id="file" accept=".json" (change)="handleImportCDAP($event.target.files, item.groupId, item.phase)">
+                <span style="color: #009FDB; display: flex; justify-content: center; ">Import phase</span>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -194,7 +200,7 @@
           </div>
         </div>
 
-        <button mat-fab (click)="openAction()" style="background-color:#009FDB" data-tests-id="btnAddFirstRule">
+        <button mat-fab (click)="openAction()" style="background-color:#009FDB" data-tests-id="btnAddFirstRule" [disabled]="store.viewOnly">
           <span [innerHTML]="'plus' | feather:24"></span>
         </button>
         <span style="margin-top: 1rem; font-size: 14px; color: #009FDB;">
@@ -205,7 +211,7 @@
       <div *ngIf="store.ruleList.length > 0 && !(tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))">
         <div style="display: flex; align-items: center;">
           <button mat-mini-fab color="primary" id="addMoreRule" data-tests-id="addMoreRule" style="height: 16px; width: 16px; display:flex; justify-content: center;"
-            (click)="openAction()">
+            (click)="openAction()" [disabled]="store.viewOnly">
             <span style="width: 100%;
                       color:white;
                       height: 100%;
@@ -229,7 +235,7 @@
             <button (click)="openAction(item)" data-tests-id="editRule" class="btn-list" mat-icon-button>
               <mat-icon class="md-24">mode_edit</mat-icon>
             </button>
-            <button mat-icon-button class='btn-list' (click)="copyRule(item, index)" data-tests-id="copyRule">
+            <button mat-icon-button class='btn-list' (click)="copyRule(item, index)" data-tests-id="copyRule" *ngIf="!store.viewOnly">
               <span style="width: 100%;
                       height: 100%;
                       display: flex;
@@ -237,7 +243,7 @@
                       align-items: center;"
                 [innerHTML]="'copy' | feather:20"></span>
             </button>
-            <button (click)="removeItem(item.uid, null)" data-tests-id="deleteRule" class="btn-list" mat-icon-button>
+            <button (click)="removeItem(item.uid, null)" data-tests-id="deleteRule" class="btn-list" mat-icon-button *ngIf="!store.viewOnly">
               <mat-icon class="md-24">delete</mat-icon>
             </button>
           </div>

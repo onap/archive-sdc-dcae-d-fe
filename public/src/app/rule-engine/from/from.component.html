@@ -5,14 +5,14 @@
       <div style="display: flex; align-items: center; width: 100%;" class="label">
         <span class="label" style="padding: 0 5px; width: 50px;">From</span>
         <input class="input-text" name="copyFrom" required style="min-width: 190px;" (ngModelChange)="modelChange(from)" #copyFrom="ngModel"
-          [(ngModel)]="from.value" type="text" data-tests-id="valueInput">
+          [(ngModel)]="from.value" type="text" data-tests-id="valueInput" [readonly]="store.viewOnly">
         <span class="label" (click)="showRegex(from)" [ngStyle]="from.state === 'open' ? { 'color': '#009FDB'} : {'color':'gray'}"
           style="padding: 0 5px; width: 50px; cursor: pointer; border: none" data-tests-id="btnFromRegex">Re/g</span>
       </div>
       <div [@state]="from.state" *ngIf="from.state === 'open'" style="display: flex; align-items: center; width: 80%;" class="label">
         <span class="label" style="padding: 0 3px; width: 54px; border-top: none; border-bottom: none;">regex</span>
         <input class="input-text" style="min-width: 192px;" (ngModelChange)="modelChange(from)" [(ngModel)]="from.regex" type="text"
-          ngModel required name="RegexInput" data-tests-id="inputFromRegex">
+          ngModel required name="RegexInput" [readonly]="store.viewOnly" data-tests-id="inputFromRegex">
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
     <div class="from-conatiner">
       <div style="display: flex; align-items: center; width: 100%;" class="label">
         <span class="label" style="padding: 0 5px; width: 50px;">From</span>
-        <input class="input-text" ngModel required name="mapFromInput" (ngModelChange)="modelChange(from)" [(ngModel)]="from.value"
+        <input class="input-text" ngModel required name="mapFromInput" (ngModelChange)="modelChange(from)" [(ngModel)]="from.value" [readonly]="store.viewOnly"
           type="text" data-tests-id="valueInput">
       </div>
     </div>
@@ -32,7 +32,7 @@
     <div class="from-conatiner">
       <div style="display: flex; align-items: center; width: 100%;" class="label">
         <span class="label" style="padding: 0 5px; width: 50px;">From</span>
-        <input class="input-text" ngModel required name="dateFormatterFromInput" (ngModelChange)="modelChange(from)" [(ngModel)]="from.value"
+        <input class="input-text" ngModel required name="dateFormatterFromInput" (ngModelChange)="modelChange(from)" [(ngModel)]="from.value" [readonly]="store.viewOnly"
           type="text" data-tests-id="valueInput">
       </div>
     </div>
@@ -46,7 +46,7 @@
       <div style="display: flex; align-items: center; width: 100%;">
         <div style="display: flex; align-items: center; width: 100%;" class="label">
           <span class="label" style="padding: 0 5px; width: 50px;">From</span>
-          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput"
+          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput" [readonly]="store.viewOnly"
             ngModel required name="clear-nfs[{{index}}]">
         </div>
 
@@ -75,7 +75,7 @@
       <div style="display: flex; align-items: center; width: 100%;">
         <div style="display: flex; align-items: center; width: 100%;" class="label">
           <span class="label" style="padding: 0 5px; width: 50px;">From</span>
-          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput"
+          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput" [readonly]="store.viewOnly"
             ngModel required name="clear[{{index}}]">
         </div>
 
@@ -106,7 +106,7 @@
       <div style="display: flex; align-items: center; width: 100%;">
         <div style="display: flex; align-items: center; width: 100%;" class="label">
           <span class="label" style="padding: 0 5px; width: 50px;">From</span>
-          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput"
+          <input class="input-text" (ngModelChange)="modelChange(from)" [(ngModel)]="input.value" type="text" data-tests-id="valueInput" [readonly]="store.viewOnly"
             ngModel required name="concat[{{index}}]">
         </div>
 

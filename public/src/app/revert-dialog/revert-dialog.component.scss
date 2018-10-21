@@ -1,0 +1,17 @@
+:host /deep/ .dcae-notify {
+  border-top: solid 6px #ffb81c;
+}
+:host /deep/ .ui-dialog .ui-dialog-titlebar {
+  padding-top: 15px;
+  padding-left: 20px;
+  padding-right: 12px;
+  padding-bottom: 0;
+}
+
+:host /deep/ .ui-dialog-footer {
+  padding: 10px;
+}
+
+:host /deep/ .ui-dialog.ui-widget .ui-dialog-content {
+  padding-top: 10px;
+}

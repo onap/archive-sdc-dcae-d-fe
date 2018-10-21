@@ -10,6 +10,7 @@ import {
 import { TreeModel, TreeComponent, ITreeOptions } from 'angular-tree-component';
 import { some, cloneDeep } from 'lodash';
 import { toJS } from 'mobx';
+import { Store } from '../../store/store';
 
 @Component({
   selector: 'app-condition',
@@ -61,7 +62,7 @@ export class ConditionComponent implements OnInit {
     }
   }
 
-  constructor() {}
+  constructor(public store: Store) {}
 
   onInitialized(tree) {
     tree.treeModel.expandAll();

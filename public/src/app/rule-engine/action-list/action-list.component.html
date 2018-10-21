@@ -2,14 +2,16 @@
   <div class="header">
     <div style="display: flex; justify-content: flex-end; align-items: center;     margin-left: 20px;">
       <a (click)="closeDialog()" data-tests-id="btnBackRule" style="cursor: pointer;text-decoration: none; color: #009fdb;">
-        <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 22px; width: 22px; font-size: 22px; padding-right: 20px;"></mat-icon>
+        <mat-icon fontSet="fontawesome" fontIcon="fa-angle-left" style="height: 22px; width: 22px; font-size: 22px;"></mat-icon>
       </a>
-      <span style="font-size: 18px;">{{title}}</span>
+      <span style="color: #009fdb; font-size: 14px;">Back to Rule Engine</span>
     </div>
+
+    <span style="font-size: 18px;">{{title}}</span>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding: 10px;">
 
-      <button mat-icon-button [disabled]="actions.length === 0" (click)="saveRole()" data-tests-id="btnSave">
+      <button mat-icon-button [disabled]="actions.length === 0 || store.viewOnly" (click)="saveRole()" data-tests-id="btnSave">
         <span style="width: 100%;
           height: 100%;
           display: flex;
@@ -17,7 +19,7 @@
           align-items: center;" [innerHTML]="'save' | feather:22"></span>
       </button>
 
-      <button mat-raised-button [disabled]="actions.length === 0" style="height: 35px;     margin-left: 10px;" color="primary"
+      <button mat-raised-button [disabled]="actions.length === 0 || store.viewOnly" style="height: 35px;     margin-left: 10px;" color="primary"
         data-tests-id="btnDone" (click)="saveAndDone()">
         Done
       </button>
@@ -33,12 +35,12 @@
   <div class="main-content">
     <div>
       <div class="required" style="padding-right: 1rem; width: 100%; padding-bottom: 0.5rem;">Description</div>
-      <input type="text" [(ngModel)]="description" ngModel required name="descInput" style="padding: 5px; width: 100%;" data-tests-id="inputDescription">
+      <input type="text" [(ngModel)]="description" ngModel required name="descInput" style="padding: 5px; width: 100%;" [readonly]="store.viewOnly" data-tests-id="inputDescription">
     </div>
 
     <div style="margin: 1.5rem 0;">
       <div class="pretty p-svg" style="margin: 1rem 0rem;">
-        <input type="checkbox" name="isCondition" data-tests-id="isCondition" [checked]="ifStatement" (change)="ifStatement = !ifStatement"
+        <input type="checkbox" name="isCondition" data-tests-id="isCondition" [checked]="ifStatement" (change)="ifStatement = !ifStatement" [disabled]="store.viewOnly"
         />
         <div class="state">
           <!-- svg path -->
@@ -79,7 +81,7 @@
         </select>
 
         <div style="display: flex; align-items: center;">
-          <button mat-mini-fab color="primary" style="height: 16px; width: 16px; display:flex; justify-content: center;" (click)="addAction2list(selectedAction)"
+          <button mat-mini-fab color="primary" style="height: 16px; width: 16px; display:flex; justify-content: center;" (click)="addAction2list(selectedAction)" [disabled]="store.viewOnly"
             data-tests-id="btnAddAction">
             <span style="display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
           </button>
@@ -96,7 +98,7 @@
               <app-action #actions style="width: 100%;" [action]="action"></app-action>
 
               <div class="btn-wrapper" [ngStyle]="hoveredIndex === index ? {opacity:'1'} :  {opacity:'0'}">
-                <button mat-icon-button class='button-remove' (click)="copyAction(action, index)" data-tests-id="makeCopyOfAction" *ngIf="!(action.actionType === 'map' || action.actionType === 'clear' || action.actionType === 'log text')">
+                <button mat-icon-button class='button-remove' [disabled]="store.viewOnly" (click)="copyAction(action, index)" data-tests-id="makeCopyOfAction" *ngIf="!(action.actionType === 'map' || action.actionType === 'clear' || action.actionType === 'log text')">
                   <span style="width: 100%;
                     height: 100%;
                     display: flex;
@@ -104,7 +106,7 @@
                     align-items: center;" [innerHTML]="'copy' | feather:20"></span>
                 </button>
 
-                <button mat-icon-button class='button-remove' (click)="removeAction(action)" data-tests-id="deleteAction">
+                <button mat-icon-button class='button-remove' [disabled]="store.viewOnly" (click)="removeAction(action)" data-tests-id="deleteAction">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

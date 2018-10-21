@@ -69,7 +69,7 @@ export class ActionComponent implements OnInit, AfterViewInit {
   }
 
   addSearchFeild() {
-    this.action.search.enrich.fields.push('');
+    this.action.search.enrich.fields.push({ value: '' });
   }
 
   searchRadioChange(radioType) {

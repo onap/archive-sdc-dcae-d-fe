@@ -19,12 +19,17 @@
         align-items: center;" [innerHTML]="'x' | feather:20" (click)="close(false)"></span>
     </div>
   </div>
-  <div class="content" style="padding: 0 0 20px 50px; font-family: 'Open Sans', sans-serif; font-size: 14px;">
-    Are you sure you want to delete?
+  <div class="content" style="padding: 0 0 7px 50px; font-family: 'Open Sans', sans-serif; font-size: 14px;">
+    <div>
+      Are you sure you want to delete MC configuration?
+    </div>
+    <div>
+      This will remove the assigned blueprint artifact.
+    </div>
   </div>
   <div class="buttons">
 
-    <button mat-raised-button color="primary" style="background-color: #CF2A2A; margin-right: 10px; font-size: 14px; font-family: 'Open Sans', sans-serif; height: 36px; color:white;"
+    <button mat-raised-button color="primary" style="background-color: #CF2A2A; margin-right: 10px; font-size: 14px; font-family: 'Open Sans', sans-serif; height: 36px; color:white; margin-right: 3px;"
       (click)="close(true)" data-tests-id="btnDelete">
       DELETE
     </button>

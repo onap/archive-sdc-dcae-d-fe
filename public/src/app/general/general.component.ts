@@ -79,7 +79,13 @@ export class GeneralComponent implements OnInit {
       this.store.generalflow = this.route.snapshot.params.mcid;
     } else {
       this.store.generalflow = 'edit';
-      this.store.mcUuid = this.route.snapshot.params.mcid;
+      if (this.route.snapshot.params.submitted) {
+        this.store.mcUuid = `${
+          this.route.snapshot.params.mcid
+        }/${(this.store.mcUuid = this.route.snapshot.params.submitted)}`;
+      } else {
+        this.store.mcUuid = this.route.snapshot.params.mcid;
+      }
     }
     this.serviceUUID = this.route.snapshot.params.uuid;
   }
@@ -135,6 +141,7 @@ export class GeneralComponent implements OnInit {
         .subscribe(
           response => {
             this.newVfcmt = response.vfcmt;
+            this.store.mcName = response.vfcmt.name;
             this.flowTypes.push(response.cdump.flowType);
             this.newVfcmt.flowType = response.cdump.flowType;
             this.store.flowType = response.cdump.flowType;

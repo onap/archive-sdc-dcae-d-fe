@@ -3,7 +3,7 @@
 
     <div *ngIf="tabName.toLowerCase().includes('map') || tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp')"
       style="display: flex; align-items: center;">
-      <button mat-icon-button (click)="downloadRules()" pTooltip="Export" tooltipPosition="top">
+      <button mat-icon-button (click)="downloadRules()" pTooltip="Export" tooltipPosition="top" [disabled]="store.ruleList.length === 0">
         <span style="width: 100%;
             color:#5a5a5a;
                 height: 100%;
@@ -14,7 +14,7 @@
       </button>
       <hr>
 
-      <button mat-icon-button (click)="enableImports()" data-tests-id="import-rules" pTooltip="Import" tooltipPosition="top">
+      <button mat-icon-button (click)="enableImports()" data-tests-id="import-rules" pTooltip="Import" tooltipPosition="top" [disabled]="store.viewOnly">
         <span style="width: 100%;
             color:#5a5a5a;
                 height: 100%;
@@ -59,7 +59,7 @@
           </div>
 
           <input *ngIf="isPropertyDdl(prop) === dropDownTypes.none" type="text" name="{{prop.name}}" class="field-text"
-            [(ngModel)]="prop.value" (ngModelChange)="onChange($event)">
+            [readonly]="store.viewOnly" [(ngModel)]="prop.value" (ngModelChange)="onChange($event)">
 
           <select *ngIf="isPropertyDdl(prop) === dropDownTypes.regularDDL" class="field-text" name="{{prop.name}}"
             [(ngModel)]="prop.value" (ngModelChange)="onChange($event)">

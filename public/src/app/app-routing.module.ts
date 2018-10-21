@@ -17,6 +17,10 @@ const routes: Routes = [
   {
     path: 'main/:contextType/:uuid/:version/:mcid',
     component: MainComponent
+  },
+  {
+    path: 'main/:contextType/:uuid/:version/:mcid/:submitted',
+    component: MainComponent
   }
 ];
 

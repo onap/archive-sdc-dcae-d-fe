@@ -7,7 +7,11 @@ import { groupBy, prop, compose, values } from 'ramda';
 export class Store {
   @observable sdcParmas;
   @observable isOwner;
+  @observable viewOnly = false;
   @observable mcUuid;
+  @observable mcName;
+  @observable submittedMcUuid;
+  @observable monitoringComponents = new Array();
   @observable cdump;
   @observable tabsProperties;
   @observable tabIndex = 0;
@@ -22,6 +26,7 @@ export class Store {
   @observable ifrmaeMessenger;
   @observable waitForSave = false;
   @observable displaySDCDialog = false;
+  @observable displayRevertDialog = false;
   // error dialog
   @observable displayErrorDialog = false;
   @observable ErrorContent = [];
@@ -140,10 +145,13 @@ export class Store {
         return x;
       });
     });
+    this.expandAdvancedSetting = [];
     nodes.map(() => {
       this.expandAdvancedSetting.push(false);
       this.expandImports.push(false);
     });
+    // console.log('this.tabIndex', this.tabIndex);
+    // console.log('this.expandAdvancedSetting', this.expandAdvancedSetting);
     console.log('tabsProperties: %o', this.tabsProperties.toJS());
   }
 

@@ -1,5 +1,5 @@
-<p-dialog [style]="{'border-top-color':'#ffb81c'}" [closable]="false" [(visible)]="store.displaySDCDialog" modal="modal"
-  styleClass="dcae-notify" width="500" [responsive]="true" data-tests-id="sdc-dialog">
+<p-dialog [style]="{'border-top-color':'#ffb81c'}" [closable]="false" [(visible)]="store.displayRevertDialog" modal="modal"
+  styleClass="dcae-notify" width="500" [responsive]="true" data-tests-id="revert-dialog">
   <p-header>
     <div style="display: flex;">
       <span style="color: #ffb81c;
@@ -7,34 +7,37 @@
           height: 100%;
           display: flex;
           justify-content: center;
-          align-items: center;" [innerHTML]="'alert-triangle' | feather:28"></span>
+          align-items: center;"
+        [innerHTML]="'alert-triangle' | feather:28"></span>
       <span style="font-family: 'Open Sans', sans-serif;
-      font-size: 24px; width: 100%;">
-        Exit from DCAE-DS
+      font-size: 24px; width: 100%;" data-tests-id="revert-dialog-title">
+        Are you sure you want to revert?
       </span>
       <span style="
           height: 100%;
           display: flex;
           justify-content: center;
           color:rgb(90, 90, 90);
-          align-items: center;" [innerHTML]="'x' | feather:20
-          " (click)="closeforChange()"></span>
+          align-items: center;"
+        [innerHTML]="'x' | feather:20
+          " (click)="closeDialog()"></span>
     </div>
   </p-header>
 
   <div style="padding: 0 0 20px 43px; font-family: 'Open Sans', sans-serif;
   font-size: 14px;">
-    Do you want to save?
+    Are you sure you want to revert the MC to the submitted version configuration?
+    This will delete only the edited version of the MC.
   </div>
 
   <p-footer>
     <button mat-raised-button color="primary" style="background-color: #FFB81C; margin-right: 10px; font-size: 14px; font-family: 'Open Sans', sans-serif; height: 36px;"
-      (click)="closeDialog()" data-tests-id="error-cancel">
-      SAVE
+      (click)="revert()" data-tests-id="revert-btn">
+      REVERT
     </button>
     <button mat-raised-button class="btn-secondry" style="border-color: #FFB81C !important; color:#FFB81C !important; font-size: 14px; font-family: 'Open Sans', sans-serif;text-align: center; height: 36px;"
-      (click)="closeforChange()" data-tests-id="error-cancel">
-      DISCARD
+      (click)="closeDialog()" data-tests-id="revert-cancel">
+      CANCEL
     </button>
   </p-footer>
 </p-dialog>

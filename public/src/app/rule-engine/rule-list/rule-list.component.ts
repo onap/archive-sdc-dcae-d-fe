@@ -47,6 +47,7 @@ export class RuleListComponent {
   private errorHandler(error: any) {
     this.store.loader = false;
     console.log(error);
+    this.error = null;
     this.error = [];
     if (typeof error === 'string') {
       this.error.push(error);
@@ -59,6 +60,20 @@ export class RuleListComponent {
         this.error = errorFromServer.formattedErrorMessage;
       }
     }
+  }
+
+  private notifyError(error: any) {
+    this.store.loader = false;
+    console.log(error.notes);
+    const errorFromServer = Object.values(error)[0] as any;
+    if (Object.keys(error)[0] === 'serviceExceptions') {
+      this.store.ErrorContent.push(
+        errorFromServer.map(x => x.formattedErrorMessage)
+      );
+    } else {
+      this.store.ErrorContent.push(errorFromServer);
+    }
+    this.store.displayErrorDialog = true;
   }
 
   updateCondition(data) {
@@ -95,6 +110,7 @@ export class RuleListComponent {
           this._ruleApi.deleteFilter().subscribe(
             response => {
               console.log('success import', response);
+              this.condition = null;
               this.store.loader = false;
             },
             error => {
@@ -103,6 +119,7 @@ export class RuleListComponent {
                 this.errorHandler(error);
               } else {
                 this.store.loader = false;
+                this.errorHandler(error);
               }
               this.condition = null;
             }
@@ -177,23 +194,37 @@ export class RuleListComponent {
         .subscribe(
           res => {
             this.store.mcUuid = res.uuid;
-            const input = {
-              version: this.versionType.selectedVersion,
-              eventType: this.versionType.selectedEvent,
-              groupId: groupId,
-              phase: phaseName,
-              payload: JSON.parse(reader.result)
-            };
-            this._ruleApi.importPhase(input).subscribe(
-              response => {
-                console.log('success import', response);
-                this.store.loader = false;
-                this.store.updateRuleList(Object.values(response.rules));
-              },
-              error => {
-                this.errorHandler(error);
-              }
-            );
+            let data = '';
+            try {
+              data = JSON.parse(reader.result as any);
+              const input = {
+                version: this.versionType.selectedVersion,
+                eventType: this.versionType.selectedEvent,
+                groupId: groupId,
+                phase: phaseName,
+                payload: data
+              };
+              this._ruleApi.importPhase(input).subscribe(
+                response => {
+                  console.log('success import', response);
+                  this.store.loader = false;
+                  this.store.updateRuleList(Object.values(response.rules));
+                },
+                error => {
+                  this.notifyError(error);
+                }
+              );
+            } catch (e) {
+              console.log(e);
+              this.errorHandler({
+                policyException: {
+                  messageId: 'Invalid JSON',
+                  text: 'Invalid JSON',
+                  variables: [],
+                  formattedErrorMessage: 'Invalid JSON'
+                }
+              });
+            }
           },
           error => {
             this.errorHandler(error);

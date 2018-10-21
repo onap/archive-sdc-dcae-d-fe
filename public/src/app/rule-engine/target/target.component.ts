@@ -13,6 +13,7 @@ import { TreeModel, TreeComponent, ITreeOptions } from 'angular-tree-component';
 import { fuzzysearch, getBranchRequierds, validation } from './target.util';
 import { environment } from '../../../environments/environment';
 import { NgForm } from '@angular/forms';
+import { Store } from '../../store/store';
 
 @Component({
   selector: 'app-target',
@@ -37,7 +38,7 @@ export class TargetComponent {
     animateAcceleration: 1.2
   };
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef, public store: Store) {}
 
   filterFn(value, treeModel: TreeModel) {
     treeModel.filterNodes(node => fuzzysearch(value, node.data.name));

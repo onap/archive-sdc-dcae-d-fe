@@ -40,11 +40,27 @@ span {
   font-weight: 400;
 }
 
+input:read-only {
+  background-color: #f2f2f2;
+}
+
 /* form input validation border */
 
 textarea.ng-touched.ng-invalid:not(form),
 input.ng-touched.ng-invalid:not(form) {
   border: 1px solid #cf2a2a !important;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed !important;
+}
+
+input[readonly],
+textarea[readonly] {
+  cursor: not-allowed !important;
 }
 
 /** reset button **/

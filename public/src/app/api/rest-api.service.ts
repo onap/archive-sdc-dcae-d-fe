@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import { v4 as uuidGenarator } from 'uuid';
 import { environment } from '../../environments/environment';
 import { Store } from '../store/store';
+import { cloneDeep } from 'lodash';
+import { toJS } from 'mobx';
 
 @Injectable()
 export class RestApiService {
@@ -142,13 +144,14 @@ export class RestApiService {
     params,
     monitoringComponentName,
     vfcmtUuid,
-    vfiName
+    vfiName,
+    submittedUuid
   ) {
     this.addHeaders();
     const { contextType, uuid } = params;
     const url = `${
       this.baseUrl
-    }/${contextType}/${monitoringComponentName}/${uuid}/${vfiName}/${vfcmtUuid}/deleteVfcmtReference`;
+    }/${contextType}/${monitoringComponentName}/${uuid}/${vfiName}/${vfcmtUuid}/deleteVfcmtReference/${submittedUuid}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
       .delete(url, this.options)
@@ -166,15 +169,49 @@ export class RestApiService {
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }
 
+  revertMC(params) {
+    this.addHeaders();
+    const {
+      contextType,
+      serviceUuid,
+      vfiName,
+      vfcmtUuid,
+      submittedUuid
+    } = params;
+    const url = `${
+      this.baseUrl
+    }/${contextType}/${serviceUuid}/${vfiName}/${vfcmtUuid}/revert/${submittedUuid}`;
+    this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
+    return this.http
+      .post(url, {}, this.options)
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json() || 'Server error'));
+  }
+
   saveMonitoringComponent(params) {
     this.addHeaders();
-    const { contextType, serviceUuid, vfiName, vfcmtUuid, cdump } = params;
+    const {
+      contextType,
+      serviceUuid,
+      vfiName,
+      vfcmtUuid,
+      cdump,
+      revertedUuid
+    } = params;
+    const fixedCdump = cloneDeep(toJS(cdump));
+    fixedCdump.nodes.forEach(node =>
+      node.properties.forEach(item => {
+        if (item.value === '' && typeof item.assignment.value === 'object') {
+          item.value = item.assignment.value;
+        }
+      })
+    );
     const url = `${
       this.baseUrl
     }/${contextType}/${serviceUuid}/${vfiName}/saveComposition/${vfcmtUuid}`;
     this.options.headers.set('X-ECOMP-RequestID', uuidGenarator());
     return this.http
-      .post(url, JSON.stringify(cdump), this.options)
+      .post(url, JSON.stringify(fixedCdump), this.options)
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json() || 'Server error'));
   }

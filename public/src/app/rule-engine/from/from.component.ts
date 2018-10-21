@@ -18,6 +18,7 @@ import {
   keyframes
 } from '@angular/animations';
 import { NgForm } from '@angular/forms';
+import { Store } from '../../store/store';
 
 @Component({
   selector: 'app-from',
@@ -53,7 +54,7 @@ export class FromComponent implements AfterViewInit {
   hoveredIndex;
   // public keyUp = new BehaviorSubject<string>(null);
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef, public store: Store) {}
 
   ngAfterViewInit(): void {
     if (
