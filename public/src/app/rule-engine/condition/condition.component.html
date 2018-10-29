@@ -59,8 +59,13 @@
           <div *ngIf="!isFilter" style="display: flex; margin-left: auto;">
 
             <div style="display: flex; align-items: center; padding: 0 25px;">
-              <button mat-mini-fab color="primary" data-tests-id="addCondition" (click)="addConditional(tree, node)" style="height: 24px; width: 24px; display:flex; box-shadow: none;" [disabled]="store.viewOnly">
-                <mat-icon class="material-icons md-18">add</mat-icon>
+              <button mat-mini-fab color="primary" data-tests-id="addCondition" (click)="addConditional(tree, node)" style="height: 16px; width: 16px; display:flex; box-shadow: none;align-items: center;justify-content: center;" [disabled]="store.viewOnly">
+                <span style="width: 100%;
+                color:white;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'plus' | feather:12"></span>
               </button>
               <span class="btn-label">Add Condition
               </span>
@@ -68,8 +73,13 @@
 
             <div style="display: flex; align-items: center; padding: 0 25px;">
               <button mat-mini-fab color="primary" data-tests-id="addConditionGroup" [disabled]="node.data.level === 2 || store.viewOnly" (click)="addConditionalGroup(tree, node)"
-                style="height: 24px; width: 24px; display:flex; box-shadow: none;">
-                <mat-icon class="material-icons md-18">add</mat-icon>
+                style="height: 16px; width: 16px; display:flex; box-shadow: none;align-items: center;justify-content: center;">
+                <span style="width: 100%;
+                color:white;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;" [innerHTML]="'plus' | feather:12"></span>
               </button>
               <span [style.color]="node.data.level === 2 ? '#a7a7a7' : '#009fdb' " [style.cursor]="node.data.level === 2 ? 'default' : 'pointer' "
                 class="btn-label">Add Condition Group

@@ -25,7 +25,8 @@ export class RuleEngineApiService {
   flowType: string;
   editorData: Subject<any> = new Subject();
   updateVersionLock: Subject<any> = new Subject();
-  tabIndex: Subject<any> = new BehaviorSubject(-1);
+  currentTab: Subject<any> = new BehaviorSubject(-1);
+  tabIndex = this.currentTab.asObservable();
 
   constructor(private http: Http) {
     this.baseUrl = `${environment.apiBaseUrl}/rule-editor`;
@@ -171,9 +172,9 @@ export class RuleEngineApiService {
       });
   }
 
-  deleteFilter() {
+  deleteFilter(vfcmtUuid) {
     const deleteFilter = {
-      vfcmtUuid: this.vfcmtUuid,
+      vfcmtUuid: vfcmtUuid,
       dcaeCompLabel: this.dcaeCompName,
       nid: this.nid,
       configParam: this.configParam
@@ -271,6 +272,6 @@ export class RuleEngineApiService {
   }
 
   callUpdateTabIndex(index) {
-    this.tabIndex.next(index);
+    this.currentTab.next(index);
   }
 }

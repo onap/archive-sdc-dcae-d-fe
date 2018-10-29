@@ -15,7 +15,7 @@
       <hr>
 
       <button mat-icon-button (click)="enableImports()" data-tests-id="import-rules" pTooltip="Import" tooltipPosition="top" [disabled]="store.viewOnly">
-        <span style="width: 100%;
+        <span [style.color]="store.expandImports[store.tabIndex] ? '#009FDB' : '#5a5a5a'" style="width: 100%;
             color:#5a5a5a;
                 height: 100%;
                 display: flex;
@@ -26,9 +26,9 @@
       <hr>
     </div>
 
-    <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear" [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : 'black'"
+    <button mat-icon-button (click)="enableSetting()" data-tests-id="setting-gear"
       pTooltip="Settings" tooltipPosition="top">
-      <span style="width: 100%;
+      <span [style.color]="this.store.expandAdvancedSetting[store.tabIndex] ? '#009FDB' : '#5a5a5a'" style="width: 100%;
           color:#5a5a5a;
           height: 100%;
           display: flex;
@@ -47,7 +47,9 @@
   <!-- advanced setting -->
   <div class="setting" *ngIf="store.expandAdvancedSetting[store.tabIndex]">
     <div *mobxAutorun style="width: 100%;" [class]="tabName+'-setting-list'">
-      <div style="font-size: 1.5em; padding: 0 12px;">{{tabName}} Advanced Setting</div>
+      <div style="font-size: 1.5em; padding: 0 12px;">
+        {{tabName}} Advanced Settings
+      </div>
       <form #cdumpConfForm="ngForm">
         <div *ngFor="let prop of store.configurationForm" class="field" [id]="prop.name">
           <div style="display: flex;">

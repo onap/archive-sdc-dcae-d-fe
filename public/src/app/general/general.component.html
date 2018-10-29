@@ -38,7 +38,7 @@
     <div class="field" *ngIf="store.generalflow === 'new'">
       <div class="field-label required" style="display: flex;">
         <span>Template</span>
-        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14"></span>
+        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14" pTooltip="The monitoring templates define the connectivity and flow of the monitoring mS’." tooltipPosition="top"></span>
       </div>
       <select name="template" [disabled]="this.store.isEditMode" required [(ngModel)]="newVfcmt.template" (ngModelChange)="onChangeTemplate($event)"
         data-tests-id="templateDdl" class="field-text" [style.background]="this.store.isEditMode ? '#ebebe4' : 'white'">
@@ -50,7 +50,7 @@
     <div class="field" *ngIf="store.generalflow === 'import' || store.generalflow === 'edit'">
       <div class="field-label required" style="display: flex;">
         <span>Flow type</span>
-        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14"></span>
+        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14" pTooltip="The flow type define the connectivity and flow of the monitoring mS’." tooltipPosition="top"></span>
       </div>
       <select name="flowType" [disabled]="this.store.isEditMode || disableFlowType" required [(ngModel)]="newVfcmt.flowType" data-tests-id="flowTypeDdl"
         class="field-text" [style.background]="this.store.isEditMode || disableFlowType ? '#ebebe4' : 'white'">
@@ -62,7 +62,7 @@
     <div class="field">
       <div class="field-label required" style="display: flex;">
         <span>Attached to</span>
-        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14"></span>
+        <span style="padding-left: 5px;" [innerHTML]="'help-circle' | feather:14" pTooltip="Select the VF instance to which the Monitoring Configuration would be assigned." tooltipPosition="top"></span>
       </div>
       <select name="serviceAttached" [disabled]="this.store.isEditMode || disableVnfiList" required [(ngModel)]="newVfcmt.vfni"
         data-tests-id="vfniDdl" (ngModelChange)="onChangeVfni($event)" class="field-text" [style.background]="this.store.isEditMode || disableVnfiList ? '#ebebe4' : 'white'">

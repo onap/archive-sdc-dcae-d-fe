@@ -4,7 +4,8 @@ import {
   Input,
   OnInit,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ElementRef
 } from '@angular/core';
 // import { Copy } from "../model";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -17,6 +18,7 @@ import * as Papa from 'papaparse';
 import { metricData } from './metric.data';
 import { Store } from '../../store/store';
 import { ToastrService } from 'ngx-toastr';
+import { toJS } from 'mobx';
 
 @Component({
   selector: 'app-action',
@@ -28,6 +30,7 @@ export class ActionComponent implements OnInit, AfterViewInit {
   @ViewChild('from') fromInstance;
   @ViewChild('target') targetInstance;
   @ViewChild('actionFrm') actionFrm: NgForm;
+  @ViewChild('csvInput') fileInput: ElementRef;
   highlight = 'black';
   hoveredIndex;
   fileToUpload: File = null;
@@ -42,12 +45,12 @@ export class ActionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     console.log(this.action.id);
     if (this.action.from !== undefined && this.action.from !== '') {
-      console.log('Action %o', this.action);
       this.fromInstance.updateMode(this.action.from);
     }
     if (this.action.target !== undefined && this.action.target !== '') {
       this.targetInstance.updateMode(this.action);
     }
+    console.log('Action %o', this.action);
   }
 
   updateFrom(data) {
@@ -93,34 +96,40 @@ export class ActionComponent implements OnInit, AfterViewInit {
     this.action.search.updates.splice(index, 1);
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-    console.log('file to load:', this.fileToUpload);
-    this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
+  clearFile() {
+    this.fileInput.nativeElement.value = '';
+    this.fileName = '';
+  }
 
-    this.store.loader = true;
-    Papa.parse(this.fileToUpload, {
-      complete: result => {
-        if (result.data) {
-          const mapConvert = result.data
-            .slice(0, 300)
-            .filter(item => item[0] !== undefined && item[1] !== undefined)
-            .map(item => {
-              console.log(`item 0: ${item[0]} item 1: ${item[1]}`);
-              return {
-                key: item[0].trim(),
-                value: item[1].trim()
-              };
-            });
+  handleFileInput(files: FileList) {
+    if (files && files.length > 0) {
+      this.fileToUpload = files.item(0);
+      console.log('file to load:', this.fileToUpload);
+      this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
+      this.store.loader = true;
+      Papa.parse(this.fileToUpload, {
+        complete: result => {
+          if (result.data) {
+            const mapConvert = result.data
+              .slice(0, 300)
+              .filter(item => item[0] !== undefined && item[1] !== undefined)
+              .map(item => {
+                console.log(`item 0: ${item[0]} item 1: ${item[1]}`);
+                return {
+                  key: item[0].trim(),
+                  value: item[1].trim()
+                };
+              });
+            this.store.loader = false;
+            this.action.map.values = mapConvert;
+          }
+        },
+        error: (err, file) => {
           this.store.loader = false;
-          this.action.map.values = mapConvert;
+          console.log(`error: ${err}, in file ${file}`);
+          this.toastr.error('', err);
         }
-      },
-      error: (err, file) => {
-        this.store.loader = false;
-        console.log(`error: ${err}, in file ${file}`);
-        this.toastr.error('', err);
-      }
-    });
+      });
+    }
   }
 }

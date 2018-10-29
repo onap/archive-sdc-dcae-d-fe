@@ -26,7 +26,7 @@
           <div class="field-label required" style="padding-right: 10px;">
             Entry Phase
           </div>
-          <input name="entryPhase" [readonly]="store.viewOnly" required [(ngModel)]="entryPhase" class="field-text" style="width:250px;"
+          <input name="entryPhase" [readonly]="store.viewOnly" [(ngModel)]="entryPhase" class="field-text" style="width:250px;"
             data-tests-id="entryPhase" />
         </div>
 
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div *ngIf="ifStatement">
-          <button mat-raised-button (click)="applyFilter()" color="primary" style="width: 113px;height: 36px;"
+          <button mat-raised-button (click)="applyFilter()" color="primary" style="width: 113px;height: 36px;" [disabled]="store.viewOnly"
             data-tests-id="applyFilter">
             Apply Filter
           </button>
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div *ngIf="targetSource && (tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))">
+    <div *ngIf="targetSource && versionType.selectedEvent && (tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))">
       <div style="display: flex; align-items: baseline; width: 170px; height:35px; position:relative;" (mouseenter)="showBtnList = true"
         (mouseleave)="showBtnList = false" data-tests-id="addGroup">
         <div style="display: flex; align-items: center;">
@@ -111,8 +111,7 @@
             </div>
             <input type="text" name="phase" [(ngModel)]="item.phase" class="field-text" data-tests-id="phase" />
 
-            <button mat-icon-button (click)="deleteGroup(item.groupId)" [disabled]="disableDeleteGroup(item.groupId)" [disabled]="store.viewOnly"
-              class="gray" data-tests-id="deleteGroup">
+            <button mat-icon-button (click)="deleteGroup(item.groupId)" [disabled]="disableDeleteGroup(item.groupId) || store.viewOnly" class="gray" data-tests-id="deleteGroup">
               <span style="width: 100%;
                             height: 100%;
                             display: flex;
@@ -144,7 +143,8 @@
                 </button>
                 <button (click)="removeItem(rule.uid, item.groupId)" data-tests-id="deleteRule" class="btn-list"
                   mat-icon-button [disabled]="disableDeleteGroup(item.groupId) && item.list.length === 1 || store.viewOnly">
-                  <mat-icon class="md-24">delete</mat-icon>
+                  <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                    [innerHTML]="'trash-2' | feather:20"></span>
                 </button>
               </div>
             </div>
@@ -176,7 +176,7 @@
                                 align-items: center;"
                     [innerHTML]="'download' | feather:18"></span>
                 </button>
-                <input type="file" id="file" accept=".json" (change)="handleImportCDAP($event.target.files, item.groupId, item.phase)">
+                <input type="file" id="file" accept=".json" [disabled]="store.viewOnly" #groupUpload (change)="handleImportCDAP($event.target.files, item.groupId, item.phase)">
                 <span style="color: #009FDB; display: flex; justify-content: center; ">Import phase</span>
               </div>
             </div>
@@ -188,7 +188,7 @@
 
     <div *ngIf="targetSource && !(tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))">
 
-      <div *ngIf="targetSource && store.ruleList.length === 0 && !(tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))"
+      <div *ngIf="targetSource && store.ruleList.length === 0 && versionType.selectedEvent && !(tabName.toLowerCase().includes('highlandpark') || tabName.toLowerCase().includes('hp'))"
         style="margin: 30px 0; display: flex; align-items: center; justify-content: center; flex-direction: column;">
 
         <div style="margin: 3em 0 2em 0;">
@@ -244,7 +244,8 @@
                 [innerHTML]="'copy' | feather:20"></span>
             </button>
             <button (click)="removeItem(item.uid, null)" data-tests-id="deleteRule" class="btn-list" mat-icon-button *ngIf="!store.viewOnly">
-              <mat-icon class="md-24">delete</mat-icon>
+              <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                [innerHTML]="'trash-2' | feather:20"></span>
             </button>
           </div>
         </div>

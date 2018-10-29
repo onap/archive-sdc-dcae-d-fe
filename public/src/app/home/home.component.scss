@@ -73,6 +73,18 @@
   color: #5a5a5a;
 }
 
+.activeBtnWrapper .activeBtn {
+  opacity: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: -5px;
+}
+
+.activeBtnWrapper:hover .activeBtn {
+  opacity: 1;
+}
+
 // .ngx-datatable.fixed-row
 //   .datatable-scroll
 //   .datatable-body-row

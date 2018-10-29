@@ -19,6 +19,7 @@ export class Store {
   @observable loader = false;
   @observable cdumpIsDirty = false;
   @observable expandAdvancedSetting = [];
+  @observable advancedSetting = [];
   @observable expandImports = [];
   @observable generalflow;
   @observable vfiName;

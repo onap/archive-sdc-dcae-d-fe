@@ -1,4 +1,9 @@
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ViewEncapsulation,
+  ElementRef
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { isEmpty } from 'lodash';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +26,7 @@ const primaryColor = '#009fdb';
 })
 export class RuleListComponent {
   @ViewChild('versionEventType') versionType;
+  @ViewChild('groupUpload') fileInput: ElementRef;
   error: Array<string>;
   // list = new Array();
   schema;
@@ -43,6 +49,7 @@ export class RuleListComponent {
   // filter
   ifStatement = false;
   condition: any;
+  filterSave = false;
 
   private errorHandler(error: any) {
     this.store.loader = false;
@@ -82,14 +89,18 @@ export class RuleListComponent {
 
   filterCheckbox() {
     this.ifStatement = !this.ifStatement;
-    if (!this.ifStatement && this.condition !== undefined) {
-      this.deleteFilter();
+    if (!this.ifStatement) {
+      if (this.filterSave) {
+        this.deleteFilter();
+      } else {
+        this.condition = null;
+      }
     }
   }
 
   removeConditionCheck(flag) {
     this.ifStatement = flag;
-    if (this.condition !== undefined) {
+    if (this.filterSave) {
       this.deleteFilter();
     }
   }
@@ -107,10 +118,14 @@ export class RuleListComponent {
       .subscribe(
         res => {
           this.store.mcUuid = res.uuid;
-          this._ruleApi.deleteFilter().subscribe(
+          this._ruleApi.deleteFilter(res.uuid).subscribe(
             response => {
-              console.log('success import', response);
+              if (this.store.ruleList.length === 0) {
+                this.versionType.updateVersionTypeFlag(false);
+              }
               this.condition = null;
+              this.filterSave = false;
+              this.ifStatement = false;
               this.store.loader = false;
             },
             error => {
@@ -174,63 +189,76 @@ export class RuleListComponent {
     }
   }
 
+  clearFile() {
+    this.fileInput.nativeElement.value = '';
+    this.fileName = '';
+  }
+
   handleImportCDAP(files: FileList, groupId, phaseName) {
     this.error = null;
-    this.store.loader = true;
-    this.fileToUpload = files.item(0);
-    console.log('file to load:', this.fileToUpload);
-    this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
     const reader = new FileReader();
-    reader.readAsText(this.fileToUpload, 'UTF-8');
-    reader.onload = () => {
-      console.log(reader.result);
-      this._ruleApi
-        .getLatestMcUuid({
-          contextType: this.store.sdcParmas.contextType,
-          serviceUuid: this.store.sdcParmas.uuid,
-          vfiName: this.store.vfiName,
-          vfcmtUuid: this.store.mcUuid
-        })
-        .subscribe(
-          res => {
-            this.store.mcUuid = res.uuid;
-            let data = '';
-            try {
-              data = JSON.parse(reader.result as any);
-              const input = {
-                version: this.versionType.selectedVersion,
-                eventType: this.versionType.selectedEvent,
-                groupId: groupId,
-                phase: phaseName,
-                payload: data
-              };
-              this._ruleApi.importPhase(input).subscribe(
-                response => {
-                  console.log('success import', response);
-                  this.store.loader = false;
-                  this.store.updateRuleList(Object.values(response.rules));
-                },
-                error => {
-                  this.notifyError(error);
-                }
-              );
-            } catch (e) {
-              console.log(e);
-              this.errorHandler({
-                policyException: {
-                  messageId: 'Invalid JSON',
-                  text: 'Invalid JSON',
-                  variables: [],
-                  formattedErrorMessage: 'Invalid JSON'
-                }
-              });
+    if (files && files.length > 0) {
+      this.store.loader = true;
+      this.fileToUpload = files.item(0);
+      console.log('file to load:', this.fileToUpload);
+      this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
+      reader.readAsText(this.fileToUpload, 'UTF-8');
+      reader.onload = () => {
+        console.log(reader.result);
+        this._ruleApi
+          .getLatestMcUuid({
+            contextType: this.store.sdcParmas.contextType,
+            serviceUuid: this.store.sdcParmas.uuid,
+            vfiName: this.store.vfiName,
+            vfcmtUuid: this.store.mcUuid
+          })
+          .subscribe(
+            res => {
+              this.store.mcUuid = res.uuid;
+              let data = '';
+              try {
+                data = JSON.parse(reader.result as any);
+                const input = {
+                  version: this.versionType.selectedVersion,
+                  eventType: this.versionType.selectedEvent,
+                  groupId: groupId,
+                  phase: phaseName,
+                  payload: data
+                };
+                this._ruleApi.importPhase(input).subscribe(
+                  response => {
+                    console.log('success import', response);
+                    this.clearFile();
+                    this.store.loader = false;
+                    this.store.updateRuleList(Object.values(response.rules));
+                  },
+                  error => {
+                    this.clearFile();
+                    this.notifyError(error);
+                  }
+                );
+              } catch (e) {
+                console.log(e);
+                this.clearFile();
+                this.errorHandler({
+                  policyException: {
+                    messageId: 'Invalid JSON',
+                    text: 'Invalid JSON',
+                    variables: [],
+                    formattedErrorMessage: 'Invalid JSON'
+                  }
+                });
+              }
+            },
+            error => {
+              this.clearFile();
+              this.errorHandler(error);
             }
-          },
-          error => {
-            this.errorHandler(error);
-          }
-        );
-    };
+          );
+      };
+    } else {
+      this.clearFile();
+    }
   }
 
   addGroup(type) {
@@ -306,10 +334,12 @@ export class RuleListComponent {
           this.entryPhase = response.entryPhase;
           this.publishPhase = response.publishPhase;
           this.condition = response.filter;
+          this.filterSave = response.filter !== undefined ? true : false;
           this.ifStatement = this.condition == null ? false : true;
         } else {
           this.store.resetRuleList();
           this.condition = null;
+          this.filterSave = false;
           this.ifStatement = false;
           this.versionType.updateVersionTypeFlag(false);
           this.targetSource = null;
@@ -412,6 +442,7 @@ export class RuleListComponent {
       .subscribe(
         res => {
           this.store.mcUuid = res.uuid;
+          this.filterSave = true;
           let conditionData2server = null;
           conditionData2server = this.convertConditionToServer(this.condition);
           const newFilter = {
@@ -423,6 +454,9 @@ export class RuleListComponent {
           };
           this._ruleApi.applyFilter(newFilter).subscribe(
             success => {
+              if (this.store.ruleList.length === 0) {
+                this.versionType.updateVersionTypeFlag(true);
+              }
               this.store.loader = false;
             },
             error => {
@@ -549,7 +583,9 @@ export class RuleListComponent {
                       console.log(data);
                       this.versions = data.map(x => x.version);
                       this.metaData = data;
-                      this.versionType.updateVersionTypeFlag(false);
+                      if (this.filterSave === false) {
+                        this.versionType.updateVersionTypeFlag(false);
+                      }
                       this.targetSource = null;
                     });
                   }
@@ -597,7 +633,9 @@ export class RuleListComponent {
     this.store.isLeftVisible = false;
 
     this._ruleApi.updateVersionLock.subscribe(() => {
-      this.versionType.updateVersionTypeFlag(true);
+      if (this.filterSave === true) {
+        this.versionType.updateVersionTypeFlag(true);
+      }
     });
   }
 }

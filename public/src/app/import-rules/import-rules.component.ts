@@ -1,6 +1,13 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { Store } from '../store/store';
 import { RuleEngineApiService } from '../rule-engine/api/rule-engine-api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-import-rules',
@@ -11,12 +18,16 @@ export class ImportRulesComponent {
   fileToUpload: File = null;
   fileName = '';
   mappingTarget: string;
-  advancedSetting: Array<any>;
   tabName: string;
   isGroup = false;
   @Output() refrashRuleList = new EventEmitter();
+  @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(public _ruleApi: RuleEngineApiService, public store: Store) {
+  constructor(
+    public _ruleApi: RuleEngineApiService,
+    private toastr: ToastrService,
+    public store: Store
+  ) {
     this._ruleApi.tabIndex
       // .filter(index => {   if (index >= 0) {     const tabName =
       // this.store.cdump.nodes[index].name;     console.log('tab name:', tabName); if
@@ -30,20 +41,20 @@ export class ImportRulesComponent {
             this.tabName.toLowerCase().includes('highlandpark') ||
             this.tabName.toLowerCase().includes('hp')
           ) {
-            this.advancedSetting = this.store.tabsProperties[index].filter(
-              item => {
-                if (
-                  !(
-                    item.hasOwnProperty('constraints') &&
-                    item.value !== undefined &&
-                    !item.value.includes('get_input')
-                  )
-                ) {
-                  return item;
-                }
+            this.store.advancedSetting = this.store.tabsProperties[
+              index
+            ].filter(item => {
+              if (
+                !(
+                  item.hasOwnProperty('constraints') &&
+                  item.value !== undefined &&
+                  !item.value.includes('get_input')
+                )
+              ) {
+                return item;
               }
-            );
-            this.mappingTarget = this.advancedSetting[0].name;
+            });
+            this.mappingTarget = this.store.advancedSetting[0].name;
 
             this._ruleApi.setParams({
               userId: this.store.sdcParmas.userId,
@@ -65,7 +76,7 @@ export class ImportRulesComponent {
                   'generateMappingRulesFileName response: ',
                   response
                 );
-                this.advancedSetting.forEach(element => {
+                this.store.advancedSetting.forEach(element => {
                   if (response.includes(element.name)) {
                     element.isExist = true;
                   } else {
@@ -73,7 +84,7 @@ export class ImportRulesComponent {
                   }
                 });
               });
-            console.log('advancedSetting', this.advancedSetting);
+            console.log('advancedSetting', this.store.advancedSetting);
           }
         }
       });
@@ -93,48 +104,61 @@ export class ImportRulesComponent {
   }
 
   handleFileInput(files: FileList) {
-    this.store.loader = true;
-    this.fileToUpload = files.item(0);
-    console.log('file to load:', this.fileToUpload);
-    this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
     const reader = new FileReader();
-    reader.readAsText(this.fileToUpload, 'UTF-8');
-    reader.onload = () => {
-      console.log(reader.result);
-      this._ruleApi
-        .getLatestMcUuid({
-          contextType: this.store.sdcParmas.contextType,
-          serviceUuid: this.store.sdcParmas.uuid,
-          vfiName: this.store.vfiName,
-          vfcmtUuid: this.store.mcUuid
-        })
-        .subscribe(
-          res => {
-            this.store.mcUuid = res.uuid;
-            if (
-              this.tabName.toLowerCase().includes('highlandpark') ||
-              this.tabName.toLowerCase().includes('hp')
-            ) {
-              this.isGroup = true;
+    if (files && files.length > 0) {
+      this.store.loader = true;
+      this.fileToUpload = files.item(0);
+      console.log('file to load:', this.fileToUpload);
+      this.fileName = this.fileToUpload !== null ? this.fileToUpload.name : '';
+      reader.readAsText(this.fileToUpload, 'UTF-8');
+      reader.onload = () => {
+        console.log(reader.result);
+        this._ruleApi
+          .getLatestMcUuid({
+            contextType: this.store.sdcParmas.contextType,
+            serviceUuid: this.store.sdcParmas.uuid,
+            vfiName: this.store.vfiName,
+            vfcmtUuid: this.store.mcUuid
+          })
+          .subscribe(
+            res => {
+              this.store.mcUuid = res.uuid;
+              if (
+                this.tabName.toLowerCase().includes('highlandpark') ||
+                this.tabName.toLowerCase().includes('hp')
+              ) {
+                this.isGroup = true;
+              }
+              this._ruleApi
+                .importRules(reader.result, res.uuid, this.isGroup)
+                .subscribe(
+                  response => {
+                    console.log('success import', response);
+                    this.toastr.success('', 'success import');
+                    this.store.expandImports[this.store.tabIndex] = false;
+                    this.clearFile();
+                    this.store.loader = false;
+                    this._ruleApi.callUpdateTabIndex(this.store.tabIndex);
+                  },
+                  error => {
+                    this.notifyError(error);
+                    this.clearFile();
+                  }
+                );
+            },
+            error => {
+              this.notifyError(error);
+              this.clearFile();
             }
-            this._ruleApi
-              .importRules(reader.result, res.uuid, this.isGroup)
-              .subscribe(
-                response => {
-                  console.log('success import', response);
-                  this.store.expandImports[this.store.tabIndex] = false;
-                  this.store.loader = false;
-                  this._ruleApi.callUpdateTabIndex(this.store.tabIndex);
-                },
-                error => {
-                  this.notifyError(error);
-                }
-              );
-          },
-          error => {
-            this.notifyError(error);
-          }
-        );
-    };
+          );
+      };
+    } else {
+      this.clearFile();
+    }
+  }
+
+  clearFile() {
+    this.fileInput.nativeElement.value = '';
+    this.fileName = '';
   }
 }

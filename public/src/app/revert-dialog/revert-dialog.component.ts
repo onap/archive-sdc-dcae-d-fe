@@ -37,7 +37,7 @@ export class RevertDialogComponent {
         success => {
           this.store.monitoringComponents = this.store.monitoringComponents.map(
             item => {
-              if (item.invariantUuid === success.invariantUuid) {
+              if (item.invariantUUid === success.invariantUUid) {
                 item = success;
               }
               return item;

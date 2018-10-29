@@ -56,7 +56,7 @@ export class MainComponent {
         success => {
           console.log(success);
           this.store.mcUuid = success.vfcmt.uuid;
-          this.store.generalflow = '';
+          this.store.generalflow = 'edit';
           this.store.mcName = success.vfcmt.name;
           this.store.flowType = success.cdump.flowType;
           console.log(this.cleanProperty(success));
@@ -119,7 +119,6 @@ export class MainComponent {
           this.location.path();
           // this.location.go();
           this.store.mcUuid = success.vfcmt.uuid;
-          this.store.generalflow = '';
           this.store.mcName = success.vfcmt.name;
           console.log(this.cleanProperty(success));
           this.store.cdump = success.cdump;

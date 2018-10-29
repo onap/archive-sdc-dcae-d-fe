@@ -54,7 +54,7 @@
     "intl": "^1.2.5",
     "lodash": "^4.17.5",
     "material-design-icons": "^3.0.1",
-    "mobx": "^4.2.0",
+    "mobx": "4.3.0",
     "mobx-angular": "^3.0.1",
     "mobx-utils": "^5.0.0",
     "ngx-datatable": "^1.0.3",

@@ -19,7 +19,6 @@ export class VersionTypeSelectComponent {
   @Input() metaData;
   @Output() nodesUpdated = new EventEmitter();
   @Output() refrashRuleList = new EventEmitter();
-  advancedSetting: Array<any>;
   notifyIdCheckbox = false;
 
   constructor(private _ruleApi: RuleEngineApiService, public store: Store) {
@@ -36,7 +35,7 @@ export class VersionTypeSelectComponent {
           tabName.toLowerCase().includes('highlandpark') ||
           tabName.toLowerCase().includes('hp')
         ) {
-          this.advancedSetting = this.store.tabsProperties[index].filter(
+          this.store.advancedSetting = this.store.tabsProperties[index].filter(
             item => {
               if (
                 !(
@@ -49,7 +48,7 @@ export class VersionTypeSelectComponent {
               }
             }
           );
-          this.mappingTarget = this.advancedSetting[0].name;
+          this.mappingTarget = this.store.advancedSetting[0].name;
 
           this._ruleApi
             .generateMappingRulesFileName(
@@ -59,7 +58,7 @@ export class VersionTypeSelectComponent {
             )
             .subscribe(response => {
               console.log('generateMappingRulesFileName response: ', response);
-              this.advancedSetting.forEach(element => {
+              this.store.advancedSetting.forEach(element => {
                 if (response.includes(element.name)) {
                   element.isExist = true;
                 } else {

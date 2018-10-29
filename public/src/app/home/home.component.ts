@@ -10,6 +10,7 @@ import { PluginPubSub } from 'sdc-pubsub';
 import { Store } from '../store/store';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { environment } from '../../environments/environment';
+import { RuleEngineApiService } from '../rule-engine/api/rule-engine-api.service';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,7 @@ export class HomeComponent {
     private activeRoute: ActivatedRoute,
     private route: Router,
     private _restApi: RestApiService,
+    private _ruleApi: RuleEngineApiService,
     private dialog: MatDialog,
     public store: Store,
     private toastr: ToastrService,
@@ -41,6 +43,8 @@ export class HomeComponent {
     this.store.loader = true;
     this.store.viewOnly = false;
     this.store.mcName = '';
+    this._ruleApi.callUpdateTabIndex(-1);
+    this.store.setTabIndex(-1);
     this.activeRoute.queryParams.subscribe(params => {
       console.log('params: %o', params);
       this.store.sdcParmas = params;
@@ -144,7 +148,6 @@ export class HomeComponent {
     this.hoveredIndex = this.store.monitoringComponents.findIndex(
       s => s === event.row
     );
-    console.log('selected : ');
   }
 
   revertMcDialog(item) {

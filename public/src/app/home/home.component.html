@@ -34,8 +34,7 @@
 
     <ngx-datatable data-tests-id="monitoringComponentTable" class="material" [rows]="store.monitoringComponents"
       [loadingIndicator]="loadingIndicator" [columnMode]="'flex'" [headerHeight]="40" [footerHeight]="40" [limit]="12"
-      [rowHeight]="45" (selected)="onTableSelectItem($event)" [selectionType]="'single'" [selected]="selectedLine"
-      (activate)="onTableActivate($event)">
+      [rowHeight]="45" (selected)="onTableSelectItem($event)" [selectionType]="'single'" [selected]="selectedLine" (activate)="onTableActivate($event)">
 
       <ngx-datatable-column name="Monitoring Configuration" prop="name" [flexGrow]="3">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -60,36 +59,46 @@
       <ngx-datatable-column name="Actions" sortable="false" prop="id" [flexGrow]="2">
         <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template>
 
-          <div *ngIf="hoveredIndex == rowIndex" style="margin-top:-5px; display: flex; justify-content: flex-start; align-items: center;">
+          <div class="activeBtnWrapper">
+            <div class="activeBtn" *ngIf="hoveredIndex == rowIndex">
 
-            <button mat-icon-button *ngIf="row.submittedUuid" pTooltip="View submitted" tooltipPosition="top" (click)="viewSubmitted(row)" data-tests-id="viewSubmitted">
-              <img src="{{imgBase}}/icon_submitted.svg" style="object-fit: contain; width:18px; height: 18px;" alt="icon_submitted">
-            </button>
+              <button mat-icon-button *ngIf="row.submittedUuid" pTooltip="View submitted" tooltipPosition="top" (click)="viewSubmitted(row)" data-tests-id="viewSubmitted">
+                <img src="{{imgBase}}/icon_submitted.svg" style="object-fit: contain; width:18px; height: 18px;" alt="icon_submitted">
+              </button>
 
-            <button *ngIf="checkCanCreate();" mat-icon-button data-tests-id="editMC" (click)="checkTableItemHoverCondition(row) && editTableItem(row)"
-              [ngClass]="{'ngx-datatable-monitoring-name': checkTableItemHoverCondition(row)}" pTooltip="Edit"
-              tooltipPosition="top">
-              <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color:#5A5A5A;"
-                [innerHTML]="'edit-3' | feather:18"></span>
-            </button>
+              <button *ngIf="checkCanCreate();" mat-icon-button data-tests-id="editMC" (click)="checkTableItemHoverCondition(row) && editTableItem(row)"
+                [ngClass]="{'ngx-datatable-monitoring-name': checkTableItemHoverCondition(row)}" pTooltip="Edit"
+                tooltipPosition="top">
+                <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color:#5A5A5A;"
+                  [innerHTML]="'edit-3' | feather:18"></span>
+              </button>
 
-            <div *ngIf="checkCanCreate();">
-            <button mat-icon-button *ngIf="row.submittedUuid != null && checkReverted(row)" pTooltip="Revert" data-tests-id="revertMC"
-              tooltipPosition="top" (click)="checkTableItemHoverCondition(row) && revertMcDialog(row)">
-              <img src="{{imgBase}}/icon_revert.svg" style="object-fit: contain; width:18px; height: 18px;" alt="icon_revert">
-            </button>
+              <div *ngIf="checkCanCreate();">
+              <button mat-icon-button *ngIf="row.submittedUuid != null && checkReverted(row)" pTooltip="Revert" data-tests-id="revertMC"
+                tooltipPosition="top" (click)="checkTableItemHoverCondition(row) && revertMcDialog(row)">
+                <img src="{{imgBase}}/icon_revert.svg" style="object-fit: contain; width:18px; height: 18px;" alt="icon_revert">
+              </button>
+            </div>
+
+              <button *ngIf="checkCanCreate();" mat-icon-button data-tests-id="tableItemsButtonDelete"
+                pTooltip="Delete" tooltipPosition="top" (click)="deleteTableItem(row, rowIndex)">
+                <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color:#5A5A5A;"
+                  [innerHTML]="'trash-2' | feather:18"></span>
+              </button>
+
+            </div>
           </div>
-
-            <button *ngIf="checkCanCreate();" mat-icon-button data-tests-id="tableItemsButtonDelete"
-              pTooltip="Delete" tooltipPosition="top" (click)="deleteTableItem(row, rowIndex)">
-              <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; color:#5A5A5A;"
-                [innerHTML]="'trash-2' | feather:18"></span>
-            </button>
-
-          </div>
-
         </ng-template>
       </ngx-datatable-column>
+
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+          let-curPage="curPage" let-offset="offset" let-isVisible="isVisible">
+          <div class="page-count" *ngIf="showTable===true">
+            You have {{rowCount.toLocaleString()}} MC table elements
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
 
     </ngx-datatable>
 

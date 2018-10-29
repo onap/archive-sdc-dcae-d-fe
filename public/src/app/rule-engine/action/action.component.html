@@ -17,7 +17,7 @@
                 <span class="label" style="padding: 0 5px; width: 100px;">
                   Start Value
                 </span>
-                <input required class="input-text" [readonly]="store.viewOnly" data-tests-id="startValue" name="title"
+                <input required class="input-text" [readonly]="store.viewOnly" data-tests-id="startValue" name="startValue"
                   [(ngModel)]="action.stringTransform.startValue" type="text" placeholder="Select start value">
               </div>
             </div>
@@ -34,7 +34,7 @@
               <span class="label" style="padding: 0 5px; width: 100px;">
                 Target case
               </span>
-              <input required class="input-text" [readonly]="store.viewOnly" data-tests-id="targetCase" name="title"
+              <input required class="input-text" [readonly]="store.viewOnly" data-tests-id="targetCase" name="targetCase"
                 [(ngModel)]="action.stringTransform.targetCase" type="text" placeholder="Select target case">
             </div>
           </div>
@@ -162,7 +162,8 @@
                     <button mat-icon-button class="button-remove" [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}"
                       (click)="removeSearchField(index)" *ngIf="action.search.enrich.fields.length > 1" style="box-shadow: none; height: 24px; width: 24px; display:flex"
                       data-tests-id="btnDelete" [disabled]="store.viewOnly">
-                      <mat-icon class="md-24">delete</mat-icon>
+                      <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                    [innerHTML]="'trash-2' | feather:20"></span>
                     </button>
                   </div>
 
@@ -217,7 +218,8 @@
                   <button mat-icon-button data-tests-id="btn-remove-row" [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}"
                     class="button-remove" (click)="removeSearchUpdatesRow(index)" *ngIf="action.search.updates.length > 1" [disabled]="store.viewOnly"
                     style="height: 24px; width: 24px; display:flex; box-shadow: none;">
-                    <mat-icon class="md-24">delete</mat-icon>
+                    <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                    [innerHTML]="'trash-2' | feather:20"></span>
                   </button>
                 </th>
               </tr>
@@ -421,7 +423,8 @@
             <th style="height: 30px; display: flex; align-items: baseline;">
               <button mat-icon-button data-tests-id="btn-remove-row" [ngStyle]="hoveredIndex === index ? {'opacity':'1'} : {'opacity':'0'}"
                 class="button-remove" (click)="removeMapRow(index)" *ngIf="action.map.values.length > 1" style="height: 24px; width: 24px; display:flex; box-shadow: none;" [disabled]="store.viewOnly">
-                <mat-icon class="md-24">delete</mat-icon>
+                <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                    [innerHTML]="'trash-2' | feather:20"></span>
               </button>
             </th>
           </tr>
@@ -433,7 +436,6 @@
         <div style="display: flex; align-items: center;">
           <button mat-mini-fab color="primary" (click)="addMapRow()" data-tests-id="btn-add-row" style="height: 16px; width: 16px; display:flex; box-shadow: none;" [disabled]="store.viewOnly">
             <span style="padding-left: 2px; display: flex; justify-content: center; align-items: center" [innerHTML]="'plus' | feather:12"></span>
-            <!-- <mat-icon>add</mat-icon> -->
           </button>
           <span style="color: #009FDB; display: flex; justify-content: center; padding-left: 6px">Add Row</span>
         </div>
@@ -447,7 +449,7 @@
                     align-items: center;"
               [innerHTML]="'download' | feather:20"></span>
           </div>
-          <input type="file" id="file" accept=".csv" (change)="handleFileInput($event.target.files)">
+          <input type="file" id="file" #csvInput [disabled]="store.viewOnly" accept=".csv" (change)="handleFileInput($event.target.files)">
         </div>
       </div>
     </div>

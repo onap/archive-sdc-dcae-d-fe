@@ -407,6 +407,7 @@ export class ActionListComponent implements AfterViewInit {
                 // clear temp copy rule.
                 this.clearCopyRuleFromList();
                 // then update the rule list and sync with server
+                this.updateTaregtListExisiting();
                 this.store.updateRuleInList(response);
                 this._ruleApi.callUpdateVersionLock();
                 this.store.loader = false;
@@ -422,6 +423,25 @@ export class ActionListComponent implements AfterViewInit {
           () => {}
         );
     }
+  }
+
+  updateTaregtListExisiting() {
+    this._ruleApi
+      .generateMappingRulesFileName(
+        this.store.ruleListExistParams.nodeName,
+        this.store.ruleListExistParams.nodeId,
+        this.store.ruleListExistParams.vfcmtUuid
+      )
+      .subscribe(response => {
+        console.log('generateMappingRulesFileName response: ', response);
+        this.store.advancedSetting.forEach(element => {
+          if (response.includes(element.name)) {
+            element.isExist = true;
+          } else {
+            element.isExist = false;
+          }
+        });
+      });
   }
 
   private clearCopyRuleFromList() {
@@ -452,6 +472,7 @@ export class ActionListComponent implements AfterViewInit {
                 // clear temp copy rule.
                 this.clearCopyRuleFromList();
                 // then update the rule list and sync with server
+                this.updateTaregtListExisiting();
                 this.store.updateRuleInList(response);
                 this._ruleApi.callUpdateVersionLock();
                 this.uid = response.uid;

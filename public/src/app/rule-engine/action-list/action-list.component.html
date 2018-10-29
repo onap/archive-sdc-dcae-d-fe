@@ -107,10 +107,11 @@
                 </button>
 
                 <button mat-icon-button class='button-remove' [disabled]="store.viewOnly" (click)="removeAction(action)" data-tests-id="deleteAction">
-                  <mat-icon>delete</mat-icon>
+                  <span style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+                    [innerHTML]="'trash-2' | feather:20"></span>
                 </button>
               </div>
-            </div>
+          </div>
           </li>
         </ul>
       </div>
