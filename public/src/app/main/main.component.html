@@ -10,23 +10,28 @@
           Back to Monitoring
         </span>
       </a>
-      <div style="margin:10px 0; display:flex;" data-tests-id="new-monitorying-titie">
+      <div style="margin:10px 0; display:flex; flex-wrap: wrap;" data-tests-id="new-monitorying-titie">
         <span style="font-size: 22px;" *ngIf='store.generalflow === "new"'>
           New Monitoring Configuration
         </span>
         <span style="font-size: 22px;" *ngIf='store.generalflow === "import"'>
           Import Monitoring Configuration
         </span>
+        <span style="font-size: 22px; padding-right: 10px;" *ngIf='store.generalflow === "edit"'>
+            Edit Monitoring Configuration
+        </span>
         <span style="display: flex;">
-          <span style="font-size: 22px; padding-right: 10px;">
-            MC Name {{store.mcName}}
-          </span>
-          <span *ngIf="store.viewOnly" style="display: flex; background: #673AB7; border-radius: 5px; color: white; padding: 0px 10px; align-items: center;">
+          <span *ngIf="store.viewOnly" style="display: flex; background: #673AB7; border-radius: 5px; color: white;
+          padding: 0px 10px; align-items: center;">
             <span style="display: flex; align-items: center" [innerHTML]="'eye' | feather:16"></span>
             <span style="padding-left: 5px;" data-tests-id="viewOnlyLabel">
               view only
             </span>
           </span>
+        </span>
+        <br class="newline">
+        <span style="display: block; font-size: 16px;" *ngIf='store.mcName'>
+              MC Name {{store.mcName}}
         </span>
       </div>
     </div>
