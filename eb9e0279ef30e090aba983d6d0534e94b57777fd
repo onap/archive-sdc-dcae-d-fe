@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f621dc70_807d0fe4",
+        "filename": "public/src/app/main/main.component.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5335
+      },
+      "writtenOn": "2019-06-11T09:15:52Z",
+      "side": 1,
+      "message": "Example view of this new heading is in the comment of Jira task: SDC-2309",
+      "revId": "eb9e0279ef30e090aba983d6d0534e94b57777fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
