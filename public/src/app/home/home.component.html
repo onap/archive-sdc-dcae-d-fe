@@ -32,9 +32,18 @@
       </div>
     </div>
 
-    <ngx-datatable data-tests-id="monitoringComponentTable" class="material" [rows]="store.monitoringComponents"
-      [loadingIndicator]="loadingIndicator" [columnMode]="'flex'" [headerHeight]="40" [footerHeight]="40" [limit]="12"
-      [rowHeight]="45" (selected)="onTableSelectItem($event)" [selectionType]="'single'" [selected]="selectedLine" (activate)="onTableActivate($event)">
+    <ngx-datatable data-tests-id="monitoringComponentTable" class="material"
+                   [rows]="store.monitoringComponents"
+                   [loadingIndicator]="loadingIndicator"
+                   [columnMode]="'flex'"
+                   [headerHeight]="40"
+                   [footerHeight]="40"
+                   [limit]="12"
+                   [rowHeight]="45"
+                   (select)="onTableSelectItem()"
+                   [selectionType]="'single'"
+                   [selected]="selectedLine"
+                   (activate)="onTableActivate($event)">
 
       <ngx-datatable-column name="Monitoring Configuration" prop="name" [flexGrow]="3">
         <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -60,7 +69,7 @@
         <ng-template let-row="row" let-rowIndex="rowIndex"  ngx-datatable-cell-template>
 
           <div class="activeBtnWrapper">
-            <div class="activeBtn" *ngIf="hoveredIndex == rowIndex">
+            <div class="activeBtn">
 
               <button mat-icon-button *ngIf="row.submittedUuid" pTooltip="View submitted" tooltipPosition="top" (click)="viewSubmitted(row)" data-tests-id="viewSubmitted">
                 <img src="{{imgBase}}/icon_submitted.svg" style="object-fit: contain; width:18px; height: 18px;" alt="icon_submitted">

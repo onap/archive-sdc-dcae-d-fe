@@ -22,7 +22,7 @@ export class HomeComponent {
   linkToMain: string;
   showTable = true;
   selectedLine = [];
-  unavailableMonitoringComponents = new Array();
+  unavailableMonitoringComponents = [];
   hoveredIndex = 1;
   dialogRef;
   deleteRow: number;
@@ -173,9 +173,8 @@ export class HomeComponent {
     this.route.navigate([this.linkToMain + '/' + item.uuid]);
   }
 
-  onTableSelectItem(item: any): void {
-    this.selectedLine = item;
-    console.log('selected : ', item);
+  onTableSelectItem(): void {
+    console.log('selected', this.selectedLine);
   }
 
   deleteTableItem(item: any, index: any): void {
