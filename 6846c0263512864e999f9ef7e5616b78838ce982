@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e00b7589_a4332072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-06-14T15:56:36Z",
+      "side": 1,
+      "message": "wants?",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "6846c0263512864e999f9ef7e5616b78838ce982",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88601a5e_81998a37",
+        "filename": "public/src/app/home/home.component.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 3949
+      },
+      "writtenOn": "2019-06-14T15:56:36Z",
+      "side": 1,
+      "message": "\"or import any existing VFCMT present in the DCAE-DS catalog as the MC\"",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 35
+      },
+      "revId": "6846c0263512864e999f9ef7e5616b78838ce982",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
