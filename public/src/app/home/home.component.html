@@ -11,6 +11,7 @@
                   height: 100%;
                   display: flex;
                   justify-content: center;
+                  color: #00c100;
                   align-items: center;"
           [innerHTML]="'download' | feather:20"></span>
       </button>
@@ -123,19 +124,35 @@
       <div style="font-size: 18px;">
         Monitoring Configuration does not Exist
       </div>
-      <div style="padding: 0.5em; padding-top: 1em; font-size: 13px;" data-tests-id="new-monitoring-title">
+      <div style="padding: 1em 0.5em 0.5em; font-size: 13px;" data-tests-id="new-monitoring-title">
         A Monitoring Configuration (MC) was not yet created
       </div>
       <div style="font-size: 13px;">
         Please create a new MC to monitor the service
       </div>
-      <div class="wrapper-btn-add-mc">
-        <button mat-mini-fab color="primary" (click)="createScreen()" data-tests-id="btn-fab-create-mc" [disabled]="!checkCanCreate()">
-          <span [innerHTML]="'plus' | feather:24"></span>
-        </button>
-        <span style="margin-top: 10px; font-size: 14px; " [style.color]="!checkCanCreate() ? '#ebebe4' : '#009FDB'">
-          <p data-tests-id="btn-span-create-mc">Add First MC</p>
-        </span>
+      <div style="padding-top: 0.5em; font-size: 13px;">
+        Or import any existing VFCMT present
+      </div>
+      <div style="font-size: 13px;">
+        in the DCAE-DS catalog as the MC
+      </div>
+      <div style="margin-top: 46px;">
+        <div class="wrapper-btn-mc">
+          <button mat-mini-fab color="primary" (click)="createScreen()" data-tests-id="btn-fab-create-mc" [disabled]="!checkCanCreate()">
+            <span [innerHTML]="'plus' | feather:24"></span>
+          </button>
+          <span style="margin-top: 10px; font-size: 14px; " [style.color]="!checkCanCreate() ? '#ebebe4' : '#009FDB'">
+            <p data-tests-id="btn-span-create-mc">Add First MC</p>
+          </span>
+        </div>
+        <div class="wrapper-btn-mc" style="margin-left: 40px">
+          <button mat-mini-fab color="success" (click)="importScreen()" data-tests-id="btn-fab-create-mc" [disabled]="!checkCanCreate()">
+            <span [innerHTML]="'plus' | feather:24"></span>
+          </button>
+          <span style="margin-top: 10px; font-size: 16px; " [style.color]="!checkCanCreate() ? '#ebebe4' : '#5cb85c'">
+            <p data-tests-id="btn-span-create-mc">Import MC</p>
+          </span>
+        </div>
       </div>
     </div>
   </ng-template>
