@@ -1,21 +1,39 @@
 @import '~@swimlane/ngx-datatable/release/themes/material.css';
+
+$success-color-main: #5cb85c;
+$success-color-hover: #9ed29e;
+$primary-color-hover: #7bd0f1;
+
 .home-container {
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin: 15px 20px;
-  margin-left: 15px;
-  margin-right: 15px;
-  .wrapper-btn-add-mc {
-    margin-top: 46px;
+  margin: 15px;
+
+  .wrapper-btn-mc {
     display: flex;
     flex-direction: column;
     align-items: center;
+    float: left;
   }
   .btn-create {
     width: 150px;
     height: 36px;
   }
+}
+
+.mat-success {
+  background-color: $success-color-main;
+  border-color: #4cae4c;
+  color: #fff;
+}
+
+button.mat-success:not([disabled]):hover {
+  background-color: $success-color-hover;
+}
+
+button.mat-primary:not([disabled]):hover {
+  background-color: $primary-color-hover;
 }
 
 .my-confrim-dialog .mat-dialog-container {
