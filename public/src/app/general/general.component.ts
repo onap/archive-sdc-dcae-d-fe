@@ -49,10 +49,10 @@ export class GeneralComponent implements OnInit {
   vfniList = [];
   templates = [];
   serviceUUID: string;
-  vfcmts = new Array();
-  versions = new Array();
-  result = new Array();
-  flowTypes = new Array();
+  vfcmts = [];
+  versions = [];
+  result = [];
+  flowTypes = [];
   selectedVfcmt;
   selectedVersion = null;
   importCompleted = false;
@@ -105,7 +105,7 @@ export class GeneralComponent implements OnInit {
   }
   versionChange(version) {
     const versionIndex = findIndex(propEq('version', version))(this.versions);
-    this.isLatestVersion = versionIndex === 0 ? true : false;
+    this.isLatestVersion = versionIndex === 0;
     const selectedVfcmtByVersion = find(
       propEq('version', version),
       this.result[this.selectedVfcmt]

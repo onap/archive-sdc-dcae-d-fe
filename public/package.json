@@ -16,14 +16,15 @@
     "war-remote": "mvn clean install",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook",
-    "format":
-      "prettier --write \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
+    "format": "prettier --write \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
     "format:fix": "pretty-quick --staged",
     "precommit": "pretty-quick --staged"
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "roots": ["<rootDir>/src"],
+    "roots": [
+      "<rootDir>/src"
+    ],
     "setupTestFrameworkScriptFile": "<rootDir>/src/setupJest.ts",
     "globals": {
       "ts-jest": {

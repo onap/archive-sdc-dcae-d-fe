@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -8,7 +8,7 @@ import { ConfirmPopupComponent } from '../rule-engine/confirm-popup/confirm-popu
 // import { PluginPubSub } from '../sdc/plugin-pubsub';
 import { PluginPubSub } from 'sdc-pubsub';
 import { Store } from '../store/store';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+// import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { environment } from '../../environments/environment';
 import { RuleEngineApiService } from '../rule-engine/api/rule-engine-api.service';
 
@@ -37,8 +37,7 @@ export class HomeComponent {
     private _ruleApi: RuleEngineApiService,
     private dialog: MatDialog,
     public store: Store,
-    private toastr: ToastrService,
-    private changeDetectorRef: ChangeDetectorRef
+    private toastr: ToastrService
   ) {
     this.store.loader = true;
     this.store.viewOnly = false;
@@ -49,7 +48,7 @@ export class HomeComponent {
       console.log('params: %o', params);
       this.store.sdcParmas = params;
 
-      console.log('init comunication with sdc');
+      console.log('init communication with sdc');
       const eventsToWaitFor = [
         'WINDOW_OUT',
         'VERSION_CHANGE',
@@ -89,9 +88,7 @@ export class HomeComponent {
         }
       });
 
-      this.linkToMain = `/main/${params.contextType}/${params.uuid}/${
-        params.version
-      }/`;
+      this.linkToMain = `/main/${params.contextType}/${params.uuid}/${params.version}/`;
       this.loadingIndicator = true;
 
       this._restApi.getMonitoringComponents(params).subscribe(
@@ -200,7 +197,7 @@ export class HomeComponent {
               submittedUuid
             )
             .subscribe(
-              response => {
+              () => {
                 this.itemDeletedRemoveAndNotify(item.uuid, this.deleteRow);
                 this.store.loader = false;
               },
@@ -226,7 +223,7 @@ export class HomeComponent {
               item.vfiName
             )
             .subscribe(
-              response => {
+              () => {
                 this.itemDeletedRemoveAndNotify(item.uuid, this.deleteRow);
                 this.store.loader = false;
               },
