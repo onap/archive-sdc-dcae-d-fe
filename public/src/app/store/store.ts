@@ -11,7 +11,7 @@ export class Store {
   @observable mcUuid;
   @observable mcName;
   @observable submittedMcUuid;
-  @observable monitoringComponents = new Array();
+  @observable monitoringComponents = [];
   @observable cdump;
   @observable tabsProperties;
   @observable tabIndex = 0;
@@ -34,8 +34,8 @@ export class Store {
 
   // rule-engine
   @observable tabParmasForRule;
-  @observable ruleList = new Array();
-  @observable groupList = new Array();
+  @observable ruleList = [];
+  @observable groupList = [];
   @observable ruleListExistParams;
   @observable ruleEditorInitializedState;
   @observable isLeftVisible;
@@ -65,11 +65,11 @@ export class Store {
         .filter(item => item.groupId === rule.groupId)
         .map(item2 => {
           if (item2.list === undefined) {
-            item2.list = new Array();
+            item2.list = [];
           }
           const ruleItemIndex = findIndex(
             item2.list,
-            ruleFromList => ruleFromList.uid === rule.uid
+            (ruleFromList: any) => ruleFromList.uid === rule.uid
           );
           if (ruleItemIndex > -1) {
             item2.list[ruleItemIndex] = rule;
@@ -111,8 +111,8 @@ export class Store {
 
   @action
   resetRuleList() {
-    this.ruleList = new Array();
-    this.groupList = new Array();
+    this.ruleList = [];
+    this.groupList = [];
   }
 
   @action
