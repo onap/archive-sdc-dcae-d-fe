@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.onap.sdc.dcae-d.fe</groupId>
     <artifactId>dcae_fe</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>dcae-d fe application</name>
     <description>DCAE FE</description>
@@ -96,7 +96,7 @@
         <dependency>
             <groupId>org.onap.sdc.dcae-d.dt-be-property</groupId>
             <artifactId>DCAE-DT-PROPERTY</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>1.3.1</version>
         </dependency>
     </dependencies>
 
