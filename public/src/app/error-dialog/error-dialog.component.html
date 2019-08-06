@@ -23,7 +23,7 @@
 
   <div *ngFor="let error of store.ErrorContent" style="padding: 0 0 20px 43px; font-family: 'Open Sans', sans-serif;
   font-size: 14px;">
-    {{ error.formattedErrorMessage }}
+    <div [innerHtml]="error.formattedErrorMessage"></div>
   </div>
 
   <p-footer>
