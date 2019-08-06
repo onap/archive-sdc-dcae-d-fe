@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -21,8 +22,22 @@ import {
   sort
 } from 'ramda';
 import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Subscription } from 'rxjs/Subscription';
 import { RestApiService } from '../api/rest-api.service';
 import { Store } from '../store/store';
+
+const VF_MISSING: any = {
+  formattedErrorMessage:
+    '<p>Missing the VF resource! </p>' +
+    '<p> 1. In the current Service under the Composition tab add the proper VF. </p>'
+};
+
+const TEMPLATES_MISSING: any = {
+  formattedErrorMessage:
+    '<p>Missing the Basic Monitoring Template resource! </p>' +
+    '<p> 1. In the DCAE-DS tab create the VFCMT asset. </p>' +
+    '<p> 2. Next design the Basic Monitoring Template under the Composition tab. </p>'
+};
 
 export const groupingData = pipe(
   groupBy(prop('name')),
@@ -35,7 +50,7 @@ export const groupingData = pipe(
   templateUrl: './general.component.html',
   styleUrls: ['./general.component.scss']
 })
-export class GeneralComponent implements OnInit {
+export class GeneralComponent implements OnInit, OnDestroy {
   newVfcmt = {
     name: null,
     description: null,
@@ -64,6 +79,7 @@ export class GeneralComponent implements OnInit {
   @ViewChild('generalForm') generalForm;
   list = [];
   importBtnDisabled = true;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private restApi: RestApiService,
@@ -136,48 +152,73 @@ export class GeneralComponent implements OnInit {
   ngOnInit() {
     if (this.store.generalflow === 'edit') {
       this.store.loader = true;
-      this.restApi
-        .getCompositionMonitoringComponent(this.store.mcUuid)
-        .subscribe(
-          response => {
-            this.newVfcmt = response.vfcmt;
-            this.store.mcName = response.vfcmt.name;
-            this.flowTypes.push(response.cdump.flowType);
-            this.newVfcmt.flowType = response.cdump.flowType;
-            this.store.flowType = response.cdump.flowType;
-            this.newVfcmt.vfni = this.store.vfiName;
-            this.vfniList.push({ resourceInstanceName: this.newVfcmt.vfni });
-            this.updateCdumpEv.next(response.cdump);
-            this.store.isEditMode = true;
-            this.store.loader = false;
+      this.subscription.add(
+        this.restApi
+          .getCompositionMonitoringComponent(this.store.mcUuid)
+          .subscribe(
+            response => {
+              this.newVfcmt = response.vfcmt;
+              this.store.mcName = response.vfcmt.name;
+              this.flowTypes.push(response.cdump.flowType);
+              this.newVfcmt.flowType = response.cdump.flowType;
+              this.store.flowType = response.cdump.flowType;
+              this.newVfcmt.vfni = this.store.vfiName;
+              this.vfniList.push({ resourceInstanceName: this.newVfcmt.vfni });
+              this.updateCdumpEv.next(response.cdump);
+              this.store.isEditMode = true;
+              this.store.loader = false;
 
-            this.list = response.cdump.relations.map(item => {
-              return {
-                name1: item.name1,
-                name2: item.name2,
-                p1: item.meta.p1,
-                p2: item.meta.p2
-              };
-            });
-          },
-          error => {
-            this.notifyError(error);
-          }
-        );
+              this.list = response.cdump.relations.map(item => {
+                return {
+                  name1: item.name1,
+                  name2: item.name2,
+                  p1: item.meta.p1,
+                  p2: item.meta.p2
+                };
+              });
+            },
+            error => {
+              this.notifyError(error);
+            }
+          )
+      );
     } else if (this.store.generalflow === 'import') {
       this.store.loader = true;
       this.store.isEditMode = true;
-      this.restApi
-        .getVfcmtsForMigration({
-          contextType: this.route.snapshot.params.contextType,
-          uuid: this.route.snapshot.params.uuid,
-          version: this.route.snapshot.params.version
-        })
-        .subscribe(
+      this.subscription.add(
+        this.restApi
+          .getVfcmtsForMigration({
+            contextType: this.route.snapshot.params.contextType,
+            uuid: this.route.snapshot.params.uuid,
+            version: this.route.snapshot.params.version
+          })
+          .subscribe(
+            success => {
+              this.store.loader = false;
+              this.result = groupingData(success);
+              this.vfcmts = sortBy(Object.keys(this.result), name => name);
+            },
+            error => {
+              this.notifyError(error);
+            },
+            () => {
+              this.store.loader = false;
+            }
+          )
+      );
+    } else if (this.route.snapshot.params.mcid === 'new') {
+      // get template data for ddl
+      const template$ = this.restApi.getTemplateResources();
+      // get service vfi list for ddl '08ff91f1-9b57-4918-998b-4d2c98832815'
+      const vfniList$ = this.restApi.getServiceInstances(this.serviceUUID);
+      this.store.loader = true;
+      this.subscription.add(
+        forkJoin([template$, vfniList$]).subscribe(
           success => {
-            this.store.loader = false;
-            this.result = groupingData(success);
-            this.vfcmts = sortBy(Object.keys(this.result), name => name);
+            console.log('all', success);
+            this.templates = success[0];
+            this.vfniList = success[1].resources;
+            this.checkIfResourceAreValid();
           },
           error => {
             this.notifyError(error);
@@ -185,27 +226,14 @@ export class GeneralComponent implements OnInit {
           () => {
             this.store.loader = false;
           }
-        );
-    } else if (this.route.snapshot.params.mcid === 'new') {
-      // get template data for ddl
-      const template$ = this.restApi.getTemplateResources();
-      // get service vfi list for ddl '08ff91f1-9b57-4918-998b-4d2c98832815'
-      const vfniList$ = this.restApi.getServiceInstances(this.serviceUUID);
-      this.store.loader = true;
-      forkJoin(template$, vfniList$).subscribe(
-        success => {
-          console.log('all', success);
-          this.templates = success[0];
-          this.vfniList = success[1].resources;
-        },
-        error => {
-          this.notifyError(error);
-        },
-        () => {
-          this.store.loader = false;
-        }
+        )
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    // to prevent multiple subscription
+    this.subscription.unsubscribe();
   }
 
   private restForm() {
@@ -222,6 +250,31 @@ export class GeneralComponent implements OnInit {
     forEach(controls, control => {
       control.markAsUntouched();
     });
+  }
+
+  private checkIfResourceAreValid() {
+    const requestError = {};
+    // double negation trick (to handle undefined, null object)
+    if (!!this.templates) {
+      if (Object.keys(this.templates).length === 0) {
+        requestError[0] = TEMPLATES_MISSING;
+      }
+    } else {
+      requestError[0] = TEMPLATES_MISSING;
+    }
+    if (!!this.vfniList) {
+      if (Object.keys(this.vfniList).length === 0) {
+        requestError[1] = VF_MISSING;
+      }
+    } else {
+      requestError[1] = VF_MISSING;
+    }
+    if (Object.keys(requestError).length > 0) {
+      this.notifyError({
+        notes: 'The some resource are missing!',
+        requestError
+      });
+    }
   }
 
   private getServiceRef(data) {
