@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2df53e3_b107cca1",
+        "filename": "public/src/app/general/general.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-08-14T13:36:47Z",
+      "side": 1,
+      "message": "Should be ResourcesAre / ResourceIs",
+      "range": {
+        "startLine": 255,
+        "startChar": 10,
+        "endLine": 255,
+        "endChar": 33
+      },
+      "revId": "fa28974247433884d76d4042aa6e5326fce9c1c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e7033c7_712ced60",
+        "filename": "public/src/app/general/general.component.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-08-14T13:36:47Z",
+      "side": 1,
+      "message": "also here",
+      "range": {
+        "startLine": 274,
+        "startChar": 25,
+        "endLine": 274,
+        "endChar": 33
+      },
+      "revId": "fa28974247433884d76d4042aa6e5326fce9c1c0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
