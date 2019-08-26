@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "230cbe52_cd9fe8c1",
+        "filename": "docker/startup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-08-26T08:59:52Z",
+      "side": 0,
+      "message": "Can you explain why removing that status check?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "c69e72cb78fb8e6d7a4f3698f6598f418fdcb727",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
