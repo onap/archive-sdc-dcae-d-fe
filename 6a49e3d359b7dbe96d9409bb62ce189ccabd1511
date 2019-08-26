@@ -22,6 +22,30 @@
       "revId": "6a49e3d359b7dbe96d9409bb62ce189ccabd1511",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24006594_c18694a7",
+        "filename": "docker/chef-repo/cookbooks/Deploy-DCAE/recipes/jetty_setup.rb",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5335
+      },
+      "writtenOn": "2019-08-26T09:10:37Z",
+      "side": 1,
+      "message": "These modules are very similar. The case here is that in a new jetty version the logging was replaced with console-capture module. See: https://www.eclipse.org/jetty/documentation/9.4.x/upgrading-jetty.html",
+      "parentUuid": "40f762bd_a04dddae",
+      "range": {
+        "startLine": 42,
+        "startChar": 74,
+        "endLine": 42,
+        "endChar": 89
+      },
+      "revId": "6a49e3d359b7dbe96d9409bb62ce189ccabd1511",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
