@@ -46,6 +46,30 @@
       "revId": "c69e72cb78fb8e6d7a4f3698f6598f418fdcb727",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c44db4c1_90103114",
+        "filename": "docker/startup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5335
+      },
+      "writtenOn": "2019-08-27T15:54:54Z",
+      "side": 0,
+      "message": "I base on the catalog-fe/catalog-be chef script.sh configuration and there the status check is disabled. But you have right this shouldn\u0027t be removed.",
+      "parentUuid": "230cbe52_cd9fe8c1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "c69e72cb78fb8e6d7a4f3698f6598f418fdcb727",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
