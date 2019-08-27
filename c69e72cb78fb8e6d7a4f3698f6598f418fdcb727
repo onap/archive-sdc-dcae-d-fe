@@ -22,6 +22,30 @@
       "revId": "c69e72cb78fb8e6d7a4f3698f6598f418fdcb727",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1131f5d9_f005cf7f",
+        "filename": "docker/startup.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 653
+      },
+      "writtenOn": "2019-08-27T12:46:39Z",
+      "side": 0,
+      "message": "a remind, thanks",
+      "parentUuid": "230cbe52_cd9fe8c1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "c69e72cb78fb8e6d7a4f3698f6598f418fdcb727",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
