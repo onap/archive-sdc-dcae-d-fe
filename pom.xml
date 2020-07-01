@@ -132,7 +132,7 @@
                 <configuration>
                     <workingDirectory>${project.basedir}/public</workingDirectory>
                     <installDirectory>target</installDirectory>
-                    <nodeVersion>v9.11.1</nodeVersion>
+                    <nodeVersion>v14.5.0</nodeVersion>
                     <yarnVersion>v1.6.0</yarnVersion>
                 </configuration>
                 <executions>
